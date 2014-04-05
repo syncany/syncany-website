@@ -15,7 +15,13 @@ $(document).ready(function() {
 			return '<span id="fancybox-title-over">' + title + '</span>';
 		}
 	});	
-	
+
+    // Scroll links 
+    $(".scroll").click(function(event){     
+        event.preventDefault();
+        $('html,body').animate({scrollTop:$(this.hash).offset().top}, 500);
+    });
+
 	// tracker
 	if (!local) {
 		window.setTimeout("document.getElementsByTagName('body')[0].appendChild( getExtremeTracker() )", 1000);

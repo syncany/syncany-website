@@ -1,0 +1,12 @@
+.jumbotron h1 {
+	color: #e00;
+}
+
+h1, h2, h3, h4{
+    color: #e00;
+}
+
+.text-muted {
+    color: #e00; /* fallback */
+    color:  rgba(238, 0, 0, 0.5);
+}
