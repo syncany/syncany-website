@@ -80,8 +80,7 @@ body {
 /* start slider */
 .slider_bg{
 /*	background:  url('../images/banner.jpg') no-repeat;*/
-/*	background:  url('../images/bg.png') no-repeat;*/
-	background: #222;
+	background:  url('../images/bgd.png') #222;
 	background-size: 100% 100%;
 }
 .da-slide {
@@ -261,19 +260,19 @@ body {
 }
 .about
 {
-	background: #1BBC9B;
-	text-align:center;
+	background: url(../images/bg.png) #eee;
+	text-align:left;
 	padding: 5em 0em;
 }
 .about h2{
-	color:#fff;
+	color:#333;
 	font-size:2em;
 	padding-bottom: 0.5em;
 }
 .about p{
-	color:#fff;
+	color:#333;
 	font-size:1em;
-	padding-bottom: 4em;
+	padding-bottom: 2em;
 }
 .about-grids
 {
@@ -284,7 +283,6 @@ body {
 {
 	width: 28%;
 	float: left;
-	background: #FFF;
 	margin-right: 8%;
 }
 .dc_zoom_css span.roll_css6:hover {
@@ -351,10 +349,9 @@ body {
 	width: 32.2%;
 }
 .contact {
-	background: #EBEBEB;
-}
-.contact-form{
-	padding-bottom:30px;
+	background: url(../images/bg.png) #eee;
+	text-align: center;
+	padding-bottom: 30px;
 }
 .contact-form div{
 	padding:5px 0 15px;
@@ -375,62 +372,8 @@ body {
 	font-size:1em;
 	padding-bottom: 2em;
 }
-.contact-form input[type="text"],.contact-form textarea{
-	padding: 15px;
-	display: block;
-	width: 43%;
-	background:#fff;
-	outline: none;
-	color:#888282;
-	font-size: 0.8125em;
-	-webkit-appearance: none;
-	float:left;
-	margin-right: 2em;
-	font-family: 'Lato', sans-serif;
-	font-style: italic;
-	border: 2px solid #CACACA;
-}
-.contact-form input[type="text"]:nth-child(2)
-{
-	margin-right: 0em;
-}
-.contact-form textarea{
-	padding: 15px;
-	display: block;
-	width: 94%;
-	background:#fff;
-	border: none;
-	outline: none;
-	color:#888282;
-	font-size: 0.8125em;
-	-webkit-appearance: none;
-	font-style: italic;
-	border:2px solid #CACACA;
-	margin-bottom: 2em;
-}
-.contact-form textarea{
-	resize:none;
-	height:180px;		
-}
-.contact-form form input[type="submit"] 
-{
-	font-family: 'Lato', sans-serif;
-	color:#fff;
-	padding: 0.8em 1.5em;
-	background: #1BBC9B;
-	border:1px solid #1BBC9B;
-	display: block;
-	-webkit-transition: all 0.3s ease-out;
-	-moz-transition: all 0.3s ease-out;
-	-ms-transition: all 0.3s ease-out;
-	-o-transition: all 0.3s ease-out;
-	transition: all 0.3s ease-out;
-	cursor: pointer;
-	font-size: 1em;
-	outline: none;
-	text-transform: uppercase;
-	float: right;
-	margin-right: 2%;	
+.contact p {
+	font-size: 1.1em;
 }
 .company_address p{
 	color:#525252;
@@ -943,6 +886,7 @@ padding: 3em 1em;
 	margin-right: 0%;
 	float: none;
 	margin-bottom: 10%;
+	text-align: center;
 }
 .grid:nth-child(2) {
 	margin-right: 0%;
@@ -1159,9 +1103,10 @@ padding: 1.2em 0em;
 
 /**************** PHILIPP ADDITIONS *************************/
 
+
 .about-icon {
-    background: none repeat scroll 0 0 #ccc;
-    color: #000;
+    background: none repeat scroll 0 0 #f33;
+    color: #fff;
     border-radius: 100%;
     display: inline-block;
     font-size: 4em;
@@ -1169,10 +1114,44 @@ padding: 1.2em 0em;
     line-height: 100px;
     transition: all 0.5s ease 0s;
     width: 100px;
+    text-align: center;
+    margin: 25px;
 }
 
-.asciicast {
-	width: 300px;
-	height: 300px;
+.about-item {
+    margin-bottom: 24px;
 }
-	
+
+.about-heading {
+	color: #444;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.asciiprevs {
+	margin: 0 auto;
+}
+
+.asciiprev {
+	float: left;
+	margin: 20px;
+	width: 300px;
+}	
+
+.asciiprev .asciiprevdesc {
+
+}
+
+.newscol {
+	width: 45%;
+	float: left;
+	margin: 10px;
+}	
+
+.about a {
+	color: #d33;
+}
+
+.about a:hover {
+	color: red;
+}

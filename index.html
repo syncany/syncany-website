@@ -13,7 +13,22 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
 <link href="web/css/style.css" rel="stylesheet" type="text/css" media="all" />
 <link rel="stylesheet" type="text/css" href="web/css/imgeffect.css" />
+
+<!-- fontawesome -->
 <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+<!-- Live GitHub; http://ben.balter.com -->
+<script type="text/javascript" src="web/jscss/github-sentences.js"></script> 
+<link rel="stylesheet" type="text/css" href="web/jscss/github-normalize.css" />		
+<link rel="stylesheet" type="text/css" href="web/jscss/github-main.css" />		
+<style>
+	.github-sentence-item { padding: 2px 0 5px 55px; position: relative; min-height: 50px;}
+	.github-sentence-item .avatar { position: absolute; left: 0; top: 2px; border: 1px solid #d0d0d0; padding: 2px;}
+	.github-sentence-item .avatar img { width: 40px; height: 40px;} 
+	#github-widget { list-style: none; padding: 0 }
+</style>	
+
+
 
 <script src="web/js/jquery.min.js"></script>
 <!-- start gallery Script -->
@@ -68,6 +83,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								   <li class="active"><a href="#home" class="scroll">Home</a></li>
 								   <li><a href="#about" class="scroll">About</a></li>
 								   <li><a href="#download" class="scroll">Download</a></li>
+								   <li><a href="#news" class="scroll">News</a></li>
+								   <li><a href="#examples" class="scroll">Examples</a></li>
 								   <li><a href="#contact" class="scroll">Contact</a></li>
 								 <div class="clear"> </div>
 								 </ul>
@@ -102,38 +119,32 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<div class="wrap">
 		<h2>What is Syncany?</h2>
 		  <p>Syncany is a cross-platform file synchronization application that syncs folders between different client using any kind of backend storage. It
-		  aims to be a secure application to store files in the cloud and share files with others. It is different from other alternatives in two main ways:</p>
-		  <ul>
-				<li><b>Data encryption</b>: Syncany encrypts the files locally, so that any online storage can be used even for sensitive data.</li>
-				<li><b>Arbitrary storage</b>: Syncany uses a plug-in based storage system. It can be used with any type of remote storage.</li>
-			  </ul>
+		  aims to be a secure application to store files in the cloud and share files with others.
 
             <div class="about-grids row">
                 <div class="grid about-item col-sm-3">
                     <div class="about-icon">
-                        <i class="fa fa-folder-open"></i>
+                        <i class="fa fa-refresh"></i>
                     </div> <!-- end about-icon -->
-                    <h3 class="about-heading">Share Files</h3>
+                    <h3 class="about-heading">Sync your Files</h3>
                     <p class="about-text">Backup your photo collection and share files with friends.</p>
                 </div> <!-- end about-item -->
                 <div class="grid about-item col-sm-3">
                     <div class="about-icon">
                         <i class="fa fa-lock"></i>
                     </div> <!-- end about-icon -->
-                    <h3 class="about-heading">Secure</h3>
-                    <p class="about-text">Don't about your privacy. Files are encrypted before upload!</p>
+                    <h3 class="about-heading">Encrypted</h3>
+                    <p class="about-text">Don't worry about your privacy. Files are encrypted before uploading.</p>
                 </div> <!-- end about-item -->
                 <div class="grid about-item col-sm-3">
                     <div class="about-icon">
                         <i class="fa fa-cloud"></i>
                     </div> <!-- end about-icon -->
-                    <h3 class="about-heading">Cloud Storage</h3>
+                    <h3 class="about-heading">Any Storage</h3>
                     <p class="about-text">Use any kind of storage - (S)FTP, WebDAV, and many more!</p>
                 </div> <!-- end about-item -->
             </div> <!-- end row -->
 
-		<p>Right now, Syncany is a command line tool. In the future, we will provide a desktop application, a mobile app and a web interface.</p>
-            
 		<div class="clear"> </div>
      	</div>
 </div>
@@ -163,27 +174,84 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 <div class="about" id="more">
 	<div class="wrap">
-	<h2>News</h2>
-
-	<p><b>30 Mar 2014</b>: We finally <b>released a first alpha version of Syncany!</b> Checkout the <a href="https://github.com/binwiederhier/syncany/releases">releases page on GitHub</a> to download it, and the <a href="https://github.com/binwiederhier/syncany/wiki/CLI-quick-howto">install instructions</a> for more details.</p>
 	
-	<p><b>28 Oct 2013</b>: I uploaded a couple of small screencasts on YouTube demonstrating the current code base, for those of you who don't like to read: (a) <a href="https://www.youtube.com/watch?v=xE8nGL8U4Gg">developer demo, FTP plugin, with detailed explanations</a>, (b) <a href="https://www.youtube.com/watch?v=tvsZcuhVH8c">2-minute conflict handling demo, local plugin</a>, and (c) <a href="https://www.youtube.com/watch?v=skKzqID_Zrc">Amazon S3 demo</a></p>
+		<div class="newscol">
+			<h2>News</h2>
 
-	<p><b>19 Oct 2013</b>: Believe it or not, we are stiiilll working on Syncany. We recently <a href="https://github.com/binwiederhier/syncany">moved to Github</a> for the main development. If you're interested, I wrote a detailed <a href="http://blog.philippheckel.com/2013/10/18/syncany-explained-idea-progress-development-future/">blog post about where we are and where we're going</a>.</p>
+			<p><b>30 Mar 2014</b>: We finally <b>released a first alpha version of Syncany!</b> Checkout the <a href="https://github.com/binwiederhier/syncany/releases">releases page on GitHub</a> to download it, and the <a href="https://github.com/binwiederhier/syncany/wiki/CLI-quick-howto">install instructions</a> for more details.</p>
+	
+			<p><b>28 Oct 2013</b>: I uploaded a couple of small screencasts on YouTube demonstrating the current code base, for those of you who don't like to read: (a) <a href="https://www.youtube.com/watch?v=xE8nGL8U4Gg">developer demo, FTP plugin, with detailed explanations</a>, (b) <a href="https://www.youtube.com/watch?v=tvsZcuhVH8c">2-minute conflict handling demo, local plugin</a>, and (c) <a href="https://www.youtube.com/watch?v=skKzqID_Zrc">Amazon S3 demo</a></p>
 
-	<p><b>7 Mar 2013</b>: We're still hanging in there. Even though the direction is now a different one. We're first trying to integrate Syncany with <a href="http://sparkleshare.org/">SparkleShare</a> as a backend. Check out a detailed status <a href="https://lists.launchpad.net/syncany-team/msg00531.html">in my recent mailing list post</a>.
-
+			<p><b>19 Oct 2013</b>: Believe it or not, we are stiiilll working on Syncany. We recently <a href="https://github.com/binwiederhier/syncany">moved to Github</a> for the main development. If you're interested, I wrote a detailed <a href="http://blog.philippheckel.com/2013/10/18/syncany-explained-idea-progress-development-future/">blog post about where we are and where we're going</a>.</p>
+		</div>
+		<div class="newscol">
+			<h2>Activity on GitHub</h2>
+			
+			<ul id="github-widget" data-type="events" data-org="binwiederhier" data-repo="syncany" data-limit="5"></ul>			
+			<script type="text/javascript" src="web/jscss/github-widgets.js"></script> 
+		</div>
+		
+		
+		<div class="clear"> </div>				
 	</div>
 </div>
 <!---------end-about------------->
-<div class="contact" id="contact">
+<div class="contact" id="example">
 	<div class="wrap">
-		<h2>Contact Us</h2>
-		<h4>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h4>
+		<h2>Examples</h2>
+		<h4>Enough of the marketing. Here's how Syncany looks like in the wild.</h4>
 		
-		<script type="text/javascript" src="https://asciinema.org/a/8684.js" class="xasciicast "id="asciicast-8684" async></script>		
+		<div class="asciiprevs">
+			<div class="asciiprev">
+				<a href="#fancybox-opens"><img src="web/images/ascii1.png" /></a>
+				<span class="asciiprevdesc">
+					Creating a new repository is a matter of seconds. Using the FTP plugin
+					works just like any other plugin.
+				</span>
+			</div>
+
+			<div class="asciiprev">
+				<a href="#fancybox-opens"><img src="web/images/ascii1.png" /></a>
+				<span class="asciiprevdesc">
+					Other clients can connect to the repository and sync files manually with 
+					<tt>sy up</tt> and <tt>sy down</tt>, or automatically with <tt>sy watch</tt>.
+				</span>
+			</div>
+		
+			<div class="asciiprev">
+				<a href="#fancybox-opens"><img src="web/images/ascii1.png" /></a>
+				<span class="asciiprevdesc">
+					Creating a new repository is a matter of seconds. Using the FTP plugin
+					works just like any other plugin.
+				</span>
+			</div>	
+		</div>
+		
+		<div class="clear"> </div>		
      	</div>
 </div>
+
+<div class="contact" id="contact">
+	<div class="wrap">
+		<h2>Contact Us</h2>		
+		
+		<p>We always need a hand :-)</p>
+
+		<p>
+			Lead Development: Philipp C. Heckel</a><br />
+			<span style="direction: rtl; text-align: left; unicode-bidi: bidi-override">moc.liamg@lekceh.ppilihp</span>
+		</p>
+
+		<ul>
+			<li><a href="https://github.com/binwiederhier/syncany">Code on Github</a></li>
+			<li><a href="https://launchpad.net/~syncany-team">Launchpad Team</a> (mailing list, active!)</li>
+			<li><a href="http://webchat.freenode.net/?channels=syncany">IRC channel #syncany on Freenode</a></li>
+			<li><a href="http://twitter.com/#!/syncany">@syncany on Twitter</a></li>				
+		</ul>			
+     	</div>
+</div>
+
+
      <div class="footer-bottom">
      	<div class="wrap">
         <div class="copy">
