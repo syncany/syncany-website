@@ -13,54 +13,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
 <link href="web/css/style.css" rel="stylesheet" type="text/css" media="all" />
 <link rel="stylesheet" type="text/css" href="web/css/imgeffect.css" />
+<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
 <script src="web/js/jquery.min.js"></script>
 <!-- start gallery Script -->
 	<script type="text/javascript" src="web/js/jquery.easing.min.js"></script>	
 	<script type="text/javascript" src="web/js/jquery.mixitup.min.js"></script>
-				<script type="text/javascript">
-				$(function () {
-					
-					var filterList = {
-					
-						init: function () {
-						
-							// MixItUp plugin
-							// http://mixitup.io
-							$('#portfoliolist').mixitup({
-								targetSelector: '.portfolio',
-								filterSelector: '.filter',
-								effects: ['fade'],
-								easing: 'snap',
-								// call the hover effect
-								onMixEnd: filterList.hoverEffect()
-							});				
-						
-						},
-						
-						hoverEffect: function () {
-						
-							// Simple parallax effect
-							$('#portfoliolist .portfolio').hover(
-								function () {
-									$(this).find('.label').stop().animate({bottom: 0}, 200, 'easeOutQuad');
-									$(this).find('img').stop().animate({top: 0}, 500, 'easeOutQuad');				
-								},
-								function () {
-									$(this).find('.label').stop().animate({bottom: 0}, 200, 'easeInQuad');
-									$(this).find('img').stop().animate({top: 0}, 300, 'easeOutQuad');								
-								}		
-							);				
-						
-						}
-			
-					};
-					
-					// Run the show!
-					filterList.init();
-					
-					
-				});	
-				</script>
+
 				<!-- Add fancyBox main JS and CSS files -->
 				<script src="web/js/jquery.magnific-popup.js" type="text/javascript"></script>
 				<link href="web/css/magnific-popup.css" rel="stylesheet" type="text/css">
@@ -107,8 +66,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							<div class="nav">
 								<ul>
 								   <li class="active"><a href="#home" class="scroll">Home</a></li>
-								   <li><a href="#portfolio" class="scroll">About</a></li>
-								   <li><a href="#about" class="scroll">Download</a></li>
+								   <li><a href="#about" class="scroll">About</a></li>
+								   <li><a href="#download" class="scroll">Download</a></li>
 								   <li><a href="#contact" class="scroll">Contact</a></li>
 								 <div class="clear"> </div>
 								 </ul>
@@ -123,303 +82,97 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <div class="slider_bg">
 		<div class="wrap">
 				<!---start-da-slider----->
-						<div class="da-slide">
-							         <p><img src="syncany-logo.png" /></p>
-								<h2>Syncany</h2>
-								<!--<h2><span>We Build</span>Brand</h2>-->
+			<div class="da-slide">
+			         <p><img src="syncany-logo.png" /></p>
+				<h2>Syncany</h2>
+				<!--<h2><span>We Build</span>Brand</h2>-->
 
-							        <p>An open-source cloud storage and filesharing application.<br />Securely synchronize
-							        your files to any kind of storage!</p>
-<!--        <p><a class="btn btn-lg btn-primary" href="https://github.com/binwiederhier/syncany/releases" role="button">Download Alpha Release</a></p>-->
+			        <p>An open-source cloud storage and filesharing application.<br />Securely synchronize
+			        your files to any kind of storage!</p>
 
-									<a href="#" class="da-link">Learn more</a>
-									<a href="#portfolio" class="scroll"><span class="da-img"> </span> </a>
-								</div>
-				<!---//End-da-slider----->
+				<a href="#about" class="scroll da-link">Learn more</a>
+				<a href="#about" class="scroll"><span class="da-img"> </span> </a>
+			</div>
+<!---//End-da-slider----->
 		</div>
 </div>
 <!-----end-slider-------->
 <!-----start-XXXX-------->
-<div class="contact" id="contact">
+<div class="contact" id="about">
 	<div class="wrap">
 		<h2>What is Syncany?</h2>
-		  <p>Syncany is a cross-platform sync tool that synchronizes folders between different client using any kind of backend storage. It
+		  <p>Syncany is a cross-platform file synchronization application that syncs folders between different client using any kind of backend storage. It
 		  aims to be a secure application to store files in the cloud and share files with others. It is different from other alternatives in two main ways:</p>
 		  <ul>
 				<li><b>Data encryption</b>: Syncany encrypts the files locally, so that any online storage can be used even for sensitive data.</li>
 				<li><b>Arbitrary storage</b>: Syncany uses a plug-in based storage system. It can be used with any type of remote storage.</li>
 			  </ul>
 
-		  The current focus of the project is stability of the core. We support three types of storage:
-		  <ul>
-		    	<li><b>Local Folder</b>: uses any local folder as storage. This could be any mounted device, network file systems (NFS), or any virtual file system based on FUSE.</li>
-		    	<li><b>FTP</b>: uses an FTP folder as remote repository.</li>
-		    	<li><b>WebDAV</b>: uses one folder in a WebDAV as remote storage.</li>
-		      </ul>			   
-	
+            <div class="about-grids row">
+                <div class="grid about-item col-sm-3">
+                    <div class="about-icon">
+                        <i class="fa fa-folder-open"></i>
+                    </div> <!-- end about-icon -->
+                    <h3 class="about-heading">Share Files</h3>
+                    <p class="about-text">Backup your photo collection and share files with friends.</p>
+                </div> <!-- end about-item -->
+                <div class="grid about-item col-sm-3">
+                    <div class="about-icon">
+                        <i class="fa fa-lock"></i>
+                    </div> <!-- end about-icon -->
+                    <h3 class="about-heading">Secure</h3>
+                    <p class="about-text">Don't about your privacy. Files are encrypted before upload!</p>
+                </div> <!-- end about-item -->
+                <div class="grid about-item col-sm-3">
+                    <div class="about-icon">
+                        <i class="fa fa-cloud"></i>
+                    </div> <!-- end about-icon -->
+                    <h3 class="about-heading">Cloud Storage</h3>
+                    <p class="about-text">Use any kind of storage - (S)FTP, WebDAV, and many more!</p>
+                </div> <!-- end about-item -->
+            </div> <!-- end row -->
+
+		<p>Right now, Syncany is a command line tool. In the future, we will provide a desktop application, a mobile app and a web interface.</p>
+            
+		<div class="clear"> </div>
      	</div>
 </div>
-<!--end-XXXXXXXXXXXX----->
+<!--end-XXXXXXXXXXXX-----> 
 <!--start portfolio------>
-	<div class="wrap" id="portfolio">
-				<div class="main">
-					<!-- start gallery  -->
-							<div class="gallery1">
-					<!--start-mfp -->	
-						<div id="small-dialog1" class="mfp-hide">
-							<div class="pop_up">
-								<h2>Lorem ipsum sit amet</h2>
-								<img src="web/images/icon1.png" alt=""/>
-								<p class="para">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</p>
-							</div>
-						</div>
-					<!--end-mfp -->	
-			<!---start-content----->
-			<div class="gallery">
-					<div class="clear"> </div>
-					<div class="container">
-						<h2>Portfolio</h2>
-						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-					<ul id="filters" class="clearfix">
-						<li><span class="filter active" data-filter="app card icon logo web">All</span></li>
-						<li><span class="filter" data-filter="app web">Web Design</span></li>
-						<li><span class="filter" data-filter="icon web card">Graphic Design</span></li>
-						<li><span class="filter" data-filter="web app icon card">Flat Design</span></li>
-					</ul>
-			<div id="portfoliolist">
-			
-			<div class="portfolio logo" data-cat="logo">
-				<div class="portfolio-wrapper">				
-					<a class="popup-with-zoom-anim" href="#small-dialog1">
-						<ul class="ch-grid">
-							<li>
-								<div class="ch-item ch-img-1">
-									<div class="ch-info">
-										<img src="web/images/zoom-white.png"/>
-										<h3>Example Title</h3>
-										<p><a href="#">Wed Desing</a></p>
-									</div>
-								</div>
-							</li>
-						</ul>
-					</a>
-				</div>
-			</div>		
-				
-			<div class="portfolio app" data-cat="app">
-				<div class="portfolio-wrapper">			
-					<a class="popup-with-zoom-anim" href="#small-dialog1">
-						<ul class="ch-grid">
-							<li>
-								<div class="ch-item ch-img-2">
-									<div class="ch-info">
-										<img src="web/images/zoom-white.png"/>
-										<h3>Example Title</h3>
-										<p><a href="#">Wed Desing</a></p>
-									</div>
-								</div>
-							</li>
-						</ul>
-					</a>
-				</div>
-			</div>	
-			<div class="hide">	
-			<div class="portfolio web" data-cat="web">
-				<div class="portfolio-wrapper">						
-					<a class="popup-with-zoom-anim" href="#small-dialog1">
-						<ul class="ch-grid">
-							<li>
-								<div class="ch-item ch-img-3">
-									<div class="ch-info">
-										<img src="web/images/zoom-white.png"/>
-										<h3>Example Title</h3>
-										<p><a href="#">Wed Desing</a></p>
-									</div>
-								</div>
-							</li>
-						</ul>
-					</a>
-				</div>
-			</div>	
+<div class="slider_bg" id="download">
+		<div class="wrap">
+				<!---start-da-slider----->
+			<div class="da-slide">
+				<h2>Get it now!</h2>
+			        
+				<p>Excited? You can download a working <b>alpha version</b> here.</p>		
+
+				<p>
+					<i class="fa fa-linux"></i>
+				        <i class="fa fa-apple"></i>
+				        <i class="fa fa-windows"></i>	
+				</p>
+
+				<a href="https://github.com/binwiederhier/syncany/releases" class="da-link" style="width:140px"><i class="fa fa-cloud-download"></i> Download</a>				
 			</div>
-			
-			<div class="portfolio card" data-cat="card">
-				<div class="portfolio-wrapper">			
-					<a class="popup-with-zoom-anim" href="#small-dialog1">
-						<ul class="ch-grid">
-							<li>
-								<div class="ch-item ch-img-4">
-									<div class="ch-info">
-										<img src="web/images/zoom-white.png"/>
-										<h3>Example Title</h3>
-										<p><a href="#">Wed Desing</a></p>
-									</div>
-								</div>
-							</li>
-						</ul>
-					</a>
-				</div>
-			</div>	
-				
-			<div class="hide">	
-			<div class="portfolio app" data-cat="app">
-				<div class="portfolio-wrapper">
-					<a class="popup-with-zoom-anim" href="#small-dialog1">
-						<ul class="ch-grid">
-							<li>
-								<div class="ch-item ch-img-5">
-									<div class="ch-info">
-										<img src="web/images/zoom-white.png"/>
-										<h3>Example Title</h3>
-										<p><a href="#">Wed Desing</a></p>
-									</div>
-								</div>
-							</li>
-						</ul>
-					</a>
-				</div>
-			</div>	
-			</div>	
-			<div class="hide">
-			<div class="portfolio card" data-cat="card">
-				<div class="portfolio-wrapper">			
-					<a class="popup-with-zoom-anim" href="#small-dialog1">
-						<ul class="ch-grid">
-							<li>
-								<div class="ch-item ch-img-6">
-									<div class="ch-info">
-										<img src="web/images/zoom-white.png"/>
-										<h3>Example Title</h3>
-										<p><a href="#">Wed Desing</a></p>
-									</div>
-								</div>
-							</li>
-						</ul>
-					</a>
-				</div>
-			</div>	
-			</div>
-			<div>
-			<div class="portfolio card" data-cat="card">
-				<div class="portfolio-wrapper">			
-					<a class="popup-with-zoom-anim" href="#small-dialog1">
-						<ul class="ch-grid">
-							<li>
-								<div class="ch-item ch-img-7">
-									<div class="ch-info">
-										<img src="web/images/zoom-white.png"/>
-										<h3>Example Title</h3>
-										<p><a href="#">Wed Desing</a></p>
-									</div>
-								</div>
-							</li>
-						</ul>
-					</a>
-				</div>
-			</div>	
-			</div>
-			<div>
-			<div class="portfolio logo" data-cat="logo" id="hide">
-				<div class="portfolio-wrapper">			
-					<a class="popup-with-zoom-anim" href="#small-dialog1">
-						<ul class="ch-grid">
-							<li>
-								<div class="ch-item ch-img-8">
-									<div class="ch-info">
-										<img src="web/images/zoom-white.png"/>
-										<h3>Example Title</h3>
-										<p><a href="#">Wed Desing</a></p>
-									</div>
-								</div>
-							</li>
-						</ul>
-					</a>
-				</div>
-			</div>																																							
+<!---//End-da-slider----->
 		</div>
-		</div>
-	</div><!-- container -->
-	<script type="text/javascript" src="web/js/fliplightbox.min.js"></script>
-	<script type="text/javascript">$('body').flipLightBox()</script>
-	<div class="clear"> </div>
-	</div>
-	</div>
-	</div>
 </div>
 <!---End-gallery----->
 <!-----start-about-------->
 
-<div class="about" id="about">
+<div class="about" id="more">
 	<div class="wrap">
-	<h2>About US</h2>
-	<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-		<div class="about-grids">
-			<div class="grid">
-				<div class="dc_zoom_css">
-				<span class="roll_css6">
-					<div class="social">
-						<ul>
-							<li><a class="sharefacebook" href="#"> </a> </li>
-							<li><a class="sharetwitter" href="#"> </a> </li>
-							<li><a class="sharetgoogle" href="#"> </a> </li>
-							<li><a class="sharedrible" href="#"> </a> </li>
-							<div class="clear"> </div>
-						</ul>
-					</div>
-				</span>
-				<img class="post-person" src="web/images/img1.jpg">
-				</div>
-				<div class="desc">
-					<h3>Lorem Ipsum is Simply</h3>
-					<p>project manager</p>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.Sed ut perspiciatis unde omnis iste natus error sit voluptatem,Sed ut perspiciatis unde omnis iste natus error sit voluptatem.</p>
-				</div>
-		
-			</div>
-			<div class="grid">
-				<div class="dc_zoom_css">
-				<span class="roll_css6">
-					<div class="social">
-						<ul>
-							<li><a class="sharefacebook" href="#"> </a> </li>
-							<li><a class="sharetwitter" href="#"> </a> </li>
-							<li><a class="sharetgoogle" href="#"> </a> </li>
-							<li><a class="sharedrible" href="#"> </a> </li>
-							<div class="clear"> </div>
-						</ul>
-					</div>
-				</span>
-				<img class="post-person" src="web/images/img2.jpg">
-				</div>
-				<div class="desc">
-					<h3>Lorem Ipsum is Simply</h3>
-					<p>project manager</p>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.Sed ut perspiciatis unde omnis iste natus error sit voluptatem,Sed ut perspiciatis unde omnis iste natus error sit voluptatem.</p>
-				</div>
-			</div>
-			<div class="grid">
-				<div class="dc_zoom_css">
-				<span class="roll_css6">
-					<div class="social">
-						<ul>
-							<li><a class="sharefacebook" href="#"> </a> </li>
-							<li><a class="sharetwitter" href="#"> </a> </li>
-							<li><a class="sharetgoogle" href="#"> </a> </li>
-							<li><a class="sharedrible" href="#"> </a> </li>
-							<div class="clear"> </div>
-						</ul>
-					</div>
-				</span>
-				<img class="post-person" src="web/images/img3.jpg">
-				</div>
-				<div class="desc">
-					<h3>Lorem Ipsum is Simply</h3>
-					<p>project manager</p>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.Sed ut perspiciatis unde omnis iste natus error sit voluptatem,Sed ut perspiciatis unde omnis iste natus error sit voluptatem.</p>
-				</div>
-			</div>
-			<div class="clear"> </div>
-		</div>
+	<h2>News</h2>
+
+	<p><b>30 Mar 2014</b>: We finally <b>released a first alpha version of Syncany!</b> Checkout the <a href="https://github.com/binwiederhier/syncany/releases">releases page on GitHub</a> to download it, and the <a href="https://github.com/binwiederhier/syncany/wiki/CLI-quick-howto">install instructions</a> for more details.</p>
+	
+	<p><b>28 Oct 2013</b>: I uploaded a couple of small screencasts on YouTube demonstrating the current code base, for those of you who don't like to read: (a) <a href="https://www.youtube.com/watch?v=xE8nGL8U4Gg">developer demo, FTP plugin, with detailed explanations</a>, (b) <a href="https://www.youtube.com/watch?v=tvsZcuhVH8c">2-minute conflict handling demo, local plugin</a>, and (c) <a href="https://www.youtube.com/watch?v=skKzqID_Zrc">Amazon S3 demo</a></p>
+
+	<p><b>19 Oct 2013</b>: Believe it or not, we are stiiilll working on Syncany. We recently <a href="https://github.com/binwiederhier/syncany">moved to Github</a> for the main development. If you're interested, I wrote a detailed <a href="http://blog.philippheckel.com/2013/10/18/syncany-explained-idea-progress-development-future/">blog post about where we are and where we're going</a>.</p>
+
+	<p><b>7 Mar 2013</b>: We're still hanging in there. Even though the direction is now a different one. We're first trying to integrate Syncany with <a href="http://sparkleshare.org/">SparkleShare</a> as a backend. Check out a detailed status <a href="https://lists.launchpad.net/syncany-team/msg00531.html">in my recent mailing list post</a>.
+
 	</div>
 </div>
 <!---------end-about------------->
