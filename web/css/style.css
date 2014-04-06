@@ -26,7 +26,7 @@ a{text-decoration:none;}
 .underline{	padding-bottom:5px;	border-bottom: 1px solid #eee; margin:0 0 20px 0;}/* Add 5px bottom padding and a underline */
 nav.vertical ul li{	display:block;}/* vertical menu */
 nav.horizontal ul li{	display: inline-block;}/* horizontal menu */
-img{max-width:100%;}
+/*img{max-width:100%;}*/
 /*end reset*/
 body {
 	font-family: 'Lato', sans-serif;
@@ -227,28 +227,7 @@ body {
 	background:#1BBC9B;
 	color:#fff;
 }
-#portfoliolist .portfolio {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-o-box-sizing: border-box;
-	width: 19%;
-	margin: 0% 3%;
-	display: none;
-	float: left;
-}
-.portfolio-wrapper {
-	overflow:hidden;
-	position: relative !important;
-	cursor:pointer;
-}
-.portfolio img {
-	max-width:100%;
-	position: relative;
-	opacity: 5;
-	transition: all 300ms!important;
-	-webkit-transition: all 300ms!important;
-	-moz-transition: all 300ms!important;
-}
+
 /**********about-style**********/
 .grid{
 	position: relative;
@@ -1219,8 +1198,12 @@ padding: 1.2em 0em;
 	padding-left: 5px;
 }
 
-.newscol h2 a {
-	color: #aaa;
+.newscol h2 a { /* GitHub symbol */
+	color: #aaa;	
+}
+
+.newscol h2 a i { /* Alignment fix */
+	line-height: 60%;
 }
 
 .newscol h2 a:hover {
@@ -1249,17 +1232,44 @@ padding: 1.2em 0em;
 .contactlist a.socialb:hover {
 	opacity: 1;
 }
+
 #quickstart {
     background: url(../images/bg.png) #eee;
     border-radius: 9px;
     margin: 1em auto;
-    width: 400px;
-}
-#download pre {
-    font-family: monospace;
-    color: #000;
+    width: 370px;
 }
 
+#download .quickstart {
+	background: url("../images/bgd.png") #111;
+	border: 1px solid #777777;
+	border-radius: 6px;
+	color: #fff;
+	font-family: monospace;
+	font-size: 13px;
+	opacity: 0.95;
+	padding: 10px 10px;    
+}
+
+#download .quickstart span {
+	display: block;
+	line-height: 1.4em;
+	padding: 1px 0;
+}
+
+#download .quickstart .codeline {
+	margin: 0;
+}
+
+#download .quickstart .codenewline {
+	padding-bottom: 10px;
+}
+
+#download .quickstart .codecomment {
+	color: #888;
+	margin: 0;
+}
+	
 .github-sentence-item { padding: 2px 0 5px 55px; position: relative; min-height: 50px;}
 .github-sentence-item .avatar { position: absolute; left: 0; top: 2px; border: 1px solid #d0d0d0; padding: 2px;}
 .github-sentence-item .avatar img { width: 40px; height: 40px;} 
