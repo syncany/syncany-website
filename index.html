@@ -19,42 +19,35 @@ Website layout based on:
 	<link href="web/css/style.css" rel="stylesheet" type="text/css" media="all" />
 	<link rel="stylesheet" type="text/css" href="web/css/imgeffect.css" />
 
-	<script src="web/js/jquery.min.js"></script>
-
-	<!-- fontawesome -->
+	<!-- fontawesome.io -->
 	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+	<!-- jQuery -->
+	<script src="web/fancybox/lib/jquery-1.10.1.min.js"></script>
 
 	<!-- Live GitHub; http://ben.balter.com -->
 	<script type="text/javascript" src="web/jscss/github-sentences.js"></script> 
-	<link rel="stylesheet" type="text/css" href="web/jscss/github-normalize.css" />		
 	<link rel="stylesheet" type="text/css" href="web/jscss/github-main.css" />		
 
-	<!-- Shortcut icon -->
-	<link rel="shortcut icon" href="favicon.png" />		
+	<!-- fancybox -->
 
-	<!-- start gallery Script -->
-	<script type="text/javascript" src="web/js/jquery.easing.min.js"></script>	
-	<script type="text/javascript" src="web/js/jquery.mixitup.min.js"></script>
+	<!-- fancybox: Add mousewheel plugin (this is optional) -->
+	<script type="text/javascript" src="web/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script>
 
-	<!-- Add fancyBox main JS and CSS files -->
-	<script src="web/js/jquery.magnific-popup.js" type="text/javascript"></script>
-	<link href="web/css/magnific-popup.css" rel="stylesheet" type="text/css">
+	<!-- fancybox: Add fancyBox -->
+	<link rel="stylesheet" href="web/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+	<script type="text/javascript" src="web/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
+	<link rel="stylesheet" href="web/fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen" />
+	<script type="text/javascript" src="web/fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>	
+
+	<!-- Other -->
 	<script type="text/javascript" src="web/js/move-top.js"></script>
-	<script type="text/javascript" src="web/js/easing.js"></script>
-		
-   	<script type="text/javascript">
-		jQuery(document).ready(function($) {
-			$(".scroll").click(function(event){		
-				event.preventDefault();
-				$('html,body').animate({scrollTop:$(this.hash).offset().top},1200);
-				this.blur();
-			});
-		});
-	</script>
+	<script type="text/javascript" src="web/js/easing.js"></script>		
 
 	<!-- This is our code! -->
 	<script type="text/javascript" src="web/jscss/site.js"></script>	
+	<link rel="shortcut icon" href="favicon.png" />		
 </head>
 
 <body>
@@ -199,26 +192,26 @@ Website layout based on:
 		
 		<div class="asciiprevs">
 			<div class="asciiprev">
-				<a href="#fancybox-opens"><img src="web/images/ascii1.png" /></a>
+				<a class="fancybox fancybox.iframe" href="ascii1.html"><img src="web/images/ascii1.png" /></a>
 				<span class="asciiprevdesc">
-					<b>Create</b>: Creating a new repository is a matter of seconds. Using the FTP plugin
-					works just like any other plugin.
+					<b>Create</b>: Creating a new repository is a matter of seconds with the
+					<tt>sy init</tt> command. We use the FTP plugin here.
 				</span>
 			</div>
 
 			<div class="asciiprev">
-				<a href="#fancybox-opens"><img src="web/images/ascii1.png" /></a>
+				<a class="fancybox fancybox.iframe" href="ascii2.html"><img src="web/images/ascii2.png" /></a>
 				<span class="asciiprevdesc">
 					<b>Connect</b>: Other clients can connect to the repository and sync files manually with 
-					<tt>sy up</tt> and <tt>sy down</tt>, or automatically with <tt>sy watch</tt>.
+					<tt>sy up</tt> and <tt>sy down</tt>.
 				</span>
 			</div>
 		
 			<div class="asciiprev">
 				<a href="#fancybox-opens"><img src="web/images/ascii1.png" /></a>
 				<span class="asciiprevdesc">
-					<b>Sync</b>: Creating a new repository is a matter of seconds. Using the FTP plugin
-					works just like any other plugin.
+					<b>Automatic sync</b>: Using the <tt>sy watch</tt> command, clients can automatically sync
+					their files.
 				</span>
 			</div>	
 		</div>
@@ -227,8 +220,8 @@ Website layout based on:
 	</div>
      	</div>
 </div>
-
-
+			
+				
 <div class="about" id="contact">
 	<div class="wrap">
 	
@@ -240,11 +233,11 @@ Website layout based on:
 			<a href="https://github.com/binwiederhier/syncany/graphs/contributors">many others</a>. 
 			Feel free to contact us:</p>
 
-			<ul>
+			<ul class="contactlist">
 				<li>Contact us on 
-					<a class="gplus" href="https://plus.google.com/u/0/communities/101993748229314848303" title="Google+"><i class="fa fa-google-plus"></i></a>
-					<a class="twitter" href="https://twitter.com/syncany" title="Twitter"><i class="fa fa-twitter"></i></a>
-					<a class="github" href="https://github.com/binwiederhier/syncany" title="GitHub"><i class="fa fa-github"></i></a>
+					<a class="socialb twitter" href="https://twitter.com/syncany" title="Twitter"><i class="fa fa-twitter"></i> Twitter</a>, 
+					<a class="socialb gplus" href="https://plus.google.com/u/0/communities/101993748229314848303" title="Google+"><i class="fa fa-google-plus"></i> Google+</a> or 
+					<a class="socialb github" href="https://github.com/binwiederhier/syncany" title="GitHub"><i class="fa fa-github"></i> GitHub</a>
 				</li>
 				<li>Join the <a href="https://launchpad.net/~syncany-team">mailing list on Launchpad</a></li>
 				<li>Ask us a question in the <a href="http://webchat.freenode.net/?channels=syncany">#syncany IRC channel</a> (Freenode)</li>

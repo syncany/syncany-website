@@ -9,7 +9,15 @@ $(document).ready(function() {
 		window.setTimeout("document.getElementsByTagName('body')[0].appendChild( getExtremeTracker() )", 1000);
 		window.setTimeout("document.getElementsByTagName('body')[0].appendChild( getGoogleTracker() )", 3000);
 		window.setTimeout("document.getElementsByTagName('body')[0].appendChild( getSyncanyTracker() )", 2000);
-	}			
+	}
+	
+	$('.fancybox').fancybox();
+	
+	$(".scroll").click(function(event){		
+		event.preventDefault();
+		$('html,body').animate({scrollTop:$(this.hash).offset().top},1200);
+		this.blur();
+	});			
 });
 		
 
