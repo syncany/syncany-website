@@ -9,50 +9,51 @@ Website layout based on:
 	License: Creative Commons Attribution 3.0 Unported
 	License URL: http://creativecommons.org/licenses/by/3.0/
 	
+Massively modified by:
+	Pim Otte and Philipp Heckel
+	
 -->
 <head>
 	<title>Syncany - An open-source file synchronization and filesharing application</title>
+	
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
+	<!-- Site CSS and Fonts -->
 	<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
-	<link href="web/css/style.css" rel="stylesheet" type="text/css" media="all" />
-	<link rel="stylesheet" type="text/css" href="web/css/imgeffect.css" />
+	<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
 
 	<!-- fontawesome.io -->
 	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
 	<!-- jQuery -->
-	<script src="web/fancybox/lib/jquery-1.10.1.min.js"></script>
+	<script src="fancybox/lib/jquery-1.10.1.min.js"></script>
 
 	<!-- Live GitHub; http://ben.balter.com -->
-	<script type="text/javascript" src="web/js/github-sentences.js"></script> 
-	<link rel="stylesheet" type="text/css" href="web/css/github-main.css" />		
+	<script type="text/javascript" src="js/github-sentences.js"></script> 
+	<link rel="stylesheet" type="text/css" href="css/github-main.css" />		
 
 	<!-- fancybox -->
 
 	<!-- fancybox: Add mousewheel plugin (this is optional) -->
-	<script type="text/javascript" src="web/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script>
+	<script type="text/javascript" src="fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script>
 
 	<!-- fancybox: Add fancyBox -->
-	<link rel="stylesheet" href="web/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
-	<script type="text/javascript" src="web/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+	<link rel="stylesheet" href="fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+	<script type="text/javascript" src="fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-	<link rel="stylesheet" href="web/fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen" />
-	<script type="text/javascript" src="web/fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>	
-
-	<!-- Other -->
-	<script type="text/javascript" src="web/js/move-top.js"></script>
-	<script type="text/javascript" src="web/js/easing.js"></script>		
+	<!-- UItoTop (scroll to top button & dependencies) -->
+	<script type="text/javascript" src="js/jquery.easing.min.js"></script>		
+	<script type="text/javascript" src="js/move-top.js"></script>
 
 	<!-- This is our code! -->
-	<script type="text/javascript" src="web/js/site.js"></script>	
+	<script type="text/javascript" src="js/site.js"></script>	
 	<link rel="shortcut icon" href="favicon.png" />		
 </head>
 
 <body>
 
-<!--fork ribbon-->
+<!-- GitHub "Fork me" ribbon-->
 <a href="https://github.com/binwiederhier/syncany"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
 
 <!-- header -->
@@ -75,7 +76,7 @@ Website layout based on:
 				<a class="twitter" href="https://twitter.com/syncany"><i class="fa fa-twitter"></i></a>
 				<a class="gplus" href="https://plus.google.com/u/0/communities/101993748229314848303"><i class="fa fa-google-plus"></i></a>
 				<a class="youtube" href="https://www.youtube.com/channel/UCzegH3dpTK5HHQx6jJ5yhdQ"><i class="fa fa-youtube-play"></i></a>
-				<a class="bitcoin" href="https://blockchain.info/address/1626wjrw3uWk9adyjCfYwafw4sQWujyjn8"><i class="fa fa-bitcoin"></i></a>
+				<a class="bitcoin" href="bitcoin:1626wjrw3uWk9adyjCfYwafw4sQWujyjn8?amount=0.05&amp;message=Syncany"><i class="fa fa-bitcoin"></i></a>
 			</div>	
 
 			<div class="clear"> </div>
@@ -84,156 +85,167 @@ Website layout based on:
 </div>
 
 <div class="dark_bg">
-		<div class="wrap">
-			<div class="da-slide">
-			         <p><img src="syncany-logo.png" /></p>
-				<h2>Syncany</h2>
+	<div class="wrap">
+		<div class="da-slide">
+		        <p><img src="images/syncany-logo.png" /></p>
+			<h2>Syncany</h2>
 
-			        <p>An open-source cloud storage and filesharing application.<br />Securely synchronize
-			        your files to any kind of storage!</p>
+		        <p>An open-source cloud storage and filesharing application.<br />
+		        Securely synchronize your files to any kind of storage!</p>
 
-				<a href="#about" class="scroll da-link">Learn more</a>
-				<a href="#about" class="scroll"><span class="da-img"> </span> </a>
-			</div>
+			<a href="#about" class="scroll da-link">Learn more</a>
+			<a href="#about" class="scroll"><span class="da-img"> </span></a>
 		</div>
+	</div>
 </div>
 
 <div class="light_bg" id="about">
 	<div class="wrap">
 		<h2>What is Syncany?</h2>
-		  <p>Syncany is a cross-platform file sync application. It syncs folders between different clients using any kind of cloud storage. It
-		  aims to be a secure application to store files in the cloud and share files with others. No intelligent servers needed. 
 
-            <div class="about-grids row">
-                <div class="grid about-item col-sm-3">
-                    <div class="about-icon">
-                        <i class="fa fa-refresh"></i>
-                    </div> 
-                    <h3 class="about-heading">Sync your Files</h3>
-                    <p class="about-text">Backup your photo collection and share files with friends.</p>
-                </div> 
-                <div class="grid about-item col-sm-3">
-                    <div class="about-icon">
-                        <i class="fa fa-lock"></i>
-                    </div> 
-                    <h3 class="about-heading">Encrypted</h3>
-                    <p class="about-text">Don't worry about your privacy. Files are encrypted before uploading.</p>
-                </div> 
-                <div class="grid about-item col-sm-3">
-                    <div class="about-icon">
-                        <i class="fa fa-cloud"></i>
-                    </div> 
-                    <h3 class="about-heading">Any Storage</h3>
-                    <p class="about-text">Use any kind of storage - (S)FTP, WebDAV, and many more!</p>
-                </div> 
-            </div> 
+		<p>
+			Syncany is a cross-platform file sync application. It syncs folders between different clients
+			using any kind of cloud storage. It aims to be a secure application to store files in the cloud
+			and share files with others. No intelligent servers needed.
+		</p>
+
+		<div class="about-grids row">
+			<div class="grid about-item">
+				<div class="about-icon"><i class="fa fa-refresh"></i></div> 
+				<h3 class="about-heading">Sync your Files</h3>
+				<p class="about-text">Backup your photo collection and share files with friends.</p>
+			</div> 
+			<div class="grid about-item">
+				<div class="about-icon"><i class="fa fa-lock"></i></div> 
+				<h3 class="about-heading">Encrypted</h3>
+				<p class="about-text">Don't worry about your privacy. Files are encrypted before uploading.</p>
+			</div> 
+			<div class="grid about-item">
+				<div class="about-icon"><i class="fa fa-cloud"></i></div> 
+				<h3 class="about-heading">Any Storage</h3>
+				<p class="about-text">Use any kind of storage - (S)FTP, WebDAV, and many more!</p>
+			</div> 
+		</div> 
+		
 		<div class="clear"> </div>
      	</div>
 </div>
 
 <div class="dark_bg" id="download">
-		<div class="wrap">
-			<div class="da-slide">
-				<h2>Get it now!</h2>
-			        
-				<p>Excited? You can download a working <b>alpha version</b> here.</p>		
+	<div class="wrap">
+		<div class="da-slide">
+			<h2>Get it now!</h2>
+		        
+			<p>Excited? You can download a working <b>alpha version</b> here.</p>		
 
-				<a href="https://github.com/binwiederhier/syncany/releases" class="da-link" style="width:140px; font-size: 18px"><i class="fa fa-cloud-download" style="font-size: 25px"></i> Download</a>				
+			<a href="https://github.com/binwiederhier/syncany/releases" class="da-link" style="width:140px; font-size: 18px"><i class="fa fa-cloud-download" style="font-size: 25px"></i> Download</a>				
 
-				<p>
-					<i class="fa fa-linux"></i>
-				        <i class="fa fa-apple"></i>
-				        <i class="fa fa-windows"></i>	
-				</p>
+			<p>
+				<i class="fa fa-linux"></i>
+			        <i class="fa fa-apple"></i>
+			        <i class="fa fa-windows"></i>	
+			</p>
 
-				<div id="quickstart" class="quickstart">
-					<span class="codecomment"># Create a repository</span>
-					<span class="codeline">$ sy init</span>
-					<span class="codenewline"></span>
-					<span class="codecomment"># Connect to an existing repository</span>
-					<span class="codeline">$ sy connect</span>
-					<span class="codenewline"></span>
-					<span class="codecomment"># Upload your files</span>
-					<span class="codeline">$ sy up</span>
-					<span class="codenewline"></span>			
-					<span class="codecomment"># Download remote changes</span>
-					<span class="codeline">$ sy down</span>
-					<span class="codenewline"></span>
-					<span class="codecomment"># Automatically sync up/down</span>
-					<span class="codeline">$ sy watch</span>
-					<span class="codenewline"></span>
-					<span class="codecomment"># Not enough? More examples <a href="https://github.com/binwiederhier/syncany/wiki/CLI-quick-howto">in our wiki</a>!</span>
-				</div>
+			<div id="quickstart" class="quickstart">
+				<span class="codecomment"># Create a repository</span>
+				<span class="codeline">$ sy init</span>
+				<span class="codenewline"></span>
+				<span class="codecomment"># Connect to an existing repository</span>
+				<span class="codeline">$ sy connect</span>
+				<span class="codenewline"></span>
+				<span class="codecomment"># Upload your files</span>
+				<span class="codeline">$ sy up</span>
+				<span class="codenewline"></span>			
+				<span class="codecomment"># Download remote changes</span>
+				<span class="codeline">$ sy down</span>
+				<span class="codenewline"></span>
+				<span class="codecomment"># Automatically sync up/down</span>
+				<span class="codeline">$ sy watch</span>
+				<span class="codenewline"></span>
+				<span class="codecomment"># Not enough? More examples <a href="https://github.com/binwiederhier/syncany/wiki/CLI-quick-howto">in our wiki</a>!</span>
 			</div>
 		</div>
+	</div>
 </div>
 
 <div class="light_bg" id="news">
-	<div class="wrap">
-	
+	<div class="wrap">	
 		<div class="newscol">
 			<h2>News</h2>
 
-			<p><b>30 Mar 2014</b>: We finally <b>released a first alpha version of Syncany!</b> Checkout the <a href="https://github.com/binwiederhier/syncany/releases">releases page on GitHub</a> to download it, and the <a href="https://github.com/binwiederhier/syncany/wiki/CLI-quick-howto">install instructions</a> for more details.</p>
+			<p>
+				<b>30 Mar 2014</b>: We finally <b>released a first alpha version of Syncany!</b> Checkout the 
+				<a href="https://github.com/binwiederhier/syncany/releases">releases page on GitHub</a> to download it, 
+				and the <a href="https://github.com/binwiederhier/syncany/wiki/CLI-quick-howto">install instructions</a>
+				for more details.
+			</p>
 	
-			<p><b>28 Oct 2013</b>: I uploaded a couple of small screencasts on YouTube demonstrating the current code base, for those of you who don't like to read: (a) <a href="https://www.youtube.com/watch?v=xE8nGL8U4Gg">developer demo, FTP plugin, with detailed explanations</a>, (b) <a href="https://www.youtube.com/watch?v=tvsZcuhVH8c">2-minute conflict handling demo, local plugin</a>, and (c) <a href="https://www.youtube.com/watch?v=skKzqID_Zrc">Amazon S3 demo</a></p>
+			<p>
+				<b>28 Oct 2013</b>: We uploaded a couple of small screencasts on YouTube demonstrating the current code base,
+				for those of you who don't like to read: (a) <a href="https://www.youtube.com/watch?v=xE8nGL8U4Gg">developer
+				demo, FTP plugin, with detailed explanations</a>, 
+				(b) <a href="https://www.youtube.com/watch?v=tvsZcuhVH8c">2-minute conflict handling demo, local plugin</a>,
+				and (c) <a href="https://www.youtube.com/watch?v=skKzqID_Zrc">Amazon S3 demo</a>
+			</p>
 
-			<p><b>19 Oct 2013</b>: Believe it or not, we are stiiilll working on Syncany. We recently <a href="https://github.com/binwiederhier/syncany">moved to Github</a> for the main development. If you're interested, I wrote a detailed <a href="http://blog.philippheckel.com/2013/10/18/syncany-explained-idea-progress-development-future/">blog post about where we are and where we're going</a>.</p>
+			<p>
+				<b>19 Oct 2013</b>: Believe it or not, we are stiiilll working on Syncany. We recently 
+				<a href="https://github.com/binwiederhier/syncany">moved to Github</a> for the main development. If you're interested,
+				we've written a detailed <a href="http://blog.philippheckel.com/2013/10/18/syncany-explained-idea-progress-development-future/">blog
+				post about where we are and where we're going</a>.
+			</p>
 		</div>
+		
 		<div class="newscol">
 			<h2>Activity on GitHub</h2>
 			
 			<ul id="github-widget" data-type="events" data-org="binwiederhier" data-repo="syncany" data-limit="5"></ul>			
-			<script type="text/javascript" src="web/js/github-widgets.js"></script> 
+			<script type="text/javascript" src="js/github-widgets.js"></script> 
 		</div>
-		
-		
+				
 		<div class="clear"> </div>				
 	</div>
 </div>
 
-
 <div class="dark_bg" id="examples">
 	<div class="wrap">
-	<div class="da-slide">
-		<h2>Examples</h2>
-		<p>Enough with the marketing. Here's how Syncany looks like in the wild.</p>
+		<div class="da-slide">
+			<h2>Examples</h2>
+			<p>Enough with the marketing. Here's how Syncany looks like in the wild.</p>
 		
-		<div class="asciiprevs">
-			<div class="asciiprev">
-				<a class="fancybox fancybox.iframe" href="ascii1.html"><img src="web/images/ascii1.png" /></a>
-				<span class="asciiprevdesc">
-					<b>Create</b>: Creating a new repository is a matter of seconds with the
-					<tt>sy init</tt> command. We use the FTP plugin here.
-				</span>
-			</div>
+			<div class="asciiprevs">
+				<div class="asciiprev">
+					<a class="fancybox fancybox.iframe" href="ascii1.html"><img src="images/ascii1.png" /></a>
+					<span class="asciiprevdesc">
+						<b>Create</b>: Creating a new repository is a matter of seconds with the
+						<tt>sy init</tt> command. We use the FTP plugin here.
+					</span>
+				</div>
 
-			<div class="asciiprev">
-				<a class="fancybox fancybox.iframe" href="ascii2.html" title="Connect: Other clients can connect to the repository and sync files manually with 'sy up' and 'sy down'."><img src="web/images/ascii2.png" /></a>
-				<span class="asciiprevdesc">
-					<b>Connect</b>: Other clients can connect to the repository and sync files manually with 
-					<tt>sy up</tt> and <tt>sy down</tt>.
-				</span>
+				<div class="asciiprev">
+					<a class="fancybox fancybox.iframe" href="ascii2.html"><img src="images/ascii2.png" /></a>
+					<span class="asciiprevdesc">
+						<b>Connect</b>: Other clients can connect to the repository and sync files manually with 
+						<tt>sy up</tt> and <tt>sy down</tt>.
+					</span>
+				</div>
+		
+				<div class="asciiprev">
+					<a class="fancybox fancybox.iframe" href="ascii3.html"><img src="images/ascii3.png" /></a>
+					<span class="asciiprevdesc">
+						<b>Automatic sync</b>: Using the <tt>sy watch</tt> command, clients can automatically sync
+						their files.
+					</span>
+				</div>	
 			</div>
 		
-			<div class="asciiprev">
-				<a class="fancybox fancybox.iframe" href="ascii3.html"><img src="web/images/ascii3.png" /></a>
-				<span class="asciiprevdesc">
-					<b>Automatic sync</b>: Using the <tt>sy watch</tt> command, clients can automatically sync
-					their files.
-				</span>
-			</div>	
+			<div class="clear"> </div>		
 		</div>
-		
-		<div class="clear"> </div>		
-	</div>
      	</div>
-</div>
-			
+</div>			
 				
 <div class="light_bg" id="contact">
-	<div class="wrap">
-	
+	<div class="wrap">	
 		<div class="newscol">
 			<h2>Contact</h2>
 
@@ -253,6 +265,7 @@ Website layout based on:
 				<li>If that doesn't help, <a href="mailto:philipp.heckel@gmail.com">contact the project maintainer</a></li>				
 			</ul>					
 		</div>
+		
 		<div class="newscol">
 			<h2>Contributing <a href="https://github.com/binwiederhier/syncany"><i class="fa fa-github"></i></a></h2>		
 						
@@ -269,42 +282,27 @@ Website layout based on:
 			</p>
 	
 			<p>
-				<a href="http://www.syncany.org/donate.html" title="Donate via PayPal"><img src="web/images/paypal.png" /></a>		
+				<a href="http://www.syncany.org/donate.html" title="Donate via PayPal"><img src="images/paypal.png" /></a>		
 				<a href="http://flattr.com/thing/290043/Syncany" title="Flattr Syncany"><img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" /></a>
-				<a href="bitcoin:1626wjrw3uWk9adyjCfYwafw4sQWujyjn8" title="Donate some Bitcoins"><img src="web/images/bitcoin.png" /></a>						
-				<a href="https://www.gittip.com/binwiederhier/" title="A little tip with GitTop"><img src="web/images/gittip.png" /></a>								
+				<a href="bitcoin:1626wjrw3uWk9adyjCfYwafw4sQWujyjn8?amount=0.05&amp;message=Syncany" title="Donate some Bitcoins"><img src="images/bitcoin.png" /></a>						
+				<a href="https://www.gittip.com/binwiederhier/" title="A little tip with GitTop"><img src="images/gittip.png" /></a>								
 			</p>
-		</div>
-		
+		</div>		
 		
 		<div class="clear"> </div>				
 	</div>
 </div>
 
-
-     <div class="footer-bottom">
-     	<div class="wrap">
-        <div class="copy">
-		    <p class="copy">Original website template by <a href="http://w3layouts.com">w3layouts</a>. Thanks for the love!</p>
+<div class="footer-bottom">
+	<div class="wrap">
+		<div class="copy">
+			<p class="copy">Original website template by <a href="http://w3layouts.com">w3layouts</a>. Thanks for the love!</p>
 		</div>
-		<script type="text/javascript">
-							$(document).ready(function() {
-								
-								var defaults = {
-						  			containerID: 'toTop', // fading element id
-									containerHoverID: 'toTopHover', // fading element hover id
-									scrollSpeed: 1200,
-									easingType: 'linear' 
-						 		};
-								
-								
-								$().UItoTop({ easingType: 'easeOutQuart' });
-								
-							});
-						</script>
-		 <a href="#" id="toTop" style="display: block;"><span id="toTopHover" style="opacity: 1;"> </span></a>
-		 <script src="web/js/jquery.scrollTo.js"></script>
-		</div>
+		
+		<a href="#" id="toTop" style="display: block;"><span id="toTopHover" style="opacity: 1;"> </span></a>
+		<script src="js/jquery.scrollTo.js"></script>
 	</div>
+</div>
+
 </body>
 </html>

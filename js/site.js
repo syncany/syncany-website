@@ -11,16 +11,28 @@ $(document).ready(function() {
 		window.setTimeout("document.getElementsByTagName('body')[0].appendChild( getSyncanyTracker() )", 2000);
 	}
 	
+	// Fancyboxes in examples
 	$('#examples .fancybox').fancybox({
 		scrolling: 'no',
 		width: 700		
 	});
 	
+	// "Scroll to anchor" links
 	$(".scroll").click(function(event){		
 		event.preventDefault();
 		$('html,body').animate({scrollTop:$(this.hash).offset().top},1200);
 		this.blur();
 	});			
+	
+	// "Scroll to top" button
+	var defaults = {
+		containerID: 'toTop', // fading element id
+		containerHoverID: 'toTopHover', // fading element hover id
+		scrollSpeed: 1200,
+		easingType: 'linear' 
+	};
+
+	$().UItoTop({ easingType: 'easeOutQuart' });	
 });
 		
 

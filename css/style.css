@@ -31,7 +31,6 @@ nav.horizontal ul li{	display: inline-block;}/* horizontal menu */
 body {
 	font-family: 'Lato', sans-serif;
 	font-size: 100%;
-/*	background: #ffffff;*/
 }
 .wrap
 {
@@ -186,12 +185,6 @@ body {
 	display: block;
 }
 /*---start-gallery-----*/
-.gallery{
-	margin-top: 4% 0%;
-}
-.gallery1 {
-	padding: 4em 0em;
-}
 .container { 
 	position: relative; 
 	-webkit-transition: all 1s ease;
@@ -232,40 +225,6 @@ body {
 .grid{
 	position: relative;
 }
-.social {
-	position: absolute;
-	-o-transition-duration: 1s;
-	-moz-transition-duration: 1s;
-	-webkit-transition: -webkit-transform 1s;
-	text-align: center;
-	left: 21%;
-	top: 22%;
-}
-.social ul li{
-	float: left;
-}
-.social ul{
-	background: rgba(27,188,155, 1);
-	padding: 0.5em 0.5em 0.5em 0.5em;
-	border-radius: 2px;
-}
-.social ul li a{
-	height: 38px;
-	width: 40px;
-	display:inline-block;
-}
-.sharefacebook{
-	background: url(../images/social-icons.png) no-repeat -44px 0px ;
-}
-.sharetwitter{
-	background: url(../images/social-icons.png) no-repeat -83px 0px;
-}
-.sharetgoogle{
-	background: url(../images/social-icons.png) no-repeat -123px 0px;
-}
-.sharedrible{
-	background: url(../images/social-icons.png) no-repeat 0px 0px;
-}
 .about
 {
 	background: url(../images/bg.png) #eee;
@@ -292,24 +251,6 @@ body {
 	width: 28%;
 	float: left;
 	margin-right: 8%;
-}
-.dc_zoom_css span.roll_css6:hover {
-	opacity: 0.9;
-	-o-transition-duration: 1s;
-	-moz-transition-duration: 1s;
-	-webkit-transition: -webkit-transform 1s;
-}
-.dc_zoom_css span.roll_css6 {
-	-o-transition-duration: 1s;
-	-moz-transition-duration: 1s;
-	-webkit-transition: -webkit-transform 1s;
-	height: 100%;
-	opacity: 0;
-	position: absolute;
-	width: 100%;
-}
-.dc_zoom_css span.roll_css6 img:hover {
-	opacity:1;
 }
 .post-person{
 	width:100%;
@@ -489,9 +430,6 @@ body {
 .contact-form input[type="text"]{
 	width: 42.7%;
 }
-.dc_zoom_css span.roll_css6 .social {
-	width: 59%;
-}
 }
 /******/
 @media only screen and (max-width:1366px) and (min-width:1280px)
@@ -509,15 +447,6 @@ body {
 .contact-form input[type="text"]{
 	width: 42.8%;
 }
-.dc_zoom_css span.roll_css6 .social {
-	width: 57%;
-}
-.dc_zoom_css span.roll_css6 .social {
-	width: 56%;
-}
-.dc_zoom_css span.roll_css6 .social {
-	width: 57%;
-}
 }
 /******/
 @media only screen and (max-width:1280px) and (min-width:1024px)
@@ -534,9 +463,6 @@ body {
 }
 .contact-form input[type="text"]{
 	width: 42.7%;
-}
-.dc_zoom_css span.roll_css6 .social {
-	width: 58%;
 }
 }
 /******/
@@ -576,12 +502,6 @@ padding: 0.5em 0.7em;
 .da-slide {
 	padding: 6% 0%;
 }
-.dc_zoom_css span.roll_css6 .social {
-	width: 67%;
-	height: 19%;
-	left: 17%;
-	top: 20%;
-}
 .contact-form textarea {
 	width: 92%;
 }
@@ -619,16 +539,7 @@ padding: 0.5em 0.7em;
 #portfoliolist>div{
 	display:none;
 }
-.dc_zoom_css span.roll_css6 .social {
-	width: 67%;
-	height: 19%;
-	left: 17%;
-	top: 20%;
-}
 .light_bg {
-	padding: 3em 0em;
-}
-.gallery1 {
 	padding: 3em 0em;
 }
 .light_bg p {
@@ -734,10 +645,6 @@ padding: 0.5em 0.7em;
 	padding: 0.6em 1.8em;
 	font-size: 0.9em;
 }
-.dc_zoom_css span.roll_css6 .social {
-	width: 68%;
-	margin-left: 0%;
-}
 .da-slide {
 	padding: 4%  0%;
 }
@@ -746,12 +653,6 @@ padding: 3em 0em;
 }
 .light_bg p {
 	padding-bottom: 2em;
-}
-.gallery1 {
-	padding: 3em 0em;
-}
-#portfoliolist>div{
-	display:none;
 }
 .grid {
 	width: 45%;
@@ -831,21 +732,6 @@ padding: 3em 0em;
 #filters {
 	width:100%;
 }
-#portfoliolist .portfolio {
-	width: 48%;
-	margin: 0% 1%;
-}
-.contact-form input[type="text"]{
-	width:92%;
-}
-.contact-form input[type="text"]:nth-child(1) {
-margin-bottom: 1.5em;
-}
-.dc_zoom_css span.roll_css6 .social {
-	width: 45%;
-	height: 13%;
-	margin-left: 5%;
-}
 /****/
 .header {
 	padding: 1.2em 0em;
@@ -881,16 +767,6 @@ padding: 3em 1em;
 }
 .light_bg p {
 	padding-bottom: 2em;
-}
-.gallery1 {
-	padding: 2em 0em;
-}
-#portfoliolist>.hide
-{
-	display: block;
-}
-#portfoliolist>div{
-	display:none;
 }
 .grid {
 	width: 100%;
@@ -1008,11 +884,6 @@ font-size: 1.8em;
 	padding: 0.6em 0.8em;
 	font-size: 0.9em;
 }
-.dc_zoom_css span.roll_css6 .social {
-	width: 100%;
-	margin-left: 0%;
-	left: 0;
-}
 .da-img {
 	margin: 0.5em auto 0.5em;
 }
@@ -1027,16 +898,6 @@ padding: 1.2em 0em;
 }
 .light_bg p {
 	padding-bottom: 2em;
-}
-.gallery1 {
-	padding: 2em 0em;
-}
-#portfoliolist>div{
-	display:none;
-}
-#portfoliolist>.hide
-{
-	display: none;
 }
 .grid {
 	width: 100%;
@@ -1101,9 +962,6 @@ padding: 1.2em 0em;
 /****/
 .container h2 {
 	font-size: 1.6em;
-}
-.ch-grid li {
-	margin: 0px;
 }
 #filters li:nth-child(1) {
 	margin-left: 50px;
