@@ -293,12 +293,12 @@ body {
 	text-align:left;
 	padding: 5em 0 2em 0;
 }
-.about h2{
+.light_bg h2{
 	color:#333;
 	font-size:2em;
 	padding-bottom: 0.5em;
 }
-.about p{
+.light_bg p{
 	color:#333;
 	font-size:1em;
 	padding-bottom: 2em;
@@ -644,13 +644,13 @@ padding: 0.5em 0.7em;
 	left: 17%;
 	top: 20%;
 }
-.about {
+.light_bg {
 	padding: 3em 0em;
 }
 .gallery1 {
 	padding: 3em 0em;
 }
-.about p {
+.light_bg p {
 	padding-bottom: 2em;
 }
 .da-slide p {
@@ -760,10 +760,10 @@ padding: 0.5em 0.7em;
 .da-slide {
 	padding: 4%  0%;
 }
-.about {
+.light_bg {
 padding: 3em 0em;
 }
-.about p {
+.light_bg p {
 	padding-bottom: 2em;
 }
 .gallery1 {
@@ -895,10 +895,10 @@ margin-bottom: 1.5em;
 .da-slide {
 	padding: 4%  0%;
 }
-.about {
+.light_bg {
 padding: 3em 1em;
 }
-.about p {
+.light_bg p {
 	padding-bottom: 2em;
 }
 .gallery1 {
@@ -1041,10 +1041,10 @@ font-size: 1.8em;
 .desc p:nth-child(3) {
 	padding: 0em 1em 2em 1em;
 }
-.about {
+.light_bg {
 padding: 1.2em 0em;
 }
-.about p {
+.light_bg p {
 	padding-bottom: 2em;
 }
 .gallery1 {
@@ -1224,11 +1224,11 @@ padding: 1.2em 0em;
 .newscol h2 a:hover {
 	color: #000;
 }
-.about a {
+.light_bg a {
 	color: #d33;
 }
 
-.about a:hover {
+.light_bg a:hover {
 	color: red;
 }
 
