@@ -377,7 +377,7 @@ body {
 .span_1_of_3 {
 	width: 32.2%;
 }
-.contact {
+#about {
 	background: url(../images/bg.png) #eee;
 	text-align: center;
 	padding-bottom: 30px;
@@ -385,23 +385,23 @@ body {
 .contact-form div{
 	padding:5px 0 15px;
 }
-.contact h2{
+#about h2{
 	color:#444444;
 	font-size:2em;
 	padding: 2em 0em 0.7em 0em;
 	text-align: center;
 }
-.contact h4{
+#about h4{
 	color:#444;
 	font-size:1em;
 	text-align: center;
 }
-.contact h5{
+#about h5{
 	color:#444;
 	font-size:1em;
 	padding-bottom: 2em;
 }
-.contact p {
+#about p {
 	font-size: 1.1em;
 }
 .company_address p{
@@ -687,7 +687,7 @@ padding: 0.5em 0.7em;
 	float: none;
 	margin: 0%;
 }
-.contact h4 {
+#about h4 {
 	padding-bottom: 2em;
 }
 .contact-form {
@@ -711,7 +711,7 @@ padding: 0.5em 0.7em;
 .company_address {
 	padding-bottom: 2%;
 }
-.contact h2 {
+#about h2 {
 	padding: 1.4em 0em 0.7em 0em;
 }
 }
@@ -803,10 +803,10 @@ padding: 3em 0em;
 .company_address {
 	padding-bottom: 2%;
 }
-.contact h2 {
+#about h2 {
 	padding: 1.4em 0em 0.7em 0em;
 }
-.contact h4 {
+#about h4 {
 	padding-bottom: 2em;
 }
 /****/
@@ -945,10 +945,10 @@ padding: 3em 1em;
 .company_address {
 	padding-bottom: 2%;
 }
-.contact h2 {
+#about h2 {
 	padding: 1.4em 0em 0.7em 0em;
 }
-.contact h4 {
+#about h4 {
 	padding-bottom: 2em;
 }
 /****/
@@ -1090,10 +1090,10 @@ padding: 1.2em 0em;
 .company_address {
 	padding-bottom: 2%;
 }
-.contact h2 {
+#about h2 {
 	padding: 1.4em 0em 0.7em 0em;
 }
-.contact h4 {
+#about h4 {
 	padding-bottom: 2em;
 }
 /****/
