@@ -40,17 +40,62 @@ body {
 }
 /* start header */
 .header{
-	padding: 1.3em 0em;
+	padding: 0.5em 0 1.1em 0;
 }
 .logo{
-	float: left;
+	float: right;
+	padding: 14px 20px 0 0;
 }
 .logo a {
 	display: block;
+	color: #bbb;
+	float: left;
+	padding: 5px;
+	font-size: 1.5em;
+	opacity: 0.7;
 }
+.logo a:hover {
+	opacity: 1;
+}
+
+.logo a.github {
+	color: #000;
+}
+.logo a.twitter {
+	color: #4099ff;
+}
+.logo a.gplus {
+	color: #dd4b39;
+}
+.logo a.youtube {
+	color: #e12b28;
+}
+.logo a.bitcoin {
+	color: #ee961c;
+}
+
+	
+/*
+.logo a.github:hover {
+	color: #000;
+}
+.logo a.twitter:hover {
+	color: #4099ff;
+}
+.logo a.gplus:hover {
+	color: #dd4b39;
+}
+.logo a.youtube:hover {
+	color: #e12b28;
+}
+.logo a.bitcoin:hover {
+	color: #ee961c;
+}
+*/
+
 /******start-nav********/
 .nav {
-	float: right;
+	float: left;
 	margin-top: 0.82em;
 }
 .nav > ul > li {
@@ -81,7 +126,7 @@ body {
 .slider_bg{
 /*	background:  url('../images/banner.jpg') no-repeat;*/
 	background:  url('../images/bgd.png') #222;
-	background-size: 100% 100%;
+/*	background-size: 100% 100%;*/
 }
 .da-slide {
 	padding: 5% 0%;
@@ -108,6 +153,8 @@ body {
 }
 .da-slide .da-link {
 	background-color: #f33;
+	border-radius: 9px;
+	border: 1px solid #f44;
 	display: block;
 	color: #FFF;
 	font-size: 1em;
@@ -116,6 +163,7 @@ body {
 	width: 10%;
 	text-align: center;
 	padding: 1em 2em;
+	
 }
 .da-slide .da-link:hover
 {
@@ -262,7 +310,7 @@ body {
 {
 	background: url(../images/bg.png) #eee;
 	text-align:left;
-	padding: 5em 0em;
+	padding: 5em 0 2em 0;
 }
 .about h2{
 	color:#333;
@@ -400,10 +448,10 @@ body {
 /*--footer--*/
 .footer-bottom {
 	padding: 25px 0;
-	background: #303441;
+	background:  url('../images/bgd.png') #222;
 }
 .copy p {
-	color: #666D89;
+	color: #666;
 	font-size: 0.8125em;
 	line-height: 1.8em;
 	text-align: center;
@@ -417,6 +465,7 @@ body {
 #toTop {
 	display: none;
 	text-decoration: none;
+	border-radius: 100%;
 	position: fixed;
 	bottom: 10px;
 	right: 10px;
@@ -1130,6 +1179,7 @@ padding: 1.2em 0em;
 
 .asciiprevs {
 	margin: 0 auto;
+	color: #fff;
 }
 
 .asciiprev {
@@ -1138,8 +1188,23 @@ padding: 1.2em 0em;
 	width: 300px;
 }	
 
-.asciiprev .asciiprevdesc {
+.asciiprev a {
+	display: block;
+	border: 4px solid white;
+}
 
+.asciiprev a:hover {
+	border: 4px solid #f33;
+}
+
+.asciiprev .asciiprevdesc {
+	display: block;
+	font-weight: normal;
+	margin: 15px 0; 
+}
+
+.asciiprev .asciiprevdesc b {
+	font-weight: bold;
 }
 
 .newscol {
@@ -1148,6 +1213,22 @@ padding: 1.2em 0em;
 	margin: 10px;
 }	
 
+.newscol ul {
+	list-style-type: square;
+	margin-left: 20px;
+}
+
+.newscol ul li {
+	padding-left: 5px;
+}
+
+.newscol h2 a {
+	color: #aaa;
+}
+
+.newscol h2 a:hover {
+	color: #000;
+}
 .about a {
 	color: #d33;
 }
@@ -1155,3 +1236,8 @@ padding: 1.2em 0em;
 .about a:hover {
 	color: red;
 }
+
+.github-sentence-item { padding: 2px 0 5px 55px; position: relative; min-height: 50px;}
+.github-sentence-item .avatar { position: absolute; left: 0; top: 2px; border: 1px solid #d0d0d0; padding: 2px;}
+.github-sentence-item .avatar img { width: 40px; height: 40px;} 
+#github-widget { list-style: none; padding: 0 }
