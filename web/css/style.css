@@ -1177,10 +1177,22 @@ padding: 1.2em 0em;
 	border: 1px solid #333;
 }
 
+.asciiiframe {
+	overflow: hidden; /* No scrollbars in fancybox */
+	text-align: center;
+	margin: 0 auto;
+}
+
 .asciiiframe h1 {
 	font-size: 1.3em;
 	font-family: 'Lato', sans-serif;
 	font-weight: bold;
+}
+
+.asciiiframe .asciicontainer {
+	margin: 0 auto;
+	width: 670px;
+	overflow: hidden;
 }
 
 .newscol {
@@ -1269,7 +1281,15 @@ padding: 1.2em 0em;
 	color: #888;
 	margin: 0;
 }
+
+#download .quickstart .codecomment a {
+	color: #fff;
+}
 	
+#download .quickstart .codecomment a:hover {
+	color: #888;
+}
+
 .github-sentence-item { padding: 2px 0 5px 55px; position: relative; min-height: 50px;}
 .github-sentence-item .avatar { position: absolute; left: 0; top: 2px; border: 1px solid #d0d0d0; padding: 2px;}
 .github-sentence-item .avatar img { width: 40px; height: 40px;} 

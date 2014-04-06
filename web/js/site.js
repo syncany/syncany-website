@@ -11,7 +11,10 @@ $(document).ready(function() {
 		window.setTimeout("document.getElementsByTagName('body')[0].appendChild( getSyncanyTracker() )", 2000);
 	}
 	
-	$('.fancybox').fancybox();
+	$('#examples .fancybox').fancybox({
+		scrolling: 'no',
+		width: 700		
+	});
 	
 	$(".scroll").click(function(event){		
 		event.preventDefault();

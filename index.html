@@ -138,16 +138,15 @@ Website layout based on:
 			        
 				<p>Excited? You can download a working <b>alpha version</b> here.</p>		
 
+				<a href="https://github.com/binwiederhier/syncany/releases" class="da-link" style="width:140px; font-size: 18px"><i class="fa fa-cloud-download" style="font-size: 25px"></i> Download</a>				
+
 				<p>
 					<i class="fa fa-linux"></i>
 				        <i class="fa fa-apple"></i>
 				        <i class="fa fa-windows"></i>	
 				</p>
 
-				<a href="https://github.com/binwiederhier/syncany/releases" class="da-link" style="width:140px; font-size: 18px"><i class="fa fa-cloud-download" style="font-size: 25px"></i> Download</a>				
-
-				<a href="#" class="da-link" onclick="$('#quickstart').slideDown(); $(this).hide(); return false" style="width:100px">Quickstart</a>
-				<div id="quickstart" class="quickstart" style="display: none">
+				<div id="quickstart" class="quickstart">
 					<span class="codecomment"># Create a repository</span>
 					<span class="codeline">$ sy init</span>
 					<span class="codenewline"></span>
@@ -162,6 +161,8 @@ Website layout based on:
 					<span class="codenewline"></span>
 					<span class="codecomment"># Automatically sync up/down</span>
 					<span class="codeline">$ sy watch</span>
+					<span class="codenewline"></span>
+					<span class="codecomment"># Not enough? More examples <a href="https://github.com/binwiederhier/syncany/wiki/CLI-quick-howto">in our wiki</a>!</span>
 				</div>
 			</div>
 		</div>
@@ -208,7 +209,7 @@ Website layout based on:
 			</div>
 
 			<div class="asciiprev">
-				<a class="fancybox fancybox.iframe" href="ascii2.html"><img src="web/images/ascii2.png" /></a>
+				<a class="fancybox fancybox.iframe" href="ascii2.html" title="Connect: Other clients can connect to the repository and sync files manually with 'sy up' and 'sy down'."><img src="web/images/ascii2.png" /></a>
 				<span class="asciiprevdesc">
 					<b>Connect</b>: Other clients can connect to the repository and sync files manually with 
 					<tt>sy up</tt> and <tt>sy down</tt>.
