@@ -140,7 +140,7 @@ body {
 	color: #FFF;
 	font-size: 1em;
 	text-transform: uppercase;
-	margin: 0 auto;
+	margin: 1em auto;
 	width: 10%;
 	text-align: center;
 	padding: 1em 2em;
@@ -1248,6 +1248,16 @@ padding: 1.2em 0em;
 }
 .contactlist a.socialb:hover {
 	opacity: 1;
+}
+#quickstart {
+    background: url(../images/bg.png) #eee;
+    border-radius: 9px;
+    margin: 1em auto;
+    width: 400px;
+}
+#download pre {
+    font-family: monospace;
+    color: #000;
 }
 
 .github-sentence-item { padding: 2px 0 5px 55px; position: relative; min-height: 50px;}

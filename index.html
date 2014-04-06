@@ -145,6 +145,21 @@ Website layout based on:
 				</p>
 
 				<a href="https://github.com/binwiederhier/syncany/releases" class="da-link" style="width:140px; font-size: 18px"><i class="fa fa-cloud-download" style="font-size: 25px"></i> Download</a>				
+
+                <a href="#" class="da-link" onclick="$('#quickstart').slideDown(); $(this).hide(); return false"
+                    style="width:100px">Quickstart</a>
+                <div id="quickstart" style="display: none">
+<pre>
+    # Create a repo
+    $ syncany init
+    # Connect to an existing repo
+    $ syncany connect
+    # Upload your files
+    $ sy up
+    # Download remote changes
+    $ sy down
+</pre>
+                </div>
 			</div>
 		</div>
 </div>
