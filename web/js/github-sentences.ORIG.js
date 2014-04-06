@@ -82,7 +82,7 @@
       name: "Wiki Updated",
       render: function(event) {
         return {
-          sentence: " " + (user_link(event.actor.login)) + " " + event.payload.pages[0].action + " " + (link_to(event.payload.pages[0].html_url, event.payload.pages[0].title)) + "\nin the " + (repo_link(event.repo.name)) + " wiki"
+          sentence: " " + (user_link(event.actor.login)) + " " + event.payload.pages.action + " " + (link_to(event.payload.pages.html_url, event.payload.pages.title)) + "\nin the " + (repo_link(event.repo.name)) + " wiki"
         };
       }
     },
