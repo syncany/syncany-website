@@ -134,7 +134,7 @@ body {
 }
 .da-slide .da-link {
 	background-color: #f33;
-	border-radius: 9px;
+	border-radius: 13px;
 	border: 1px solid #f44;
 	display: block;
 	color: #FFF;
@@ -1294,3 +1294,8 @@ padding: 1.2em 0em;
 .github-sentence-item .avatar { position: absolute; left: 0; top: 2px; border: 1px solid #d0d0d0; padding: 2px;}
 .github-sentence-item .avatar img { width: 40px; height: 40px;} 
 #github-widget { list-style: none; padding: 0 }
+
+/** Remove 'onfocus' outline from all links
+    see: http://perishablepress.com/unobtrusive-javascript-remove-link-focus-dotted-border-outlines/ **/
+*:focus { outline: none; }
+*::-moz-focus-inner { border: none; }
