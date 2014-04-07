@@ -192,34 +192,6 @@ body {
 	-o-transition: all 1s ease;
 	transition: all 1s ease;	
 }
-#filters {
-	margin: 2% auto;
-	padding: 0;
-	list-style: none;
-	width: 62%;
-}
-#filters li {
-	float:left;
-	margin-left: 17px;
-}
-#filters li span {
-	display: block;
-	padding: 10px 30px;
-	text-decoration: none;
-	color: #fff;
-	background:#1BBC9B;
-	cursor: pointer;
-	text-transform:uppercase;
-	font-weight: 600;
-}
-#filters li span:hover
-{
-	background:#01CAA1;
-}
-#filters li span.active {
-	background:#1BBC9B;
-	color:#fff;
-}
 
 /**********about-style**********/
 .grid{
@@ -316,8 +288,8 @@ body {
 	text-decoration: none;
 	border-radius: 100%;
 	position: fixed;
-	bottom: 10px;
-	right: 10px;
+	bottom: 13px;
+	right: 13px;
 	overflow: hidden;
 	width: 44px;
 	height:44px;
@@ -358,21 +330,12 @@ body {
 	.wrap {
 		width:75%;
 	}
-	#filters {
-		margin: 2% auto;
-		padding: 0;
-		list-style: none;
-		width:63%;
-	}
 }
 /******/
 @media only screen and (max-width:1366px) and (min-width:1280px)
 {
 	.wrap {
 		width:80%;
-	}
-	#filters {
-		width: 65%;
 	}
 }
 /******/
@@ -381,18 +344,12 @@ body {
 	.wrap {
 		width:85%;
 	}
-	#filters {
-		width: 64%;
-	}
 }
 /******/
 @media only screen and (max-width:1024px) and (min-width:768px)
 {
 	.wrap {
 		width:90%;
-	}
-	#filters {
-		width:76%;
 	}
 	/****/
 	.header {
@@ -424,9 +381,6 @@ body {
 {
 	.wrap {
 		width:90%;
-	}
-	#filters {
-		width:100%;
 	}
 	/****/
 	.header {
@@ -487,77 +441,66 @@ body {
 /******/
 @media only screen and (max-width:640px) and (min-width:480px)
 {
-.wrap {
-	width:90%;
-}
-#filters {
-	width:100%;
-}
-/****/
-.header {
-	padding: 4% 0%;
-}
-.nav > ul > li > a {
-	padding: 0.5em 0.3em;
-	font-size: 0.9em;
-}
-.da-slide p {
-	width: 100%;
-	font-size: 1.3em;
-	margin: 1.6em auto;
-	line-height: 1.3em;
-}
-.da-slide h2 {
-	font-size: 2.5em;
-}
-.da-slide .da-link {
-	width: 14%;
-	padding: 0.6em 1.8em;
-	font-size: 0.9em;
-}
-.da-slide {
-	padding: 4%  0%;
-}
-.light_bg {
-padding: 3em 0em;
-}
-.light_bg p {
-	padding-bottom: 2em;
-}
-.grid {
-	width: 45%;
-	margin-right: 10%;
-}
-.grid:nth-child(2) {
-	margin-right: 0%;
-}
-.grid:nth-child(3) {
-	display: none;
-}
-.span_1_of_3 {
-	width: 100%;
-	float: none;
-	margin: 0%;
-}
-.span_2_of_3 {
-	width: 100%;
-	float: none;
-	margin: 0%;
-}
-.light_bg h2 {
-	padding: 1.4em 0em 0.7em 0em;
-}
-.light_bg h4 {
-	padding-bottom: 2em;
-}
-/****/
-#filters li {
-	margin-left: 10px;
-}
-#filters li span {
-	padding: 10px 25px;
-	font-size: 0.9em;
-}
+	.wrap {
+		width:90%;
+	}
+	/****/
+	.header {
+		padding: 4% 0%;
+	}
+	.nav > ul > li > a {
+		padding: 0.5em 0.3em;
+		font-size: 0.9em;
+	}
+	.da-slide p {
+		width: 100%;
+		font-size: 1.3em;
+		margin: 1.6em auto;
+		line-height: 1.3em;
+	}
+	.da-slide h2 {
+		font-size: 2.5em;
+	}
+	.da-slide .da-link {
+		width: 14%;
+		padding: 0.6em 1.8em;
+		font-size: 0.9em;
+	}
+	.da-slide {
+		padding: 4%  0%;
+	}
+	.light_bg {
+		padding: 3em 0em;
+	}
+	.light_bg p {
+		padding-bottom: 2em;
+	}
+	.grid {
+		width: 45%;
+		margin-right: 10%;
+	}
+	.grid:nth-child(2) {
+		margin-right: 0%;
+	}
+	.grid:nth-child(3) {
+		display: none;
+	}
+	.span_1_of_3 {
+		width: 100%;
+		float: none;
+		margin: 0%;
+	}
+	.span_2_of_3 {
+		width: 100%;
+		float: none;
+		margin: 0%;
+	}
+	.light_bg h2 {
+		padding: 1.4em 0em 0.7em 0em;
+	}
+	.light_bg h4 {
+		padding-bottom: 2em;
+	}
 }
 
 /******/
@@ -574,9 +517,6 @@ padding: 3em 0em;
 		float: none;
 		margin-top: 1em;
 		text-align: center;
-	}
-	#filters {
-		width:100%;
 	}
 	/****/
 	.header {
@@ -644,14 +584,6 @@ padding: 3em 0em;
 		padding-bottom: 2em;
 	}
 	/****/
-	#filters li {
-		margin-left: 10px;
-	}
-	#filters li span {
-		padding: 10px 10px;
-		font-size: 0.8em;
-	}
-	/****/
 	.container h2 {
 		font-size: 1.8em;
 	}
@@ -670,9 +602,6 @@ padding: 3em 0em;
 		float: none;
 		margin-top: 0.4em;
 		text-align:left;
-	}
-	#filters {
-		width:100%;
 	}
 	/****/
 	.header {
@@ -737,19 +666,8 @@ padding: 3em 0em;
 		padding-bottom: 2em;
 	}
 	/****/
-	#filters li {
-		margin: 5px;
-	}
-	#filters li span {
-		padding: 10px 12px;
-		font-size: 0.8em;
-	}
-	/****/
 	.container h2 {
 		font-size: 1.6em;
-	}
-	#filters li:nth-child(1) {
-		margin-left: 50px;
 	}
 }
 
@@ -941,6 +859,10 @@ padding: 3em 0em;
 	
 #download .quickstart .codecomment a:hover {
 	color: #888;
+}
+
+.tagline {
+	max-width: 600px;
 }
 
 .github-sentence-item { padding: 2px 0 5px 55px; position: relative; min-height: 50px;}
