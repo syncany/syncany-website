@@ -997,15 +997,25 @@ padding: 1.2em 0em;
 	font-weight: bold;
 }
 
+/**
+ * Centering ASCII previews as per
+ * http://stackoverflow.com/questions/1269245/centering-floating-divs-within-another-div
+ * 
+ * Outer DIV: "text-align: center"     (1)
+ * Inner DIV: "display: inline-block"  (2)
+ */
+
 .asciiprevs {
 	margin: 0 auto;
 	color: #fff;
+	text-align: center; /* (1) */
 }
 
 .asciiprev {
-	float: left;
+	display: inline-block; /* (2) */
 	margin: 20px;
 	width: 300px;
+	text-align: left; 
 }	
 
 .asciiprev a {
