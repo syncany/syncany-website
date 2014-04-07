@@ -117,7 +117,7 @@ var gitHubWidgets = {
 		//event types: http://developer.github.com/v3/events/types/
 		li = document.createElement( "li" );
 		li.innerHTML = githubSentences.convert( event );
-		li.innerHTML = li.innerHTML.replace(/<div class=\"timestamp\">([^<]+)<\/div>/gi, function(s, m1){ return relativeDate( new Date( m1 ) ) });
+		li.innerHTML = li.innerHTML.replace(/<div class=\"timestamp\">([^<]+)<\/div>/gi, function(s, m1){ return '<div class="timestamp">' + relativeDate( new Date( m1 ) ) + '</div>' });
 		
 		if ( li )
 			this.el.appendChild( li );

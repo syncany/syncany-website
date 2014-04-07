@@ -167,7 +167,7 @@
           sentence: event.type
         };
       }
-      html = "<div class=\"github-sentence-item event-" + (event.type.toLowerCase()) + "\">\n  <div class=\"avatar\"><img src=\"" + event.actor.avatar_url + "\" /></div>\n  <div class=\"sentence\">" + converted.sentence + "</div>\n  <div class=\"timestamp\">" + event.created_at + "</div>";
+      html = "<div class=\"github-sentence-item event-" + (event.type.toLowerCase()) + "\">\n  <div class=\"avatar\"><img src=\"" + event.actor.avatar_url + "\" /></div>\n  <div class=\"sentenceanddate\"><div class=\"sentence\">" + converted.sentence + "</div>\n  <div class=\"timestamp\">" + event.created_at + "</div></div>";
       if (converted.details != null) {
         html += " <div class=\"details\">" + converted.details + "</div> ";
       }

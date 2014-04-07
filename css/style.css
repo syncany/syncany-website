@@ -118,10 +118,6 @@ body {
 	z-index: 10;
 	text-align: center;
 }
-.dark_bg h2 span {
-	font-size: 1em;
-	font-weight: 300;
-}
 .dark_bg p {
 	color: #FFF;
 	font-size: 1.4em;
@@ -167,11 +163,20 @@ body {
 }
 
 /**********about-style**********/
-.grid{
+.about-item{
 	position: relative;
+	display: inline-block; 
+	width: 28%;
+	margin: 0 2%;
+	vertical-align: top;
 }
-.about
-{
+.about-grids {
+	width: 100%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.about {
 	background: url(../images/bg.png) #eee;
 	text-align:left;
 	padding: 5em 0 2em 0;
@@ -186,21 +191,6 @@ body {
 	font-size:1em;
 	padding-bottom: 2em;
 }
-.about-grids
-{
-	width:100%;
-	margin: 0 auto;
-}
-.grid
-{
-	width: 28%;
-	float: left;
-	margin-right: 8%;
-}
-.grid:nth-child(3)
-{
-	margin-right: 0%;
-}
 /**********end-about-style**********/
 
 
@@ -214,7 +204,7 @@ body {
 .light_bg h2 {
 	color:#444444;
 	font-size:2em;
-	padding: 2em 0em 0.7em 0em;
+	padding: 1.7em 0em 0.7em 0em;
 	text-align: center;
 }
 #about p {
@@ -251,6 +241,238 @@ body {
 	text-indent: 100%;
 	background: url(../images/top-move.png) no-repeat right top;
 }
+
+
+
+/**************** PHILIPP ADDITIONS *************************/
+
+
+.about-icon {
+    background: none repeat scroll 0 0 #f33;
+    color: #fff;
+    border-radius: 100%;
+    display: inline-block;
+    font-size: 4em;
+    height: 100px;
+    line-height: 100px;
+    transition: all 0.5s ease 0s;
+    width: 100px;
+    text-align: center;
+    margin: 25px;
+}
+
+.about-heading {
+	color: #444;
+	font-size: 20px;
+	font-weight: bold;
+}
+.about-text {
+	padding-bottom: 1em;
+}
+
+/**
+ * Centering ASCII previews as per
+ * http://stackoverflow.com/questions/1269245/centering-floating-divs-within-another-div
+ * 
+ * Outer DIV: "text-align: center"     (1)
+ * Inner DIV: "display: inline-block"  (2)
+ */
+
+.asciiprevs {
+	margin: 0 auto;
+	color: #fff;
+	text-align: center; /* (1) */
+}
+
+.asciiprev {
+	display: inline-block; /* (2) */
+	margin: 20px;
+	width: 300px;
+	text-align: left; 
+}	
+
+.asciiprev a {
+	display: block;
+	border: 4px solid white;
+}
+
+.asciiprev a:hover {
+	border: 4px solid #f33;
+}
+
+.asciiprev .asciiprevdesc {
+	display: block;
+	font-weight: normal;
+	margin: 15px 0; 
+}
+
+.asciiprev .asciiprevdesc b {
+	font-weight: bold;
+}
+
+.asciiprev tt {
+	font-family: 'Courier New';
+	font-weight: bold;
+	color: #ccc;
+	padding: 2px;
+	border: 1px solid #333;
+}
+
+.asciiiframe {
+	overflow: hidden; /* No scrollbars in fancybox */
+	text-align: center;
+	margin: 0 auto;
+}
+
+.asciiiframe h1 {
+	font-size: 1.3em;
+	font-family: 'Lato', sans-serif;
+	font-weight: bold;
+}
+
+.asciiiframe .asciicontainer {
+	margin: 0 auto;
+	width: 670px;
+	overflow: hidden;
+}
+
+.newscol {
+	width: 45%;
+	float: left;
+	margin: 10px;
+}	
+
+.newscol .contactlist {
+	list-style-type: square;
+	margin-left: 20px;
+}
+
+.newscol .contactlist li {
+	padding-left: 5px;
+}
+
+.newscol h2 a { /* GitHub symbol */
+	color: #aaa;	
+}
+
+.newscol h2 a i { /* Alignment fix */
+	line-height: 60%;
+}
+
+.newscol h2 a:hover {
+	color: #000;
+}
+.light_bg a {
+	color: #d33;
+}
+
+.light_bg a:hover {
+	color: red;
+}
+
+.contactlist a.github {
+	color: #000;
+}
+.contactlist a.twitter {
+	color: #4099ff;
+}
+.contactlist a.gplus {
+	color: #dd4b39;
+}
+.contactlist a.socialb {
+	opacity: 0.8;
+}
+.contactlist a.socialb:hover {
+	opacity: 1;
+}
+
+.quickstart {
+    background: url(../images/bg.png) #eee;
+    border-radius: 9px;
+    margin: 1em auto;
+    width: 370px;
+}
+
+#download .quickstart {
+	background: url("../images/bgd.png") #111;
+	border: 1px solid #777777;
+	border-radius: 6px;
+	color: #fff;
+	font-family: monospace;
+	font-size: 13px;
+	opacity: 0.95;
+	padding: 10px 10px;    
+}
+
+#download .quickstart span {
+	display: block;
+	line-height: 1.4em;
+	padding: 1px 0;
+}
+
+#download .quickstart .codeline {
+	margin: 0;
+}
+
+#download .quickstart .codenewline {
+	padding-bottom: 10px;
+}
+
+#download .quickstart .codecomment {
+	color: #888;
+	margin: 0;
+}
+
+#download .quickstart .codecomment a {
+	color: #fff;
+}
+	
+#download .quickstart .codecomment a:hover {
+	color: #888;
+}
+
+.tagline {
+	max-width: 600px;
+}
+
+.github-sentence-item { 
+	padding: 2px 0 5px 55px;
+	position: relative; 
+	min-height: 50px;
+}
+.github-sentence-item .timestamp { 
+	color: #aaa;
+}
+.github-sentence-item .avatar {
+	position: absolute;
+	left: 0;
+	top: 2px;
+	border: 1px solid #d0d0d0;
+	padding: 2px;
+}
+.github-sentence-item .avatar img {
+	width: 40px;
+	height: 40px;
+} 
+#github-widget { 
+	list-style: none;
+	padding: 0
+}
+
+/** Remove 'onfocus' outline from all links
+    see: http://perishablepress.com/unobtrusive-javascript-remove-link-focus-dotted-border-outlines/ **/
+*:focus { outline: none; }
+*::-moz-focus-inner { border: none; }
+
+
+
+
+/*******************************************************************************
+
+      Responsive stuff; overrides above styles
+      
+********************************************************************************/      
+
 /* #Tablet (Portrait) */
 @media only screen and (min-width: 768px) and (max-width: 959px) {
 
@@ -351,7 +573,10 @@ body {
 		padding: 0.5em 0.7em;
 	}
 	.light_bg {
-		padding: 3em 0em;
+		padding: 1.3em 1em;
+	}
+	.light_bg h2 {
+		padding: 1.3em 0 0.6em 0;
 	}
 	.light_bg p {
 		padding-bottom: 2em;
@@ -364,19 +589,11 @@ body {
 	}
 	.dark_bg h2 {
 		font-size: 2.6em;
+		padding: 0.8em 0 0.1em 0;		
 	}
-	.grid {
+	.about-item {
 		width: 45%;
 		margin-right: 10%;
-	}
-	.grid:nth-child(2) {
-		margin-right: 0%;
-	}
-	.grid:nth-child(3) {
-		display: none;
-	}
-	.light_bg h2 {
-		padding: 1.4em 0em 0.7em 0em;
 	}
 }
 /******/
@@ -405,6 +622,9 @@ body {
 		padding: 0.5em 0.3em;
 		font-size: 0.9em;
 	}
+	.dark_bg {
+		padding: 8% 0;
+	}
 	.dark_bg p {
 		width: 100%;
 		font-size: 1.3em;
@@ -414,28 +634,22 @@ body {
 	.dark_bg h2 {
 		font-size: 2.5em;
 	}
-	.dark_bg {
-		padding: 7%  0%;
-	}
 	.light_bg {
-		padding: 3em 0em;
+		padding: 0.8em 1em;
+	}
+	.light_bg h2 {
+		padding: 0.8em 0 0.6em 0;
 	}
 	.light_bg p {
 		padding-bottom: 2em;
 	}
-	.grid {
+	.about-item {
 		width: 45%;
 		margin-right: 10%;
 	}
-	.grid:nth-child(2) {
-		margin-right: 0%;
-	}
-	.grid:nth-child(3) {
-		display: none;
-	}
-	.light_bg h2 {
-		padding: 1.4em 0em 0.7em 0em;
-	}
+	.newscol {
+		width: 100%;
+	}	
 }
 
 /******/
@@ -465,11 +679,14 @@ body {
 		padding: 0.5em 1em;
 		font-size: 1em;
 	}
+	.dark_bg {
+		padding: 10% 0;
+	}
 	.dark_bg p {
 		width: 100%;
-		font-size: 1em;
-		margin: 1.1em auto;
-		line-height: 1.3em;
+		font-size: 1.1em;
+		margin: 1.2em auto;
+		line-height: 1.4em;
 	}
 	.dark_bg h2 {
 		font-size: 2.1em;
@@ -477,30 +694,27 @@ body {
 	.da-img {
 		margin: 1em auto 1em;
 	}
-	.dark_bg {
-		padding: 4%  0%;
-	}
 	.light_bg {
-		padding: 3em 1em;
+		padding: 0.8em 1em;
+	}
+	.light_bg h2 {
+		padding: 0.8em 0 0.6em 0;
 	}
 	.light_bg p {
 		padding-bottom: 2em;
 	}
-	.grid {
+	.about-item {
 		width: 100%;
 		margin-right: 0%;
 		float: none;
 		margin-bottom: 10%;
 		text-align: center;
 	}
-	.grid:nth-child(2) {
-		margin-right: 0%;
+	.quickstart {
+		width: 90%;
 	}
-	.grid:nth-child(3),.grid:nth-child(2)  {
-		display: none;
-	}
-	.light_bg h2 {
-		padding: 1.4em 0em 0.7em 0em;
+	.newscol {
+		width: 100%;
 	}
 }
 /******/
@@ -537,232 +751,23 @@ body {
 	.da-img {
 		margin: 0.5em auto 0.5em;
 	}
-	.dark_bg {
-		padding: 4%  0%;
-	}
 	.light_bg {
 		padding: 1.2em 0em;
 	}
 	.light_bg p {
 		padding-bottom: 2em;
 	}
-	.grid {
+	.about-item {
 		width: 100%;
 		margin-right: 0%;
 		float: none;
 		margin-bottom: 10%;
 	}
-	.grid:nth-child(2) {
-		margin-right: 0%;
+	.quickstart {
+		width: 90%;
 	}
-	.grid:nth-child(3),.grid:nth-child(2)  {
-		display: none;
-	}
-	.light_bg h2 {
-		padding: 1.4em 0em 0.7em 0em;
-	}
+	.newscol {
+		width: 100%;
+	}	
 }
 
-
-
-/**************** PHILIPP ADDITIONS *************************/
-
-
-.about-icon {
-    background: none repeat scroll 0 0 #f33;
-    color: #fff;
-    border-radius: 100%;
-    display: inline-block;
-    font-size: 4em;
-    height: 100px;
-    line-height: 100px;
-    transition: all 0.5s ease 0s;
-    width: 100px;
-    text-align: center;
-    margin: 25px;
-}
-
-.about-item {
-    margin-bottom: 24px;
-}
-
-.about-heading {
-	color: #444;
-	font-size: 20px;
-	font-weight: bold;
-}
-
-/**
- * Centering ASCII previews as per
- * http://stackoverflow.com/questions/1269245/centering-floating-divs-within-another-div
- * 
- * Outer DIV: "text-align: center"     (1)
- * Inner DIV: "display: inline-block"  (2)
- */
-
-.asciiprevs {
-	margin: 0 auto;
-	color: #fff;
-	text-align: center; /* (1) */
-}
-
-.asciiprev {
-	display: inline-block; /* (2) */
-	margin: 20px;
-	width: 300px;
-	text-align: left; 
-}	
-
-.asciiprev a {
-	display: block;
-	border: 4px solid white;
-}
-
-.asciiprev a:hover {
-	border: 4px solid #f33;
-}
-
-.asciiprev .asciiprevdesc {
-	display: block;
-	font-weight: normal;
-	margin: 15px 0; 
-}
-
-.asciiprev .asciiprevdesc b {
-	font-weight: bold;
-}
-
-.asciiprev tt {
-	font-family: 'Courier New';
-	font-weight: bold;
-	color: #ccc;
-	padding: 2px;
-	border: 1px solid #333;
-}
-
-.asciiiframe {
-	overflow: hidden; /* No scrollbars in fancybox */
-	text-align: center;
-	margin: 0 auto;
-}
-
-.asciiiframe h1 {
-	font-size: 1.3em;
-	font-family: 'Lato', sans-serif;
-	font-weight: bold;
-}
-
-.asciiiframe .asciicontainer {
-	margin: 0 auto;
-	width: 670px;
-	overflow: hidden;
-}
-
-.newscol {
-	width: 45%;
-	float: left;
-	margin: 10px;
-}	
-
-.newscol ul {
-	list-style-type: square;
-	margin-left: 20px;
-}
-
-.newscol ul li {
-	padding-left: 5px;
-}
-
-.newscol h2 a { /* GitHub symbol */
-	color: #aaa;	
-}
-
-.newscol h2 a i { /* Alignment fix */
-	line-height: 60%;
-}
-
-.newscol h2 a:hover {
-	color: #000;
-}
-.light_bg a {
-	color: #d33;
-}
-
-.light_bg a:hover {
-	color: red;
-}
-
-.contactlist a.github {
-	color: #000;
-}
-.contactlist a.twitter {
-	color: #4099ff;
-}
-.contactlist a.gplus {
-	color: #dd4b39;
-}
-.contactlist a.socialb {
-	opacity: 0.8;
-}
-.contactlist a.socialb:hover {
-	opacity: 1;
-}
-
-#quickstart {
-    background: url(../images/bg.png) #eee;
-    border-radius: 9px;
-    margin: 1em auto;
-    width: 370px;
-}
-
-#download .quickstart {
-	background: url("../images/bgd.png") #111;
-	border: 1px solid #777777;
-	border-radius: 6px;
-	color: #fff;
-	font-family: monospace;
-	font-size: 13px;
-	opacity: 0.95;
-	padding: 10px 10px;    
-}
-
-#download .quickstart span {
-	display: block;
-	line-height: 1.4em;
-	padding: 1px 0;
-}
-
-#download .quickstart .codeline {
-	margin: 0;
-}
-
-#download .quickstart .codenewline {
-	padding-bottom: 10px;
-}
-
-#download .quickstart .codecomment {
-	color: #888;
-	margin: 0;
-}
-
-#download .quickstart .codecomment a {
-	color: #fff;
-}
-	
-#download .quickstart .codecomment a:hover {
-	color: #888;
-}
-
-.tagline {
-	max-width: 600px;
-}
-
-.github-sentence-item { padding: 2px 0 5px 55px; position: relative; min-height: 50px;}
-.github-sentence-item .avatar { position: absolute; left: 0; top: 2px; border: 1px solid #d0d0d0; padding: 2px;}
-.github-sentence-item .avatar img { width: 40px; height: 40px;} 
-#github-widget { list-style: none; padding: 0 }
-
-/** Remove 'onfocus' outline from all links
-    see: http://perishablepress.com/unobtrusive-javascript-remove-link-focus-dotted-border-outlines/ **/
-*:focus { outline: none; }
-*::-moz-focus-inner { border: none; }
