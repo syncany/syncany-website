@@ -1,0 +1,328 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="author" content="Philipp C. Heckel" />
+	<meta name="robots" content="index, archive, follow" />
+		
+	<title>Syncany - Open-source file synchronization and filesharing application</title>		
+	
+	<!-- jQuery -->
+	<script type="text/javascript" src="jscss/jquery-1.6.1.min.js"></script>
+
+	<!-- Fancybox; http://fancybox.net/ -->
+	<script type="text/javascript" src="fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+	<script type="text/javascript" src="fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+	<link rel="stylesheet" type="text/css" href="fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+
+	<!-- Live GitHub; hhttp://ben.balter.com -->
+	<script type="text/javascript" src="jscss/github-sentences.js"></script> 
+	<link rel="stylesheet" type="text/css" href="jscss/github-normalize.css" />		
+	<link rel="stylesheet" type="text/css" href="jscss/github-main.css" />		
+	<style>
+		.github-sentence-item { padding: 2px 0 5px 55px; position: relative; min-height: 50px;}
+		.github-sentence-item .avatar { position: absolute; left: 0; top: 2px; border: 1px solid #d0d0d0; padding: 2px;}
+		.github-sentence-item .avatar img { width: 40px; height: 40px;} 
+		#github-widget { list-style: none; padding: 0 }
+	</style>	
+	
+	<!-- Site -->
+	<script type="text/javascript" src="jscss/site.js"></script> 
+	<link rel="stylesheet" type="text/css" href="jscss/style.css" />
+	<link rel="shortcut icon" href="favicon.png" />		
+</head>
+
+<body>
+	<div id="content">
+		<img src="syncany-logo.png" align="right" />
+		<h1>Syncany</h1>
+	
+		<p>Syncany is an open-source cloud storage and filesharing application. 
+		It allows users to backup and share certain folders of their workstations using any kind of storage, e.g. FTP, Amazon S3 or Google Storage.
+
+		<p>While the basic idea is similar to Dropbox and JungleDisk, Syncany is open-source and additionally provides data encryption and more flexibility in terms of storage type and provider:
+	
+		<ul>
+			<li><b>Data encryption</b>: Syncany encrypts the files locally, so that any online storage can be used even for sensitive data.</li>
+
+			<li><b>Arbitrary storage</b>: Syncany uses a plug-in based storage system. It can be used with any type of remote storage.</li>
+		</ul>
+		
+		<p>Even though Syncany is still under heavy development, it already supports a wide variety of different storage types:</p>
+		
+	    <ul>
+	    	<li><b>Local Folder</b>: uses any local folder as storage. This could be any mounted device, network file systems (NFS), or any virtual file system based on FUSE.</li>
+	    	<li><b>FTP</b>: uses an FTP folder as remote repository.</li>
+	    	<li><b>IMAP</b>: uses an IMAP folder as remote storage. Stores file chunks as e-mail attachments.</li>
+	    	<li><b>Google Storage</b>: uses a bucket in the Google Storage service as repository.</li>
+	    	<li><b>Amazon S3</b>: uses a bucket in the Amazon Simple Storage Service as remote storage.</li>
+	    	<li><b>Rackspace Cloud Files</b>: uses a Cloud Files container as remote storage.</li>
+	    	<li><b>WebDAV</b>: uses one folder in a WebDAV as remote storage.</li>
+	    	<li><b>Picasa Web Albums</b>: encodes the file chunks in images, and uses a Picasa album as repository.</li>			    	
+	    	<li><b>Windows Share (NetBIOS/CIFS)</b>: uses a Windows share as data repository.</li>			    	
+	    	<li><b>Box.net</b>: uses a Box.net folder as data storage.</li>			    	
+	    	<li><b>SFTP/SSH</b>: uses an SFTP folder as data storage.</li>			    	
+	    	<li>more to come ...</li>
+	    </ul>			    
+				
+		<h2>News</h2>
+
+		<p><b>30 Mar 2014</b>: We finally <b>released a first alpha version of Syncany!</b> Checkout the <a href="https://github.com/binwiederhier/syncany/releases">releases page on GitHub</a> to download it, and the <a href="https://github.com/binwiederhier/syncany/wiki/CLI-quick-howto">install instructions</a> for more details.</p>
+		
+		<p><b>28 Oct 2013</b>: I uploaded a couple of small screencasts on YouTube demonstrating the current code base, for those of you who don't like to read: (a) <a href="https://www.youtube.com/watch?v=xE8nGL8U4Gg">developer demo, FTP plugin, with detailed explanations</a>, (b) <a href="https://www.youtube.com/watch?v=tvsZcuhVH8c">2-minute conflict handling demo, local plugin</a>, and (c) <a href="https://www.youtube.com/watch?v=skKzqID_Zrc">Amazon S3 demo</a></p>
+
+		<p><b>19 Oct 2013</b>: Believe it or not, we are stiiilll working on Syncany. We recently <a href="https://github.com/binwiederhier/syncany">moved to Github</a> for the main development. If you're interested, I wrote a detailed <a href="http://blog.philippheckel.com/2013/10/18/syncany-explained-idea-progress-development-future/">blog post about where we are and where we're going</a>.</p>
+
+		<p><b>7 Mar 2013</b>: We're still hanging in there. Even though the direction is now a different one. We're first trying to integrate Syncany with <a href="http://sparkleshare.org/">SparkleShare</a> as a backend. Check out a detailed status <a href="https://lists.launchpad.net/syncany-team/msg00531.html">in my recent mailing list post</a>.
+
+		<p><a href="#morenews" onclick="$('#morenews').show(); $(this).hide(); return false">Show all news</a></p>
+		
+		<span id="morenews" style="display: none">
+			<p><b>10 Apr 2012</b>: After many people have asked: No, the project is not dead. However, my full-time job does not leave me much time for the project. At the moment, we're stripping down the code base to a minimium and are writing tests for the components. We're also reviewing much of the code -- and have to change a lot on core parts of it (sync algorithm, in-memory database, update files). We have reduced the code base from > 20.000 LOC to 8.000 LOC, introduced Ivy as build tool, changed the update-file semantics to make indefinite runtime of the application possible, daemonized the core, stripped out the GUI, stripped out the profiling capability, Singleton-ized everything, changed the config-mechanisms, incorporated some of the chunking mechanisms of my <a href="http://www.philippheckel.com/files/syncany-heckel-thesis.pdf" title="Minimizing remote storage usage and synchronization time using deduplication and multichunking: Syncany as an example">Master's thesis</a>, etc.
+
+			<p>The reason why we cannot share the progress in a public repository is that the project is now partly being developed by students, and is part of their grade. So we cannot share every step of the way. But I understand that we should at least publish something. I'll meet again with the students soon and we'll discuss finally publishing some code...
+
+			<p><b>20 Nov 2011</b>: Development update: we decided to reduce complexity in the current code base to make a stable Syncany core. As a first step in that direction, we 
+			will remove a couple of things for the first release: (1) the graphical user interface (command line daemon for now), (2) multi root folder functionality (only one folder for now),
+			(3) remove JPA (speed optimization). Target date for this is end of January 2012. 
+		
+			<p><b>11 Oct 2011</b>: I started working, so my spare time is very limited right now. Luckily I found a way to keep the project going: five 
+			<a href="http://www.uni-mannheim.de/english">Uni Mannheim</a> post-grad students will make a stable version of Syncany as part of their curriculum.
+			The students' task is to stabilize the current code base and refactor necessary parts to create a fully working version of Syncany. Time horizon for the project
+			is one year, but I expect a working version in a few months. I will of course still be hugely involved in everything!</p>
+
+			<p><b>18 Jul 2011</b>: About a month ago I <a href="http://twitter.com/#!/syncany/status/79202658644262912">announced</a> a preview release for end of July.
+			It now looks like we won't be able to make this release in time. Maybe August/September is more realistic. Stay tuned!</p>
+		
+			<p><b>3 Jun 2011</b>: We're making good progress: the team is growing, the Windows version almost on the same level as the Linux version,
+			and many people offered to translate Syncany in their language. We now have an <a href="http://webchat.freenode.net/?channels=syncany">IRC channel #syncany on Freenode</a> for
+			as well as a <a href="http://wiki.syncany.org">Wiki page</a> to gather important information for developers. Thanks for everyone's support!</p>		
+
+			<p><b>27 May 2011</b>: I created a Syncany developer team and a developer <a href="https://launchpad.net/~syncany-team">mailing list</a>
+			on Launchpad. Please sign up if you'd like to help out or are interested in details. I'll post some specifications there soon.</p>		
+	
+			<p><b>25 May 2011</b>: I was interviewed on the <a href="http://podcast.ubuntu-uk.org/2011/05/25/s04e07-powerslave/">Ubuntu UK Podcast</a> on 
+			Tuesday about Syncany. And Andrew from Web Upd8 wrote a very nice <a href="http://www.webupd8.org/2011/05/syncany-great-dropbox-alternative-which.html">blog post</a>
+			about the software. I also created a Twitter account. Follow <a href="http://twitter.com/#!/syncany">@syncany</a> to stay up-to-date.</p>
+		
+			<p><b>23 May 2011</b>: First code is available on <a href="https://launchpad.net/syncany/trunk">Launchpad</a>. Detailed instructions
+			on how to build and install can be found in the <a href="http://bazaar.launchpad.net/~syncany-team/syncany/trunk/view/head:/syncany/DEVELOPMENT">DEVELOPMENT</a> file. 
+			Please be aware that this is a veeerrry early version. It's unstable and slow!</p>
+
+			<p><b>27 Apr 2011</b>: Launched the website and the <a href="https://launchpad.net/syncany">Launchpad</a> project. 
+			I will publish the first working code and a demo video in a couple of weeks.</p>
+		</span>
+						
+		<h2>Screenshots (old 2011 interface)</h2>
+		
+		<div class="floating">
+			<h3>File Manager Integration</h3>
+
+			<p>
+				<a rel="screenshots" href="screenshots/nautilus_plugin.png" title="File Manager Integration: Syncany displays status icons on files and folders. It seemlessly integrates in your operating system's file manager."><img src="screenshots/nautilus_plugin_small.png" /></a>
+				<a rel="screenshots" href="screenshots/nautilus_restore.png" title="File Manager Integration: Restoring accidentally changed or deleted files from the remote storage is integrated in the file manager."><img src="screenshots/nautilus_restore_small.png" /></a>
+			</p>
+		</div>
+
+		<div class="floating">
+			<h3>Tray Icon</h3>
+		
+			<p>
+
+				<a rel="screenshots" href="screenshots/tray_menu.png" title="Tray Icon: Syncany's tray menu is easily accessible. It allows quick access to the sync folders and the preferences dialog."><img src="screenshots/tray_menu_small.png" /></a>
+				<a rel="screenshots" href="screenshots/tray_notification.png" title="Tray Icon: Syncany integrates with the notification system of the operating system."><img src="screenshots/tray_notification_small.png" /></a>
+			</p>
+		</div>
+		
+		<br class="clear" />
+		
+		<div class="floating">		
+			<h3>Settings Dialog</h3>
+		
+			<p>		
+				<a rel="screenshots" href="screenshots/settings_application.png" title="Settings Dialog: The settings dialog lets you change the name and picture others see when you update or change files."><img src="screenshots/settings_application_small.png" /></a>
+
+				<a rel="screenshots" href="screenshots/settings_remote_storage.png" title="Settings Dialog: Syncany can use all kinds of remote storage. This settings panel lets you adjust the connection details. "><img src="screenshots/settings_remote_storage_small.png" /></a>
+				<a rel="screenshots" href="screenshots/settings_sync_folders.png" title="Settings Dialog: Syncany synchronizes any folder on your computer. This panel lets you add or change the enabled sync folders."><img src="screenshots/settings_sync_folders_small.png" /></a>
+			</p>
+		</div>	
+		
+		<br class="clear" />
+
+		<div class="floating">
+			<h3>'Add Profile' Wizard</h3>
+		
+			<p>
+
+				<a rel="screenshots" href="screenshots/wizard1.png" title="Wizard: The 'Add Profile' wizard lets you create a remote storage or connect to an existing one."><img src="screenshots/wizard1_small.png" /></a>
+				<a rel="screenshots" href="screenshots/wizard2.png" title="Wizard: You can store your files on any kind of remote service. Syncany supports even protocols that are not meant to be used as storage. Examples include FTP, SFTP, Amazon S3, Google Storage, IMAP, POP3/SMTP, ..."><img src="screenshots/wizard2_small.png" /></a>
+				<a rel="screenshots" href="screenshots/wizard3.png" title="Wizard: Before uploading your files, Syncany encrypts them using a password. That means you don't have to trust the storage provider, because they cannot read your files!"><img src="screenshots/wizard3_small.png" /></a>
+				<a rel="screenshots" href="screenshots/wizard4.png" title="Wizard: Syncany is not limited to only one sync folder, but can synchronize any folder on your computer. No limits!"><img src="screenshots/wizard4_small.png" /></a>
+				<a rel="screenshots" href="screenshots/wizard5.png" title="Wizard: Once Syncany has initialized your remote storage (or successfully connected to it), you can start using it."><img src="screenshots/wizard5_small.png" /></a>		
+			</p>
+		</div>	
+		
+		
+		<h2>Download</h2>
+				
+		<p>Please check out <a href="https://github.com/binwiederhier/syncany/releases">releases page on GitHub</a> to download the latest release.</p>
+								
+		<h2>Comparison to Existing Solutions</h2>						
+				
+		<table id="compare">
+			<tr class="h">
+				<th>Software Name</th>
+				<th>File Manager Integration</th>
+				<th>Versioning</th>
+
+				<th>Client-Side Encryption</th>
+				<th>Provider Independence</th>
+				<th>Use any type of storage<br /><small>e.g. IMAP, FTP, ...</small></th>
+				<th>License</th>
+			</tr>
+			<tr class="a">
+
+				<td><b>Dropbox</b></td>
+				<td><img src="yes.png" /></td>
+				<td>partially</td>
+				<td><img src="no.png" /></td>
+				<td><img src="no.png" /></td>
+				<td><img src="no.png" /></td>
+				<td>proprietary</td>
+
+			</tr>			
+			<tr class="b">
+				<td><b>Jungle Disk</b></td>
+				<td><img src="no.png" /></td>
+				<td>partially</td>
+				<td><img src="yes.png" /></td>
+				<td><img src="no.png" /></td>
+				<td><img src="no.png" /></td>
+
+				<td>proprietary</td>
+			</tr>					
+			<tr class="a">
+				<td><b>SparkleShare</b></td>
+				<td><img src="yes.png" /></td>
+				<td><img src="yes.png" /></td>
+				<td><img src="no.png" /></td>
+				<td><img src="yes.png" /></td>
+
+				<td><img src="no.png" /></td>
+				<td><b>open source</b></td>
+			</tr>
+			<tr class="b">
+				<td><b>SpiderOak</b></td>
+				<td><img src="no.png" /></td>
+				<td>partially</td>
+
+				<td><img src="yes.png" /></td>
+				<td><img src="no.png" /></td>
+				<td><img src="no.png" /></td>
+				<td>proprietary</td>
+			</tr>			
+			<tr class="s">
+				<td><b>Syncany</b></td>
+				<td><img src="yes.png" /></td>
+
+				<td><img src="yes.png" /></td>
+				<td><img src="yes.png" /></td>
+				<td><img src="yes.png" /></td>
+				<td><img src="yes.png" /></td>
+				<td><b>open source</b></td>
+			</tr>				
+			<tr class="b">
+				<td><b>Ubuntu One</b></td>
+
+				<td><img src="yes.png" /></td>
+				<td><img src="no.png" /></td>
+				<td><img src="no.png" /></td>
+				<td><img src="no.png" /></td>
+				<td><img src="no.png" /></td>
+				<td>proprietary (server)<br /><span style="white-space: nowrap">&amp; open source (client)</span></td>
+			</tr>				
+			<tr class="a">
+
+				<td><b>Wuala</b></td>
+				<td><img src="no.png" /></td>
+				<td><img src="yes.png" /></td>
+				<td><img src="yes.png" /></td>
+				<td><img src="no.png" /></td>
+				<td><img src="no.png" /></td>
+				<td>proprietary</td>
+			</tr>											
+		</table>
+
+				
+		<h2>Development</h2>
+	
+		<p>Syncany is open-source and needs helpers! You can check out the code on <a href="https://github.com/binwiederhier/syncany">Github</a> (previously on <a href="https://launchpad.net/syncany">Launchpad</a>).<br />		
+		If you are excited about Syncany, here's a few things you could do:</p>
+		
+		<ul>
+			<li>Sign up on the <a href="https://github.com/binwiederhier/syncany">Github and fork/star/follow the project</a> (mailing list still on Launchpad: <a href="https://launchpad.net/~syncany-team">developer mailing list</a>)</li>
+			<li>Check out the code using the instructions given in the <a href="https://github.com/binwiederhier/syncany/blob/master/README.md">README.md</a> file</li>
+			<li>Review my code and debug, debug, debug!</li>
+			<li>Write the Windows/Mac parts</li>
+			<li>Ask me! Contact details below.</li>
+		</ul>		
+		
+		<p>To test the current trunk version of Syncany, read the instructions in the <a href="https://github.com/binwiederhier/syncany/blob/master/README.md">README.md</a>
+		file.</p>
+		
+		
+		<h2>Activity on GitHub</h2>
+		
+		<ul id="github-widget" data-type="events" data-org="binwiederhier" data-repo="syncany" data-limit="5"></ul>			
+		<script type="text/javascript" src="jscss/github-widgets.js"></script> 
+		
+
+		<div id="contact">
+			<h2>Contact</h2>
+		
+			<p>We always need a hand :-)</p>
+
+			<p>
+				Philipp C. Heckel</a><br />
+				<span style="direction: rtl; text-align: left; unicode-bidi: bidi-override">moc.liamg@lekceh.ppilihp</span>
+			</p>
+
+			<ul>
+				<li><a href="https://github.com/binwiederhier/syncany">Code on Github</a></li>
+				<li><a href="https://launchpad.net/~syncany-team">Launchpad Team</a> (mailing list, active!)</li>
+				<li><a href="http://webchat.freenode.net/?channels=syncany">IRC channel #syncany on Freenode</a></li>
+				<li><a href="http://twitter.com/#!/syncany">@syncany on Twitter</a></li>				
+			</ul>
+		</div>
+			
+		<div id="donate">
+			<h2>Donate</h2>
+			
+			<p>I am developing Syncany in my spare time. I promise for every Euro I get, I'll buy lots of coffee and work around the clock so that I can make
+			a stable release ASAP.</p>
+		
+			<form id="donateform" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+				<input type="hidden" name="cmd" value="_s-xclick">
+				<input type="hidden" name="hosted_button_id" value="52P85DS96HKDG">
+				<input type="image" src="https://www.paypalobjects.com/WEBSCR-640-20110401-1/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+				<img alt="" border="0" src="https://www.paypalobjects.com/WEBSCR-640-20110401-1/de_DE/i/scr/pixel.gif" width="1" height="1">
+			</form>			
+		
+			<div id="flattr"><a class="FlattrButton" style="display:none;" rev="flattr;button:compact;" href="http://www.syncany.org"></a></div>
+			<br style="clear: both" />
+
+			<a href="bitcoin:1626wjrw3uWk9adyjCfYwafw4sQWujyjn8?amount=0.1&message=Syncany"><img src="bitcoin.png" /></a>
+						
+			<br style="clear: both" />&nbsp;<br />
+			Bitcoin Address (new since Mar '14): <br />
+			<a href="bitcoin:1626wjrw3uWk9adyjCfYwafw4sQWujyjn8?amount=0.1&message=Syncany"><b>1626wjrw3uWk9adyjCfYwafw4sQWujyjn8</b></a>
+		</div>
+		
+		<br style="clear: both" />
+	</div>
+	
+</body>
+</html>
+
+

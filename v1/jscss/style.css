@@ -1,0 +1,149 @@
+body {
+/*	background: url('bg.png') top left;*/
+	margin: 0;
+}
+
+*, body, h1, h2, p, li {
+	font-family: Arial, sans-serif;
+	line-height: 130%;
+	font-size: .98em;
+	color: #555;
+}
+
+h1, h2, h3 {
+	color: #e00;
+}
+
+h1 {
+	font-size: 1.5em;
+}
+
+h2 {
+	font-size: 1.2em;
+}		
+
+a {
+	color: #ee0000;
+}
+
+a:visited {
+	color: #aa0000;
+}
+
+#content {
+	width: 800px;
+	margin: 0 auto;
+	padding: 30px 20px 60px 20px;
+}
+
+.floating {
+	float: left;
+	margin: 0 25px 0 0;
+}		
+
+.clear {
+	clear: both;
+}
+
+#fancybox-title-over, #fancybox-title-over b {
+	color: white;
+}
+
+#compare {
+	border-spacing: 0;
+}
+
+#compare td, #compare th {
+	margin: 0;
+	padding: 5px;
+	text-align: center;	
+	font-size: 12px;
+}
+
+#compare th small {
+	font-size: 10px;
+}
+
+#compare th {
+	background-color: #ccc;
+}
+
+#compare tr.b {
+	background-color: #eee;
+}
+
+#compare tr.s {
+	background-color: #d00;
+}
+
+html body #compare tr.s td, html body #compare tr.s td b {
+	color: white;
+}
+
+
+/* CONTACT */
+
+#contact {
+	float: left;
+	width: 325px;
+	margin: 5px;
+}
+
+	#contact ul {
+		margin-top: 0;
+		padding: 0 0 0 15px;
+	}
+
+
+/* DONATE */
+
+#donate {
+	float: left;
+	width: 325px;
+	margin: 5px;
+}
+	
+	#donateform {
+		float: left;
+	}
+
+	#flattr {
+		float: left;
+		padding: 3px 0 0 6px;
+	}
+
+
+/* TWITTER */
+
+#twitter {
+	float: left;
+	width: 250px;
+}
+
+	.tweet {
+		font-size: 11px;
+		margin: 3px 0;
+		width: 240px;
+		padding: 8px;
+		-moz-border-radius: 8px;
+		-webkit-border-radius: 8px;
+	}
+	.tweet img {
+		float: left;
+		margin: 0 8px 4px 0;
+	}
+	.tweet .text {
+		margin: 0;
+	}
+	.tweet .time a {
+		font-size: 9px;
+		color: #888;
+		white-space: nowrap;
+		text-decoration: none;
+	}
+	.tweet .time a:hover {
+		text-decoration: underline;
+	}
+
+
+
