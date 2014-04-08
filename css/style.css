@@ -127,6 +127,10 @@ body {
 	font-weight: 300;
 	line-height: 1.4em;
 }
+.dark_bg a {
+	font-weight: 700;
+	color: #fff;
+}
 .da-link { /** NEW **/
 	background-color: #f33;
 	border-radius: 13px;
@@ -233,7 +237,7 @@ body {
 	border-radius: 100%;
 	position: fixed;
 	bottom: 13px;
-	right: 13px;
+	right: 16px;
 	overflow: hidden;
 	width: 44px;
 	height:44px;
@@ -282,6 +286,7 @@ body {
 	margin: 0 auto;
 	color: #fff;
 	text-align: center; /* (1) */
+	vertical-align: top;
 }
 
 .asciiprev {
