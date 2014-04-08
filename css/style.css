@@ -274,6 +274,10 @@ body {
 	padding-bottom: 1em;
 }
 
+.dark_bg p.noidea {
+	margin-bottom: 0;
+}
+
 /**
  * Centering ASCII previews as per
  * http://stackoverflow.com/questions/1269245/centering-floating-divs-within-another-div
