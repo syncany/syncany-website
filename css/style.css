@@ -127,10 +127,17 @@ body {
 	font-weight: 300;
 	line-height: 1.4em;
 }
-.dark_bg a {
+.dark_bg .faq a {
 	font-weight: 700;
 	color: #fff;
 }
+.dark_bg .faq a:hover {
+	color: #aaa;
+}
+.dark_bg .faq {
+	margin-bottom: 0;
+}
+
 .da-link { /** NEW **/
 	background-color: #f33;
 	border-radius: 13px;
@@ -274,9 +281,6 @@ body {
 	padding-bottom: 1em;
 }
 
-.dark_bg p.noidea {
-	margin-bottom: 0;
-}
 
 /**
  * Centering ASCII previews as per
