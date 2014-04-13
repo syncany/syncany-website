@@ -131,7 +131,22 @@
       }
     },
     "PullRequestReviewCommentEvent": {
-      name: "Pull Request Comment"
+      name: "Pull Request Comment",
+      render: function(event) {
+        var pull_request_description = "a pull request"
+
+        if (event.payload.comment.pull_request_url != 'undefined') {
+          var pull_request_number_match = event.payload.comment.pull_request_url.match(/pulls\/([0-9]+)$/);
+          
+          if (pull_request_number_match instanceof Array) {
+            pull_request_description = "Pull Request #" + pull_request_number_match[1];
+          }
+        }
+        
+        return {
+          sentence: " " + (user_link(event.actor.login)) + " commented on " + "\n            " + (link_to(event.payload.comment.html_url, pull_request_description)) + " in\n" + (repo_link(event.repo.name))
+        };
+      }
     },
     "PushEvent": {
       name: "Push",
