@@ -158,6 +158,14 @@
         };
       }
     },
+    "ReleaseEvent": {
+      name: "Release",
+      render: function(event) {
+        return {
+          sentence: " " + (user_link(event.actor.login)) + " released " + (link_to(event.payload.release.html_url, event.payload.release.name)) + " in\n" + (repo_link(event.repo.name))
+        };
+      }
+    },
     "TeamAddEvent": {
       name: "Team Added"
     },
@@ -175,7 +183,7 @@
     eventTypes: github_event_types,
     convert: function(event) {
       var converted, html;
-      if (github_event_types[event.type]["render"] != null) {
+      if (github_event_types[event.type] != null && github_event_types[event.type]["render"] != null) {
         converted = github_event_types[event.type]["render"](event);
       } else {
         converted = {
