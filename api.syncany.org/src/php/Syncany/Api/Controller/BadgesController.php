@@ -15,7 +15,9 @@ class BadgeController
     public function getLines(array $methodArgs, array $requestArgs)
     {
         $lines = $this->getLinesOfCode(self::FILE_LINES_OF_CODE);
-        return $this->getBadgeSvg("src code", $lines, self::COLOR_GREEN, " k");
+
+        $this->printBadgeSvg("src code", $lines, self::COLOR_GREEN, " k");
+        exit;
     }
 
     public function getTests(array $methodArgs, array $requestArgs)
@@ -23,7 +25,8 @@ class BadgeController
         $percentage = $this->getTestPercentage(self::FILE_TESTS);
         $color = ($percentage == 100) ? self::COLOR_GREEN : ($percentage > 90) ? self::COLOR_YELLOW : self::COLOR_RED;
 
-        return $this->getBadgeSvg("unit tests", $percentage, $color);
+        $this->printBadgeSvg("unit tests", $percentage, $color);
+        exit;
     }
 
     public function getCoverage(array $methodArgs, array $requestArgs)
@@ -31,7 +34,8 @@ class BadgeController
         $percentage = $this->getCoveragePercentage(self::FILE_COVERAGE);
         $color = ($percentage > 80) ? self::COLOR_GREEN : ($percentage > 70) ? self::COLOR_YELLOW : self::COLOR_RED;
 
-        return $this->getBadgeSvg("coverage", $percentage, $color);
+        $this->printBadgeSvg("coverage", $percentage, $color);
+        exit;
     }
 
     private function getLinesOfCode($clocXmlFile) {
@@ -88,7 +92,6 @@ class BadgeController
         return $coverage;
     }
 
-
     private function getCoveragePercentage($coverageXmlFile) {
         $coverage = -1;
 
@@ -117,7 +120,7 @@ class BadgeController
     }
 
 
-    private function getBadgeSvg($labelText, $percentage, $color, $suffix = "%")
+    private function printBadgeSvg($labelText, $percentage, $color, $suffix = "%")
     {
         $percentageText = $percentage < 0 ? "n/a" : intval($percentage) . $suffix;
 
@@ -132,7 +135,7 @@ class BadgeController
         // Dump SVG
         header('Content-type: image/svg+xml');
 
-        return <<<"EOD"
+        echo <<<EOD
 <svg xmlns="http://www.w3.org/2000/svg" width="90" height="18">
 <linearGradient id="a" x2="0" y2="100%">
     <stop offset="0" stop-color="#fff" stop-opacity=".7"/>
