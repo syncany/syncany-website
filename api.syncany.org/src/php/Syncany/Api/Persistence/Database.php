@@ -40,7 +40,7 @@ class Database
 		$configFile = CONFIG_PATH . "/database/" . $configContext . ".properties";
 
 		if (!file_exists($configFile)) {
-			throw new ConfigException("Config context file not found at $configFile.");
+			throw new ConfigException("Config file not found for context $configContext.");
 		}
 
 		return $configFile;
