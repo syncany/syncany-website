@@ -2,7 +2,7 @@
 
 namespace Syncany\Api\Controller;
 
-class BadgeController
+class BadgesController
 {
     const COLOR_GREEN = "#4c1";
     const COLOR_YELLOW = "#db2";
