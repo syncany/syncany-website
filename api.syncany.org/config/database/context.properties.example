@@ -1,0 +1,10 @@
+; Database configuration file.
+;
+; Can be used via Database::createInstance("context");
+; Naming convention: "<context>.properties"
+;
+; Do NOT add it to the version control system!
+
+dsn = mysql:host=localhost;port=3306;dbname=database-name
+user = database-username
+pass = database-password

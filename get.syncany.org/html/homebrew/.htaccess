@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteRule ^syncany.rb$ syncany.rb.php
+
