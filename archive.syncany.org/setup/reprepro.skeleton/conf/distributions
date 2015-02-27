@@ -1,0 +1,7 @@
+Origin: syncany
+Label: Syncany Snapshots
+Codename: snapshot
+Architectures: i386 amd64
+Components: main
+Description: Official Syncany Snapshot APT Repository
+SignWith: 651D12BD

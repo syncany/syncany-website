@@ -8,7 +8,8 @@ api.syncany.org/html/ping.php
 api.syncany.org/html/v1/
 api.syncany.org/html/v2/
 api.syncany.org/inc/
-archive.syncany.org/
+archive.syncany.org/html/apt/release
+archive.syncany.org/html/apt/snapshot
 dav.syncany.org/
 docs.syncany.org/html/javadoc/
 reports.syncany.org/html/cloc.xml

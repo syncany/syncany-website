@@ -1,0 +1,21 @@
+<h1>Official Syncany APT Repository</h1>
+
+<h2>1. Add the Syncany Public Key</h2>
+<tt>$ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys A3002F0613D342687D70AEEE3F6B7F13651D12BD</tt>
+
+<h2>2. Add APT Repository</h2>
+For <a href="apt/release">releases</a>:<br />
+<tt>$ sudo sh -c "echo deb http://archive.syncany.org/apt/release/ release main > /etc/apt/sources.list.d/syncany.list"</tt>
+
+<p>For <a href="apt/snapshot">snapshots</a> (daily, or more often; <i>things might break</i>):<br />
+<tt>$ sudo sh -c "echo deb http://archive.syncany.org/apt/snapshot/ snapshot main > /etc/apt/sources.list.d/syncany.list"</tt>
+
+<h2>3. Install Syncany</h2>
+<pre>
+$ sudo apt-get update
+$ sudo apt-get install syncany
+$ sudo apt-get install syncany-plugin-gui
+$ sudo apt-get install syncany-plugin-ftp
+$ sudo apt-get install syncany-plugin-webdav
+$ ...
+</pre>
