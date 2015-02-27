@@ -42,6 +42,7 @@ class BadgesController
         $lines = -1;
 
         $handle = @fopen($clocXmlFile, "r");
+
         if ($handle) {
             $bytecount = 0;
             $bytemax = 4096;
@@ -69,6 +70,7 @@ class BadgesController
         $coverage = -1;
 
         $handle = @fopen($testIndexHtmlFile, "r");
+
         if ($handle) {
             $bytecount = 0;
             $bytemax = 320000;
@@ -118,7 +120,6 @@ class BadgesController
 
         return $coverage;
     }
-
 
     private function printBadgeSvg($labelText, $percentage, $color, $suffix = "%")
     {

@@ -8,10 +8,10 @@ use Syncany\Api\Model\FileHandle as FileHandle;
 
 class FrontController
 {
-    protected $requestArgs = Array();
-    protected $method = '';
-    protected $object = '';
-    protected $verb = '';
+    private $requestArgs;
+    private $method;
+    private $object;
+    private $verb;
 
     public function dispatch($request)
     {
@@ -47,9 +47,9 @@ class FrontController
 
     private function getController()
     {
-        $controllerSimpleClassName = strtoupper(substr($this->object, 0, 1)) . substr($this->object, 1) . "Controller";
-        $controllerFullyQualifiedClassName = "\\" . __NAMESPACE__ . "\\" . $controllerSimpleClassName;
+        $controllerSimpleClassName = $this->getControllerClassName();
         $controllerFileName = dirname(__FILE__) . "/$controllerSimpleClassName.php";
+        $controllerFullyQualifiedClassName = "\\" . __NAMESPACE__ . "\\" . $controllerSimpleClassName;
 
         if (!file_exists($controllerFileName))
         {
@@ -62,8 +62,18 @@ class FrontController
             throw new ServerErrorHttpException("Cannot find controller class.");
         }
 
-        $controller = new $controllerFullyQualifiedClassName();
-        return $controller;
+        return new $controllerFullyQualifiedClassName();
+    }
+
+    private function getControllerClassName()
+    {
+        $controllerName = strtoupper(substr($this->object, 0, 1)) . substr($this->object, 1) . "Controller";
+
+        if (!preg_match('/^[a-z]+$/i', $controllerName)) {
+            throw new BadRequestHttpException("Illegal controller name.");
+        }
+
+        return $controllerName;
     }
 
     private function getControllerMethod($controller)
