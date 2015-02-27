@@ -42,12 +42,7 @@ class PluginsController
 
     public function put(array $methodArgs, array $requestArgs, FileHandle $fileHandle)
     {
-        return "plugin upload";
-    }
-
-    public function postAdd(array $methodArgs, array $requestArgs)
-    {
-        return "ok";
+        echo "TODO This is where we upload new plugins"; // TODO
     }
 
     private function getAppVersion(array $methodArgs)
