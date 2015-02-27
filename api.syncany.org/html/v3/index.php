@@ -9,13 +9,12 @@ function __autoload($class)
     include(LIB_PATH . '/' . str_replace('\\', '/', $class) . ".php");
 }
 
-use Syncany\Api\Controller\FrontController;
+use Syncany\Api\Dispatcher\RequestDispatcher;
 use Syncany\Api\Exception\Http\HttpException;
 use Syncany\Api\Exception\Http\ServerErrorHttpException;
 
 try {
-    $frontController = new FrontController();
-    $frontController->dispatch($_GET['request']);
+    RequestDispatcher::dispatch($_GET['request']);
 } catch (HttpException $e) {
     $e->sendErrorHeadersAndExit();
 } catch (Exception $e) {

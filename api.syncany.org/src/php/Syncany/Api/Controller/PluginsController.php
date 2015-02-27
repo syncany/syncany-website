@@ -10,7 +10,7 @@ use Syncany\Api\Model\FileHandle;
 use Syncany\Api\Model\Plugin;
 use Syncany\Api\Persistence\Database;
 
-class PluginsController
+class PluginsController extends Controller
 {
     const DOWNLOAD_BASE_URL = "https://www.syncany.org/dist/plugins/";
 
@@ -18,7 +18,7 @@ class PluginsController
     {
         // Check request params
         $appVersion = $this->getAppVersion($methodArgs);
-        $pluginId = $this->getPluginId($methodArgs);
+        $pluginId = $this->getPluginId($methodArgs, $requestArgs);
         $operatingSystem = $this->getOperatingSystem($methodArgs);
         $architecture = $this->getArchitecture($methodArgs);
         $includeSnapshots = $this->getIncludeSnapshot($methodArgs);
@@ -60,9 +60,17 @@ class PluginsController
         }
     }
 
-    private function getPluginId($methodArgs)
+    private function getPluginId($methodArgs, $requestArgs)
     {
-        return (isset($methodArgs['pluginId'])) ? $methodArgs['pluginId'] : false;
+        if (isset($methodArgs['pluginId'])) {
+            return $methodArgs['pluginId'];
+        }
+        else if (isset($requestArgs[0])) {
+            return $requestArgs[0];
+        }
+        else {
+            return false;
+        }
     }
 
     private function getIncludeSnapshot($methodArgs)

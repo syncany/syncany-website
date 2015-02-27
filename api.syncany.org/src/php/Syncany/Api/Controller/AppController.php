@@ -4,7 +4,7 @@ namespace Syncany\Api\Controller;
 
 use Syncany\Api\Model\FileHandle as FileHandle;
 
-class AppController
+class AppController extends Controller
 {
     public function putRelease(array $methodArgs, array $requestArgs, FileHandle $fileHandle)
     {

@@ -8,11 +8,12 @@ use Syncany\Api\Exception\Http\ServerErrorHttpException;
 use Syncany\Api\Model\ApplicationLink;
 use Syncany\Api\Persistence\Database;
 
-class LinksController {
+class LinksController extends Controller
+{
     public function get(array $methodArgs, array $requestArgs)
     {
         // Check params
-        $link = $this->getAndCheckShortLink($methodArgs);
+        $link = $this->getAndCheckShortLink($methodArgs, $requestArgs);
 
         // Get long link
         $statement = Database::prepareStatementFromResource("links-read", __NAMESPACE__, "links.select-link.sql");
@@ -63,17 +64,19 @@ class LinksController {
         exit;
     }
 
-    private function getAndCheckShortLink($methodArgs)
+    private function getAndCheckShortLink($methodArgs, $requestArgs)
     {
-        if (!isset($methodArgs['l'])) {
+        if (!isset($methodArgs['l']) && !isset($requestArgs[0])) {
             throw new BadRequestHttpException("No link provided");
         }
 
-        if (!preg_match('/^[a-z0-9]+$/i', $methodArgs['l'])) {
+        $shortLink = (isset($methodArgs['l'])) ? $methodArgs['l'] : $requestArgs[0];
+
+        if (!preg_match('/^[a-z0-9]+$/i', $shortLink)) {
             throw new BadRequestHttpException("Invalid link format");
         }
 
-        return $methodArgs['l'];
+        return $shortLink;
     }
 
     private function getAndCheckLongLink($methodArgs)
