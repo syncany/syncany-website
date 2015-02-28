@@ -1,5 +1,5 @@
 api.syncany.org/config/database/*.properties
-api.syncany.org/keys/*.properties
+api.syncany.org/config/keys/*.properties
 api.syncany.org/upload/*/*
 api.syncany.org/html/badge/
 api.syncany.org/html/donate-thanks.php
