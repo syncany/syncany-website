@@ -9,6 +9,7 @@ use Syncany\Api\Exception\Http\ServerErrorHttpException;
 use Syncany\Api\Model\FileHandle;
 use Syncany\Api\Model\Plugin;
 use Syncany\Api\Persistence\Database;
+use Syncany\Api\Util\FileUtil;
 
 class PluginsController extends Controller
 {
@@ -42,6 +43,16 @@ class PluginsController extends Controller
 
     public function put(array $methodArgs, array $requestArgs, FileHandle $fileHandle)
     {
+        $this->authenticate("plugins-put", $methodArgs, $requestArgs);
+
+        $pluginId = $this->getPluginId($methodArgs, $requestArgs);
+
+        if (!$pluginId) {
+            throw new BadRequestHttpException("Invalid request, no plugin identifier given");
+        }
+
+        $tempFile = FileUtil::saveToTemp("plugins/$pluginId", $fileHandle);
+
         echo "TODO This is where we upload new plugins"; // TODO
     }
 

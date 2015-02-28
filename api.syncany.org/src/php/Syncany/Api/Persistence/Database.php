@@ -9,8 +9,7 @@ class Database
 {
 	public static function createInstance($configContext)
 	{
-		$configFile = self::getConfigFile($configContext);
-		$config = self::readConfigFile($configFile);
+		$config = self::readConfigFile($configContext);
 
 		try {
 			return new \PDO($config['dsn'], $config['user'], $config['pass'], array());
@@ -27,28 +26,9 @@ class Database
 		return $database->prepare($sqlQuery);
 	}
 
-	private static function getConfigFile($configContext)
+	private static function readConfigFile($configName)
 	{
-		if (!defined('CONFIG_PATH')) {
-			throw new ConfigException("Config path not set via CONFIG_PATH.");
-		}
-
-		if (!preg_match('/^[-_a-z0-9]+$/', $configContext)) {
-			throw new ConfigException("Invalid config context passed. Illegal characters.");
-		}
-
-		$configFile = CONFIG_PATH . "/database/" . $configContext . ".properties";
-
-		if (!file_exists($configFile)) {
-			throw new ConfigException("Config file not found for context $configContext.");
-		}
-
-		return $configFile;
-	}
-
-	private static function readConfigFile($configFile)
-	{
-		$config = FileUtil::readPropertiesFile($configFile);
+		$config = FileUtil::readPropertiesFile("database", $configName);
 
 		if (!$config) {
 			throw new ConfigException("Invalid config file. Parsing failed.");

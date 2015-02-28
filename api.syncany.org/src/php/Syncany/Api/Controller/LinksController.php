@@ -7,6 +7,7 @@ use Syncany\Api\Exception\Http\NotFoundHttpException;
 use Syncany\Api\Exception\Http\ServerErrorHttpException;
 use Syncany\Api\Model\ApplicationLink;
 use Syncany\Api\Persistence\Database;
+use Syncany\Api\Util\StringUtil;
 
 class LinksController extends Controller
 {
@@ -49,7 +50,7 @@ class LinksController extends Controller
         $longLink = $this->getAndCheckLongLink($methodArgs);
 
         // Generate and insert short link
-        $shortLink = $this->generateRandomString(7);
+        $shortLink = StringUtil::generateRandomString(7);
 
         $statement = Database::prepareStatementFromResource("links-write", __NAMESPACE__, "links.insert-link.sql");
         $statement->bindValue(':shortLink', $shortLink, \PDO::PARAM_STR);
@@ -98,18 +99,6 @@ class LinksController extends Controller
         }
 
         return $methodArgs['l'];
-    }
-
-    function generateRandomString($length = 10)
-    {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $randomString = '';
-
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, strlen($characters) - 1)];
-        }
-
-        return $randomString;
     }
 
     private function printResponseXml($shortLink)

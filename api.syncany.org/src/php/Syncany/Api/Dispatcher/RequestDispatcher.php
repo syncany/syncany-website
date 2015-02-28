@@ -8,12 +8,11 @@ use Syncany\Api\Exception\Http\ServerErrorHttpException;
 
 class RequestDispatcher
 {
-    public static function dispatch($request)
+    public static function dispatch($method, $request)
     {
         $requestArgs = explode('/', rtrim($request, '/'));
         $object = array_shift($requestArgs);
         $verb = (count($requestArgs) > 0) ? $requestArgs[0] : false;
-        $method = $_SERVER['REQUEST_METHOD'];
 
         $controller = self::createController($object);
 
@@ -48,7 +47,7 @@ class RequestDispatcher
             throw new ServerErrorHttpException("Cannot find controller class.");
         }
 
-        return new $controllerFullyQualifiedClassName();
+        return new $controllerFullyQualifiedClassName($object);
     }
 
     private static function getControllerClassName($object)
