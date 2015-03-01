@@ -9,7 +9,7 @@ use Syncany\Api\Exception\Http\ServerErrorHttpException;
 use Syncany\Api\Model\FileHandle;
 use Syncany\Api\Model\Plugin;
 use Syncany\Api\Persistence\Database;
-use Syncany\Api\Task\PluginUploadTask;
+use Syncany\Api\Task\PluginJarUploadTask;
 
 class PluginsController extends Controller
 {
@@ -51,8 +51,24 @@ class PluginsController extends Controller
 
         $this->authenticate("plugins-put-$pluginId", $methodArgs, $requestArgs);
 
-        $uploadTask = new PluginUploadTask($pluginId, $fileHandle);
-        $uploadTask->execute();
+        $checksum = $this->getChecksum($methodArgs);
+        $fileName = $this->getFileName($methodArgs);
+        $snapshot = $this->getIsSnapshot($methodArgs);
+        $type = $this->getType($methodArgs);
+
+        switch ($type) {
+            case "jar":
+                $task = new PluginJarUploadTask($fileHandle, $fileName, $checksum, $snapshot, $pluginId);
+                break;
+
+            case "deb":
+            case "app.zip":
+            case "exe":
+            default:
+                throw new ServerErrorHttpException("Not yet supported.");
+        }
+
+        $task->execute();
     }
 
     private function getAppVersion(array $methodArgs)
@@ -84,6 +100,38 @@ class PluginsController extends Controller
         else {
             return false;
         }
+    }
+
+    private function getFileName($methodArgs)
+    {
+        if (!isset($methodArgs['filename']) || !preg_match('/^[-.+_a-z0-9]+$/i', $methodArgs['filename'])) {
+            throw new BadRequestHttpException("No or invalid filename argument given.");
+        }
+
+        return $methodArgs['filename'];
+    }
+
+    private function getChecksum($methodArgs)
+    {
+        if (!isset($methodArgs['checksum']) || !preg_match('/^[a-f0-9]+$/i', $methodArgs['checksum'])) {
+            throw new BadRequestHttpException("No or invalid checksum argument given.");
+        }
+
+        return $methodArgs['checksum'];
+    }
+
+    private function getType($methodArgs)
+    {
+        if (!isset($methodArgs['type']) || !in_array($methodArgs['type'], array("jar", "deb", "app.zip", "exe"))) {
+            throw new BadRequestHttpException("No or invalid type argument given.");
+        }
+
+        return $methodArgs['type'];
+    }
+
+    private function getIsSnapshot($methodArgs)
+    {
+        return isset($methodArgs['snapshot']) && $methodArgs['snapshot'] == "true";
     }
 
     private function getIncludeSnapshot($methodArgs)

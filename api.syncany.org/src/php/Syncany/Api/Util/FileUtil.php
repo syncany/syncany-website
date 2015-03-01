@@ -2,6 +2,7 @@
 
 namespace Syncany\Api\Util;
 
+use Syncany\Api\Config\Config;
 use Syncany\Api\Exception\ConfigException;
 use Syncany\Api\Model\FileHandle;
 use Syncany\Api\Model\TempFile;
@@ -11,10 +12,6 @@ class FileUtil
 	public static function readPropertiesFile($configContext, $configName)
 	{
 		$propertiesFile = self::getConfigFileName($configContext, $configName);
-
-		if (!file_exists($propertiesFile)) {
-			throw new ConfigException("Properties file does not exist.");
-		}
 
 		$properties = array();
 		$lines = explode("\n", file_get_contents($propertiesFile));
@@ -41,25 +38,6 @@ class FileUtil
 		}
 
 		return file_get_contents($absoluteFilePath);
-	}
-
-	private static function getConfigFileName($configContext, $configName)
-	{
-		if (!defined('CONFIG_PATH')) {
-			throw new ConfigException("Config path not set via CONFIG_PATH.");
-		}
-
-		if (!preg_match('/^[-_a-z0-9]+$/', $configContext) || !preg_match('/^[-_a-z0-9]+$/', $configName)) {
-			throw new ConfigException("Invalid config context passed. Illegal characters.");
-		}
-
-		$configFile = CONFIG_PATH . "/" . $configContext . "/" . $configName . ".properties";
-
-		if (!file_exists($configFile)) {
-			throw new ConfigException("Config file not found for context $configContext.");
-		}
-
-		return $configFile;
 	}
 
 	public static function createTempDir($uploadContext)
@@ -114,5 +92,76 @@ class FileUtil
 		}
 
 		return hash_file("sha256", $file->getFile());
+	}
+
+	public static function extractZipArchive(TempFile $tempFile, TempFile $tempDir)
+	{
+		$zip = new \ZipArchive();
+
+		if ($zip->open($tempFile->getFile()) === true) {
+			$zip->extractTo($tempDir->getFile() . "/");
+			$zip->close();
+		} else {
+			throw new ConfigException("Cannot extract ZIP archive.");
+		}
+	}
+
+	public static function readZipFileEntry($zipFileName, $searchEntryName)
+	{
+		$zip = zip_open($zipFileName);
+
+		if ($zip) {
+			while ($zipEntry = zip_read($zip)) {
+				$entryName = zip_entry_name($zipEntry);
+
+				if ($entryName == $searchEntryName) {
+					if (zip_entry_open($zip, $zipEntry, "r")) {
+						$searchFileContents = zip_entry_read($zipEntry, zip_entry_filesize($zipEntry));
+
+						zip_entry_close($zipEntry);
+						zip_close($zip);
+
+						return $searchFileContents;
+					}
+				}
+			}
+
+			zip_close($zip);
+		}
+
+		return false;
+	}
+
+	public static function parseJarManifest($manifestFileContents)
+	{
+		$manifest = array();
+		$lines = explode("\n", $manifestFileContents);
+
+		foreach ($lines as $line) {
+			if (preg_match('/^([^:]+):\s*(.*)$/', $line, $m)) {
+				$manifest[$m[1]] = trim($m[2]);
+			}
+		}
+
+		return $manifest;
+	}
+
+	private static function getConfigFileName($configContext, $configName)
+	{
+		if (!defined('CONFIG_PATH')) {
+			throw new ConfigException("Config path not set via CONFIG_PATH.");
+		}
+
+		if (!preg_match('/^[-_a-z0-9]+$/', $configContext) || !preg_match('/^[-_a-z0-9]+$/', $configName)) {
+			throw new ConfigException("Invalid config context passed. Illegal characters.");
+		}
+
+		$configFile = CONFIG_PATH . "/" . $configContext . "/" . $configName . ".properties";
+
+		if (!file_exists($configFile)) {
+			throw new ConfigException("Config file not found for context $configContext.");
+		}
+
+		return $configFile;
 	}
 }

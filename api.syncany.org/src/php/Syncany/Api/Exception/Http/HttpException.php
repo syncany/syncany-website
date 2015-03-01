@@ -25,7 +25,6 @@ abstract class HttpException extends ApiException {
     public function sendErrorHeadersAndExit()
     {
         header("HTTP/1.1 " . $this->getHeaderLine());
-        header("X-Syncany-Error-Type: " . get_class($this));
         header("X-Syncany-Error-Reason: " . $this->getReason());
 
         exit;

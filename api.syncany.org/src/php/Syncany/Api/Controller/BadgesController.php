@@ -2,19 +2,30 @@
 
 namespace Syncany\Api\Controller;
 
+use Syncany\Api\Config\Config;
+
 class BadgesController extends Controller
 {
     const COLOR_GREEN = "#4c1";
     const COLOR_YELLOW = "#db2";
     const COLOR_RED = "#f33";
 
-    const FILE_LINES_OF_CODE = "/silv/www/syncany.org/reports.syncany.org/html/cloc.xml";
-    const FILE_TESTS = "/silv/www/syncany.org/reports.syncany.org/html/tests/index.html";
-    const FILE_COVERAGE = "/silv/www/syncany.org/reports.syncany.org/html/coverage/coverage.xml";
+    private $fileLinesOfCode;
+    private $fileTests;
+    private $fileCoverage;
+
+    public function __construct($name)
+    {
+        parent::__construct($name);
+
+        $this->fileLinesOfCode = Config::get("paths.badges.lines");
+        $this->fileTests = Config::get("paths.badges.tests");
+        $this->fileCoverage = Config::get("paths.badges.coverage");
+    }
 
     public function getLines(array $methodArgs, array $requestArgs)
     {
-        $lines = $this->getLinesOfCode(self::FILE_LINES_OF_CODE);
+        $lines = $this->getLinesOfCode($this->fileLinesOfCode);
 
         $this->printBadgeSvg("src code", $lines, self::COLOR_GREEN, " k");
         exit;
@@ -22,7 +33,7 @@ class BadgesController extends Controller
 
     public function getTests(array $methodArgs, array $requestArgs)
     {
-        $percentage = $this->getTestPercentage(self::FILE_TESTS);
+        $percentage = $this->getTestPercentage($this->fileTests);
         $color = ($percentage == 100) ? self::COLOR_GREEN : ($percentage > 90) ? self::COLOR_YELLOW : self::COLOR_RED;
 
         $this->printBadgeSvg("unit tests", $percentage, $color);
@@ -31,7 +42,7 @@ class BadgesController extends Controller
 
     public function getCoverage(array $methodArgs, array $requestArgs)
     {
-        $percentage = $this->getCoveragePercentage(self::FILE_COVERAGE);
+        $percentage = $this->getCoveragePercentage($this->fileCoverage);
         $color = ($percentage > 80) ? self::COLOR_GREEN : ($percentage > 70) ? self::COLOR_YELLOW : self::COLOR_RED;
 
         $this->printBadgeSvg("coverage", $percentage, $color);

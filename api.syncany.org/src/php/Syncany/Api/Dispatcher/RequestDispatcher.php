@@ -4,24 +4,41 @@ namespace Syncany\Api\Dispatcher;
 
 use Syncany\Api\Controller\Controller;
 use Syncany\Api\Exception\Http\BadRequestHttpException;
+use Syncany\Api\Exception\Http\HttpException;
 use Syncany\Api\Exception\Http\ServerErrorHttpException;
 
 class RequestDispatcher
 {
-    public static function dispatch($method, $request)
+    public static function dispatch()
     {
-        $requestArgs = explode('/', rtrim($request, '/'));
-        $object = array_shift($requestArgs);
-        $verb = (count($requestArgs) > 0) ? $requestArgs[0] : false;
+        try {
+            if (!isset($_GET['request'])) {
+                throw new BadRequestHttpException("Invalid request, param 'request' missing");
+            }
 
-        $controller = self::createController($object);
+            $method = $_SERVER['REQUEST_METHOD'];
+            $request = $_GET['request'];
 
-        if ($verb && $controller->isCallable($method, $verb)) {
-            array_shift($requestArgs);
-            $controller->call($method, $verb, $requestArgs);
-        }
-        else {
-            $controller->call($method, "", $requestArgs);
+            unset($_GET['request']);
+
+            $requestArgs = explode('/', rtrim($request, '/'));
+            $object = array_shift($requestArgs);
+            $verb = (count($requestArgs) > 0) ? $requestArgs[0] : false;
+
+            $controller = self::createController($object);
+
+            if ($verb && $controller->isCallable($method, $verb)) {
+                array_shift($requestArgs);
+                $controller->call($method, $verb, $requestArgs);
+            }
+            else {
+                $controller->call($method, "", $requestArgs);
+            }
+        } catch (HttpException $e) {
+            $e->sendErrorHeadersAndExit();
+        } catch (\Exception $e) {
+            $wrappedError = new ServerErrorHttpException($e->getMessage());
+            $wrappedError->sendErrorHeadersAndExit();
         }
     }
 
