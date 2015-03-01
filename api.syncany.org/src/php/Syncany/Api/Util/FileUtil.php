@@ -4,6 +4,7 @@ namespace Syncany\Api\Util;
 
 use Syncany\Api\Exception\ConfigException;
 use Syncany\Api\Model\FileHandle;
+use Syncany\Api\Model\TempFile;
 
 class FileUtil
 {
@@ -61,7 +62,7 @@ class FileUtil
 		return $configFile;
 	}
 
-	public static function saveToTemp($uploadContext, FileHandle $file)
+	public static function createTempDir($uploadContext)
 	{
 		if (!defined('UPLOAD_PATH')) {
 			throw new ConfigException("Upload path not set via CONFIG_PATH.");
@@ -77,15 +78,41 @@ class FileUtil
 			throw new ConfigException("Cannot create upload directory");
 		}
 
-		$tempFileName = $tempDir . "/" . StringUtil::generateRandomString(5);
-		$tempFile = new FileHandle(fopen($tempFileName, "w"));
+		return new TempFile($tempDir);
+	}
 
-		while (!feof($file->getHandle())) {
-			$buffer = fread($file->getHandle(), 8192);
-			fwrite($tempFile->getHandle(), $buffer);
+	public static function writeToTempFile(FileHandle $sourceFileInputStream, TempFile $targetDir, $suffix = "")
+	{
+		if (!preg_match('/^[.a-z0-9]*$/i', $suffix)) {
+			throw new ConfigException("Invalid suffix passed. Illegal characters.");
 		}
 
-		fclose($file->getHandle());
-		fclose($tempFile->getHandle());
+
+		$tempFile = new TempFile($targetDir->getFile() . "/" . StringUtil::generateRandomString(5) . $suffix);
+		return self::writeToFile($sourceFileInputStream, $tempFile);
+	}
+
+	public static function writeToFile(FileHandle $sourceFileInputStream, TempFile $tempFile)
+	{
+		$tempFileHandle = new FileHandle(fopen($tempFile->getFile(), "w"));
+
+		while (!feof($sourceFileInputStream->getHandle())) {
+			$buffer = fread($sourceFileInputStream->getHandle(), 8192);
+			fwrite($tempFileHandle->getHandle(), $buffer);
+		}
+
+		fclose($sourceFileInputStream->getHandle());
+		fclose($tempFileHandle->getHandle());
+
+		return $tempFile;
+	}
+
+	public static function calculateChecksum(TempFile $file)
+	{
+		if (!file_exists($file->getFile())) {
+			throw new ConfigException("Cannot calculate checksum. File does not exist.");
+		}
+
+		return hash_file("sha256", $file->getFile());
 	}
 }

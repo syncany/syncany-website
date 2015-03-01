@@ -1,9 +1,9 @@
 <?php
 
-define('LIB_PATH', __DIR__ . "/../../src/php");
-define('RESOURCES_PATH', __DIR__ . "/../../src/resources");
-define('CONFIG_PATH', __DIR__ . "/../../config");
-define('UPLOAD_PATH', __DIR__ . "/../../upload");
+define('LIB_PATH', realpath(__DIR__ . "/../../src/php"));
+define('RESOURCES_PATH', realpath(__DIR__ . "/../../src/resources"));
+define('CONFIG_PATH', realpath(__DIR__ . "/../../config"));
+define('UPLOAD_PATH', realpath(__DIR__ . "/../../upload"));
 
 function __autoload($class)
 {

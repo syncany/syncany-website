@@ -2,6 +2,7 @@
 
 namespace Syncany\Api\Controller;
 
+use Syncany\Api\Exception\ApiException;
 use Syncany\Api\Exception\ConfigException;
 use Syncany\Api\Exception\Http\BadRequestHttpException;
 use Syncany\Api\Exception\Http\UnauthorizedHttpException;
@@ -14,14 +15,14 @@ abstract class Controller
      * Generic error message to avoid exposing the
      * exact error position.
      */
-    const ERR_INVALID_AUTH_PARAMS = "Invalid authentication credentials";
+    const ERR_INVALID_AUTH_PARAMS = "Authentication failed";
 
     /**
      * Number of seconds to allow for the client and server
      * time to deviate. This should be small, to prevent replay
      * attacks.
      */
-    const AUTH_REPLAY_RANGE = 120;
+    const REPLAY_RANGE = 180;
 
     private $name;
     private $method;
@@ -97,13 +98,18 @@ abstract class Controller
         $originalRequest = $this->getOriginalRequest($requestArgs);
 
         $protectedInput =
-            $this->method
+                    $this->method
             . ":" . $originalRequest
             . ":" . http_build_query($methodArgs)
             . ":" . $actualTime
             . ":" . $actualRandomValue;
 
-        $apiKey = $this->readApiKey($securityContext);
+        try {
+            $apiKey = $this->readApiKey($securityContext);
+        } catch (ApiException $e) {
+            throw new UnauthorizedHttpException(self::ERR_INVALID_AUTH_PARAMS);
+        }
+
         $expectedSignature = hash_hmac("sha256", $protectedInput, $apiKey);
 
         if ($expectedSignature != $actualSignature) {
@@ -131,7 +137,7 @@ abstract class Controller
         }
 
         $actualTime = intval($methodArgs['time']);
-        $timeInAllowedRange = $actualTime > time() - 5*60 && $actualTime < time() + 5*60; // Repeat attacks
+        $timeInAllowedRange = $actualTime > time() - self::REPLAY_RANGE && $actualTime < time() + self::REPLAY_RANGE; // Replay attacks
 
         if (!$timeInAllowedRange) {
             throw new UnauthorizedHttpException(self::ERR_INVALID_AUTH_PARAMS);

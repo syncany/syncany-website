@@ -9,7 +9,7 @@ use Syncany\Api\Exception\Http\ServerErrorHttpException;
 use Syncany\Api\Model\FileHandle;
 use Syncany\Api\Model\Plugin;
 use Syncany\Api\Persistence\Database;
-use Syncany\Api\Util\FileUtil;
+use Syncany\Api\Task\PluginUploadTask;
 
 class PluginsController extends Controller
 {
@@ -43,17 +43,16 @@ class PluginsController extends Controller
 
     public function put(array $methodArgs, array $requestArgs, FileHandle $fileHandle)
     {
-        $this->authenticate("plugins-put", $methodArgs, $requestArgs);
-
         $pluginId = $this->getPluginId($methodArgs, $requestArgs);
 
         if (!$pluginId) {
             throw new BadRequestHttpException("Invalid request, no plugin identifier given");
         }
 
-        $tempFile = FileUtil::saveToTemp("plugins/$pluginId", $fileHandle);
+        $this->authenticate("plugins-put-$pluginId", $methodArgs, $requestArgs);
 
-        echo "TODO This is where we upload new plugins"; // TODO
+        $uploadTask = new PluginUploadTask($pluginId, $fileHandle);
+        $uploadTask->execute();
     }
 
     private function getAppVersion(array $methodArgs)
@@ -73,11 +72,14 @@ class PluginsController extends Controller
 
     private function getPluginId($methodArgs, $requestArgs)
     {
-        if (isset($methodArgs['pluginId'])) {
-            return $methodArgs['pluginId'];
-        }
-        else if (isset($requestArgs[0])) {
-            return $requestArgs[0];
+        if (isset($methodArgs['pluginId']) || isset($requestArgs[0])) {
+            $pluginId = (isset($methodArgs['pluginId'])) ? $methodArgs['pluginId'] : $requestArgs[0];
+
+            if (!preg_match('/^[a-z0-9]+/i', $pluginId)) {
+                throw new BadRequestHttpException("Invalid request. Plugin identifier is invalid.");
+            }
+
+            return $pluginId;
         }
         else {
             return false;
