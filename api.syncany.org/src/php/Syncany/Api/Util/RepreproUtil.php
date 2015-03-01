@@ -10,9 +10,9 @@ use Syncany\Api\Model\TempFile;
 
 class RepreproUtil
 {
-	const REPREPRO_COMMAND_FORMAT = 'reprepro --basedir "{basedir}" --gnupghome "{gnupghome}" includedeb {codename} "{debfile}"';
+	const REPREPRO_COMMAND_FORMAT = 'reprepro --basedir "{basedir}/" --gnupghome "{gnupghome}" --component main includedeb {codename} "{debfile}"';
 
-	public static function call($codename, TempFile $debFile)
+	public static function includeDeb($codename, TempFile $debFile)
 	{
 		if ($codename != "snapshot" && $codename != "release") {
 			throw new ConfigException("Codename has to be 'release' or 'snapshot'");
@@ -36,5 +36,7 @@ class RepreproUtil
 		if ($exitCode != 0) {
 			throw new ServerErrorHttpException("Calling reprepro failed with exit code $exitCode.");
 		}
+
+		print_r($output);
 	}
 }

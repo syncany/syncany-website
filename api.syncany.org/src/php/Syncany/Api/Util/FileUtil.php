@@ -50,7 +50,7 @@ class FileUtil
 			throw new ConfigException("Invalid upload context passed. Illegal characters.");
 		}
 
-		$tempDir = UPLOAD_PATH . "/" . $uploadContext . "/" . time();
+		$tempDir = UPLOAD_PATH . "/" . $uploadContext . "/" . time() . "-" . StringUtil::generateRandomString(7);
 
 		if (!mkdir($tempDir, 0777, true)) {
 			throw new ConfigException("Cannot create upload directory");
@@ -163,5 +163,22 @@ class FileUtil
 		}
 
 		return $configFile;
+	}
+
+	public static function deleteTempDir(TempFile $tempDir)
+	{
+		$directoryIterator = new \RecursiveDirectoryIterator($tempDir->getFile(), \FilesystemIterator::SKIP_DOTS);
+		$iteratorIterator = new \RecursiveIteratorIterator($directoryIterator, \RecursiveIteratorIterator::CHILD_FIRST);
+
+		foreach ($iteratorIterator as $path) {
+			if ($path->isDir() && !$path->isLink()) {
+				rmdir($path->getPathname());
+			}
+			else {
+				unlink($path->getPathname());
+			}
+		}
+
+		rmdir($tempDir->getFile());
 	}
 }

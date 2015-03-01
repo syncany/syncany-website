@@ -1,5 +1,6 @@
 api.syncany.org/config/database/*.properties
 api.syncany.org/config/keys/*.properties
+api.syncany.org/config/keys/gnupg/
 api.syncany.org/upload/*/*
 api.syncany.org/html/badge/
 api.syncany.org/html/donate-thanks.php
@@ -10,13 +11,15 @@ api.syncany.org/html/ping.php
 api.syncany.org/html/v1/
 api.syncany.org/html/v2/
 api.syncany.org/inc/
-archive.syncany.org/html/apt/release/
-archive.syncany.org/html/apt/snapshot/
+get.syncany.org/html/apt/release/
+get.syncany.org/html/apt/snapshot/
+get.syncany.org/html/dist/*/*
 dav.syncany.org/
 docs.syncany.org/html/javadoc/
-get.syncany.org/html/dist/*/*
 reports.syncany.org/html/cloc.xml
 reports.syncany.org/html/coverage/
 reports.syncany.org/html/tests/
 upload.syncany.org/
 syncany.org/html/dist/
+archive.syncany.org/html/apt/release/
+archive.syncany.org/html/apt/snapshot/

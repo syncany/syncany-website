@@ -6,12 +6,12 @@ use Syncany\Api\Model\FileHandle as FileHandle;
 
 class AppController extends Controller
 {
-    public function putRelease(array $methodArgs, array $requestArgs, FileHandle $fileHandle)
+    public function put(array $methodArgs, array $requestArgs, FileHandle $fileHandle)
     {
         print_r($fileHandle->getHandle());
     }
 
-    public function putSnapshot(array $methodArgs, array $requestArgs, FileHandle $fileHandle)
+    public function putDocs(array $methodArgs, array $requestArgs, FileHandle $fileHandle)
     {
         print_r($fileHandle->getHandle());
     }

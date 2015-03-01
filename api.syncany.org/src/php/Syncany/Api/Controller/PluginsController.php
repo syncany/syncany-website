@@ -4,18 +4,19 @@ namespace Syncany\Api\Controller;
 
 use Naneau\SemVer\Compare;
 use Naneau\SemVer\Parser;
+use Syncany\Api\Config\Config;
 use Syncany\Api\Exception\Http\BadRequestHttpException;
 use Syncany\Api\Exception\Http\ServerErrorHttpException;
 use Syncany\Api\Model\FileHandle;
 use Syncany\Api\Model\Plugin;
 use Syncany\Api\Persistence\Database;
-use Syncany\Api\Task\PluginDebUploadTask;
-use Syncany\Api\Task\PluginJarUploadTask;
+use Syncany\Api\Task\AppZipPluginUploadTask;
+use Syncany\Api\Task\DebPluginUploadTask;
+use Syncany\Api\Task\ExePluginUploadTask;
+use Syncany\Api\Task\JarPluginUploadTask;
 
 class PluginsController extends Controller
 {
-    const DOWNLOAD_BASE_URL = "https://www.syncany.org/dist/plugins/";
-
     public function get(array $methodArgs, array $requestArgs)
     {
         // Check request params
@@ -55,21 +56,29 @@ class PluginsController extends Controller
         $checksum = $this->getChecksum($methodArgs);
         $fileName = $this->getFileName($methodArgs);
         $snapshot = $this->getIsSnapshot($methodArgs);
+        $os = $this->getOperatingSystem($methodArgs);
+        $arch = $this->getArchitecture($methodArgs);
         $type = $this->getType($methodArgs);
 
         switch ($type) {
             case "jar":
-                $task = new PluginJarUploadTask($fileHandle, $fileName, $checksum, $snapshot, $pluginId);
+                $task = new JarPluginUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
                 break;
 
             case "deb":
-                $task = new PluginDebUploadTask($fileHandle, $fileName, $checksum, $snapshot, $pluginId);
+                $task = new DebPluginUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
                 break;
 
             case "app.zip":
+                $task = new AppZipPluginUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
+                break;
+
             case "exe":
+                $task = new ExePluginUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
+                break;
+
             default:
-                throw new ServerErrorHttpException("Not yet supported.");
+                throw new ServerErrorHttpException("Type not supported.");
         }
 
         $task->execute();
@@ -240,6 +249,8 @@ class PluginsController extends Controller
     }
 
     private function printResponseXml($code, $message, $plugins) {
+        $downloadBaseUrl = Config::get("plugins.base-url");
+
         header("Content-Type: application/xml");
 
         echo "<?xml version=\"1.0\"?>\n";
@@ -249,7 +260,7 @@ class PluginsController extends Controller
         echo "	<plugins>\n";
 
         foreach ($plugins as $plugin) {
-            $downloadUrl = self::DOWNLOAD_BASE_URL . $plugin->getFilenameFull();
+            $downloadUrl = $downloadBaseUrl . $plugin->getFilenameFull();
 
             echo "		<pluginInfo>\n";
             echo "			<pluginId>{$plugin->getId()}</pluginId>\n";

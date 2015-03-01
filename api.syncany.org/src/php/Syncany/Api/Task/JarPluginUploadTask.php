@@ -2,27 +2,16 @@
 
 namespace Syncany\Api\Task;
 
-use Syncany\Api\Config\Config;
 use Syncany\Api\Exception\Http\BadRequestHttpException;
 use Syncany\Api\Exception\Http\ServerErrorHttpException;
-use Syncany\Api\Model\FileHandle;
 use Syncany\Api\Model\TempFile;
 use Syncany\Api\Persistence\Database;
 use Syncany\Api\Util\FileUtil;
+use Syncany\Api\Util\StringUtil;
 
-class PluginJarUploadTask extends UploadTask
+class JarPluginUploadTask extends PluginUploadTask
 {
-	private $pathPluginDist;
-	private $pluginId;
 	private $manifest;
-
-	public function __construct(FileHandle $fileHandle, $fileName, $checksum, $snapshot, $pluginId)
-	{
-		parent::__construct($fileHandle, $fileName, $checksum, $snapshot);
-
-		$this->pathPluginDist = Config::get("paths.plugindist");
-		$this->pluginId = $pluginId;
-	}
 
 	public function execute()
 	{
@@ -36,8 +25,10 @@ class PluginJarUploadTask extends UploadTask
 
 		$targetFile = $this->moveFile($tempFile);
 
-		$this->createSymlinks($targetFile);
+		$this->createLatestLink($targetFile);
 		$this->addDatabaseEntry($targetFile);
+
+		FileUtil::deleteTempDir($tempDir);
 	}
 
 	private function readManifest(TempFile $tempFile)
@@ -66,75 +57,18 @@ class PluginJarUploadTask extends UploadTask
 		}
 	}
 
-	private function moveFile(TempFile $tempFile)
+	protected function getLatestLinkBasename()
 	{
-		$pluginTargetFolder = $this->getTargetFolder();
-		$pluginTargetJarFile = $pluginTargetFolder . "/" . basename($this->fileName);
+		$snapshotSuffix = ($this->snapshot) ? "-snapshot" : "";
+		$osSuffix = (isset($this->os) && $this->os != "" && $this->os != "all") ? "-" . $this->os : "";
+		$archSuffix = (isset($this->arch) && $this->arch != "" && $this->arch != "all") ? "-" . $this->arch : "";
 
-		if (!file_exists($pluginTargetFolder)) {
-			if (!mkdir($pluginTargetFolder, 0755, true)) {
-				throw new ServerErrorHttpException("Cannot create target plugin folder");
-			}
-		}
-
-		if (!is_writable($pluginTargetFolder)) {
-			throw new ServerErrorHttpException("Cannot write to target plugin folder");
-		}
-
-		if (!rename($tempFile->getFile(), $pluginTargetJarFile)) {
-			throw new ServerErrorHttpException("Cannot move JAR file");
-		}
-
-		return $pluginTargetJarFile;
-	}
-
-	private function createSymlinks($targetFile)
-	{
-		if (isset($this->manifest['Plugin-Operating-System'])
-			&& $this->manifest['Plugin-Operating-System'] != "all"
-			&& $this->manifest['Plugin-Operating-System'] != "") {
-
-			$targetLinkNameOperatingSystemSuffix = "-" . $this->manifest['Plugin-Operating-System'];
-		}
-		else {
-			$targetLinkNameOperatingSystemSuffix = "";
-		}
-
-		if (isset($this->manifest['Plugin-Architecture'])
-			&& $this->manifest['Plugin-Architecture'] != "all"
-			&& $this->manifest['Plugin-Architecture'] != "") {
-
-			$targetLinkNameArchitectureSuffix = "-" . $this->manifest['Plugin-Architecture'];
-		}
-		else {
-			$targetLinkNameArchitectureSuffix = "";
-		}
-
-		if ($this->snapshot) {
-			$targetLinkBasename = "syncany-plugin-" . $this->pluginId . "-latest-snapshot" . $targetLinkNameOperatingSystemSuffix . $targetLinkNameArchitectureSuffix . ".jar";
-		}
-		else {
-			$targetLinkBasename = "syncany-plugin-" . $this->pluginId . "-latest" . $targetLinkNameOperatingSystemSuffix . $targetLinkNameArchitectureSuffix . ".jar";
-		}
-
-		$pluginTargetFolder = $this->getTargetFolder();
-
-		$targetLinkFile = $pluginTargetFolder . "/" . $targetLinkBasename;
-		$targetFileBasename = basename($targetFile);
-
-		@unlink($targetLinkFile);
-
-		if (!symlink($targetFileBasename, $targetLinkFile)) {
-			throw new ServerErrorHttpException("Cannot create symlink");
-		}
-	}
-
-	private function getTargetFolder()
-	{
-		$pluginTargetSubFolder = ($this->snapshot) ? "snapshots" : "releases";
-		$pluginTargetFolder = $this->pathPluginDist . "/" . $pluginTargetSubFolder . "/" . $this->pluginId;
-
-		return $pluginTargetFolder;
+		return StringUtil::replace("syncany-plugin-latest{snapshot}-{id}{os}{arch}.jar", array(
+			"id" => $this->pluginId,
+			"snapshot" => $snapshotSuffix,
+			"os" => $osSuffix,
+			"arch" => $archSuffix,
+		));
 	}
 
 	private function addDatabaseEntry($targetFile)
