@@ -118,11 +118,13 @@ class PluginJarUploadTask extends UploadTask
 		}
 
 		$pluginTargetFolder = $this->getTargetFolder();
+
 		$targetLinkFile = $pluginTargetFolder . "/" . $targetLinkBasename;
+		$targetFileBasename = basename($targetFile);
 
 		@unlink($targetLinkFile);
 
-		if (!symlink($targetFile, $targetLinkFile)) {
+		if (!symlink($targetFileBasename, $targetLinkFile)) {
 			throw new ServerErrorHttpException("Cannot create symlink");
 		}
 	}

@@ -12,13 +12,13 @@ if (!LIB_PATH || !RESOURCES_PATH || !CONFIG_PATH || !UPLOAD_PATH) {
     exit;
 }
 
-function __autoload($class)
-{
-    require_once(LIB_PATH . '/' . str_replace('\\', '/', $class) . ".php");
-}
-
 use Syncany\Api\Config\Config;
 use Syncany\Api\Dispatcher\RequestDispatcher;
 
 Config::load();
 RequestDispatcher::dispatch();
+
+function __autoload($class)
+{
+    require_once(LIB_PATH . '/' . str_replace('\\', '/', $class) . ".php");
+}

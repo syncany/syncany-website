@@ -9,6 +9,7 @@ use Syncany\Api\Exception\Http\ServerErrorHttpException;
 use Syncany\Api\Model\FileHandle;
 use Syncany\Api\Model\Plugin;
 use Syncany\Api\Persistence\Database;
+use Syncany\Api\Task\PluginDebUploadTask;
 use Syncany\Api\Task\PluginJarUploadTask;
 
 class PluginsController extends Controller
@@ -62,6 +63,9 @@ class PluginsController extends Controller
                 break;
 
             case "deb":
+                $task = new PluginDebUploadTask($fileHandle, $fileName, $checksum, $snapshot, $pluginId);
+                break;
+
             case "app.zip":
             case "exe":
             default:
@@ -104,7 +108,7 @@ class PluginsController extends Controller
 
     private function getFileName($methodArgs)
     {
-        if (!isset($methodArgs['filename']) || !preg_match('/^[-.+_a-z0-9]+$/i', $methodArgs['filename'])) {
+        if (!isset($methodArgs['filename']) || !preg_match('/^[-.+_~a-z0-9]+$/i', $methodArgs['filename'])) {
             throw new BadRequestHttpException("No or invalid filename argument given.");
         }
 
