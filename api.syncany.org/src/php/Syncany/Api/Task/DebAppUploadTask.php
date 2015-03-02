@@ -7,11 +7,11 @@ use Syncany\Api\Util\FileUtil;
 use Syncany\Api\Util\RepreproUtil;
 use Syncany\Api\Util\StringUtil;
 
-class DebPluginUploadTask extends PluginUploadTask
+class DebAppUploadTask extends AppUploadTask
 {
 	public function execute()
 	{
-		$tempDirContext = "plugins/" . $this->pluginId . "/deb";
+		$tempDirContext = "app/deb";
 
 		$tempDir = FileUtil::createTempDir($tempDirContext);
 		$tempFile = FileUtil::writeToTempFile($this->fileHandle, $tempDir, ".deb");
@@ -34,12 +34,9 @@ class DebPluginUploadTask extends PluginUploadTask
 	protected function getLatestLinkBasename()
 	{
 		$snapshotSuffix = ($this->snapshot) ? "-snapshot" : "";
-		$archSuffix = (!isset($this->arch)) ? "" : ($this->arch == "x86") ? "-i386" : "-amd64";
 
-		return StringUtil::replace("syncany-plugin-latest{snapshot}-{id}{arch}.deb", array(
-			"id" => $this->pluginId,
-			"snapshot" => $snapshotSuffix,
-			"arch" => $archSuffix,
+		return StringUtil::replace("syncany-latest{snapshot}.deb", array(
+			"snapshot" => $snapshotSuffix
 		));
 	}
 }

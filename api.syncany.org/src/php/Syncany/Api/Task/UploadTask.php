@@ -47,24 +47,24 @@ abstract class UploadTask
 
 	protected function moveFile(TempFile $tempFile)
 	{
-		$pluginTargetFolder = $this->getTargetFolder();
-		$pluginTargetFile = $this->getTargetFile();
+		$targetFolder = $this->getTargetFolder();
+		$targetFile = $this->getTargetFile();
 
-		if (!file_exists($pluginTargetFolder)) {
-			if (!mkdir($pluginTargetFolder, 0755, true)) {
+		if (!file_exists($targetFolder) || !is_dir($targetFolder)) {
+			if (!mkdir($targetFolder, 0755, true)) {
 				throw new ServerErrorHttpException("Cannot create target folder");
 			}
 		}
 
-		if (!is_writable($pluginTargetFolder)) {
+		if (!is_writable($targetFolder)) {
 			throw new ServerErrorHttpException("Cannot write to target folder");
 		}
 
-		if (!rename($tempFile->getFile(), $pluginTargetFile)) {
+		if (!rename($tempFile->getFile(), $targetFile)) {
 			throw new ServerErrorHttpException("Cannot move temp file to target file");
 		}
 
-		return $pluginTargetFile;
+		return $targetFile;
 	}
 
 }

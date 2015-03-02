@@ -21,11 +21,11 @@ class PluginsController extends Controller
     public function get(array $methodArgs, array $requestArgs)
     {
         // Check request params
-        $appVersion = $this->getAppVersion($methodArgs);
-        $pluginId = $this->getPluginId($methodArgs, $requestArgs);
-        $operatingSystem = $this->getOperatingSystem($methodArgs);
-        $architecture = $this->getArchitecture($methodArgs);
-        $includeSnapshots = $this->getIncludeSnapshot($methodArgs);
+        $appVersion = ControllerHelper::validateAppVersion($methodArgs);
+        $pluginId = ControllerHelper::validatePluginId($methodArgs, $requestArgs);
+        $operatingSystem = ControllerHelper::validateOperatingSystem($methodArgs);
+        $architecture = ControllerHelper::validateArchitecture($methodArgs);
+        $includeSnapshots = ControllerHelper::validateWithSnapshots($methodArgs);
 
         // Get data
         $plugins = ($pluginId)
@@ -46,7 +46,7 @@ class PluginsController extends Controller
 
     public function put(array $methodArgs, array $requestArgs, FileHandle $fileHandle)
     {
-        $pluginId = $this->getPluginId($methodArgs, $requestArgs);
+        $pluginId = $this->validatePluginId($methodArgs, $requestArgs);
 
         if (!$pluginId) {
             throw new BadRequestHttpException("Invalid request, no plugin identifier given");
@@ -55,12 +55,13 @@ class PluginsController extends Controller
         Log::info(__CLASS__, "Put request for plugin $pluginId received. Authenticating ...");
         $this->authenticate("plugins-put-$pluginId", $methodArgs, $requestArgs);
 
-        $checksum = $this->getChecksum($methodArgs);
-        $fileName = $this->getFileName($methodArgs);
-        $snapshot = $this->getIsSnapshot($methodArgs);
-        $os = $this->getOperatingSystem($methodArgs);
-        $arch = $this->getArchitecture($methodArgs);
-        $type = $this->getType($methodArgs);
+        $checksum = ControllerHelper::validateChecksum($methodArgs);
+        $fileName = ControllerHelper::validateFileName($methodArgs);
+        $snapshot = ControllerHelper::validateIsSnapshot($methodArgs);
+        $os = ControllerHelper::validateOperatingSystem($methodArgs);
+        $arch = ControllerHelper::validateArchitecture($methodArgs);
+
+        $type = $this->validateType($methodArgs);
 
         switch ($type) {
             case "jar":
@@ -86,22 +87,16 @@ class PluginsController extends Controller
         $task->execute();
     }
 
-    private function getAppVersion(array $methodArgs)
+    private function validateType($methodArgs)
     {
-        if (!isset($methodArgs['appVersion'])) {
-            throw new BadRequestHttpException("Invalid request. appVersion is required.");
+        if (!isset($methodArgs['type']) || !in_array($methodArgs['type'], array("jar", "deb", "app.zip", "exe"))) {
+            throw new BadRequestHttpException("No or invalid type argument given.");
         }
 
-        try {
-            $givenAppVersion = $methodArgs['appVersion'];
-            return Parser::parse($givenAppVersion);
-        }
-        catch (\Exception $e) {
-            throw new BadRequestHttpException("Invalid request. appVersion is invalid.");
-        }
+        return $methodArgs['type'];
     }
 
-    private function getPluginId($methodArgs, $requestArgs)
+    private function validatePluginId($methodArgs, $requestArgs)
     {
         if (isset($methodArgs['pluginId']) || isset($requestArgs[0])) {
             $pluginId = (isset($methodArgs['pluginId'])) ? $methodArgs['pluginId'] : $requestArgs[0];
@@ -111,70 +106,9 @@ class PluginsController extends Controller
             }
 
             return $pluginId;
-        }
-        else {
+        } else {
             return false;
         }
-    }
-
-    private function getFileName($methodArgs)
-    {
-        if (!isset($methodArgs['filename']) || !preg_match('/^[-.+_~a-z0-9]+$/i', $methodArgs['filename'])) {
-            throw new BadRequestHttpException("No or invalid filename argument given.");
-        }
-
-        return $methodArgs['filename'];
-    }
-
-    private function getChecksum($methodArgs)
-    {
-        if (!isset($methodArgs['checksum']) || !preg_match('/^[a-f0-9]+$/i', $methodArgs['checksum'])) {
-            throw new BadRequestHttpException("No or invalid checksum argument given.");
-        }
-
-        return $methodArgs['checksum'];
-    }
-
-    private function getType($methodArgs)
-    {
-        if (!isset($methodArgs['type']) || !in_array($methodArgs['type'], array("jar", "deb", "app.zip", "exe"))) {
-            throw new BadRequestHttpException("No or invalid type argument given.");
-        }
-
-        return $methodArgs['type'];
-    }
-
-    private function getIsSnapshot($methodArgs)
-    {
-        return isset($methodArgs['snapshot']) && $methodArgs['snapshot'] == "true";
-    }
-
-    private function getIncludeSnapshot($methodArgs)
-    {
-        return isset($methodArgs['snapshots']) && $methodArgs['snapshots'] == "true";
-    }
-
-    private function getOperatingSystem($methodArgs)
-    {
-        $os = (isset($methodArgs['os'])) ? $methodArgs['os'] : "all";
-        $os = ($os == "mac") ? "macosx" : $os; // Hack for Mac OSX
-
-        if (!in_array($os, array("all", "linux", "windows", "macosx"))) {
-            throw new BadRequestHttpException("Invalid request. Operating System (os) invalid.");
-        }
-
-        return $os;
-    }
-
-    private function getArchitecture($methodArgs)
-    {
-        $arch = (isset($methodArgs['arch'])) ? $methodArgs['arch'] : "all";
-
-        if (!in_array($arch, array("all", "x86", "x86_64"))) {
-            throw new BadRequestHttpException("Invalid request. Architecture (arch) invalid.");
-        }
-
-        return $arch;
     }
 
     private function queryWithPluginId($pluginId, $operatingSystem, $architecture, $includeSnapshots)
