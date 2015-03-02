@@ -31,12 +31,16 @@ class RepreproUtil
 		$output = array();
 		$exitCode = -1;
 
+		Log::info(__CLASS__, "Calling reprepro with command: $command");
 		exec($command, $output, $exitCode);
+
+		Log::info(__CLASS__, "Exit code = {code}, command output: {output}", array(
+			"code" => $exitCode,
+			"output" => join("\n", $output)
+		));
 
 		if ($exitCode != 0) {
 			throw new ServerErrorHttpException("Calling reprepro failed with exit code $exitCode.");
 		}
-
-		print_r($output);
 	}
 }

@@ -12,7 +12,8 @@ class AppZipPluginUploadTask extends PluginUploadTask
 	{
 		$this->validatePluginId();
 
-		$tempDirContext = "plugins/" . $this->pluginId . "/app.zip";
+		$tempDirContext = "plugins/" . $this->pluginId . "/appzip";
+
 		$tempDir = FileUtil::createTempDir($tempDirContext);
 		$tempFile = FileUtil::writeToTempFile($this->fileHandle, $tempDir, ".app.zip");
 

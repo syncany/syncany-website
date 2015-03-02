@@ -14,6 +14,7 @@ use Syncany\Api\Task\AppZipPluginUploadTask;
 use Syncany\Api\Task\DebPluginUploadTask;
 use Syncany\Api\Task\ExePluginUploadTask;
 use Syncany\Api\Task\JarPluginUploadTask;
+use Syncany\Api\Util\Log;
 
 class PluginsController extends Controller
 {
@@ -51,6 +52,7 @@ class PluginsController extends Controller
             throw new BadRequestHttpException("Invalid request, no plugin identifier given");
         }
 
+        Log::info(__CLASS__, "Put request for plugin $pluginId received. Authenticating ...");
         $this->authenticate("plugins-put-$pluginId", $methodArgs, $requestArgs);
 
         $checksum = $this->getChecksum($methodArgs);

@@ -6,6 +6,7 @@ use Syncany\Api\Controller\Controller;
 use Syncany\Api\Exception\Http\BadRequestHttpException;
 use Syncany\Api\Exception\Http\HttpException;
 use Syncany\Api\Exception\Http\ServerErrorHttpException;
+use Syncany\Api\Util\Log;
 
 class RequestDispatcher
 {
@@ -25,6 +26,8 @@ class RequestDispatcher
             $object = array_shift($requestArgs);
             $verb = (count($requestArgs) > 0) ? $requestArgs[0] : false;
 
+            Log::info(__CLASS__, "$method $request");
+
             $controller = self::createController($object);
 
             if ($verb && $controller->isCallable($method, $verb)) {
@@ -35,8 +38,11 @@ class RequestDispatcher
                 $controller->call($method, "", $requestArgs);
             }
         } catch (HttpException $e) {
+            Log::error(__CLASS__, $e->getMessage());
             $e->sendErrorHeadersAndExit();
         } catch (\Exception $e) {
+            Log::error(__CLASS__, $e->getMessage());
+
             $wrappedError = new ServerErrorHttpException($e->getMessage());
             $wrappedError->sendErrorHeadersAndExit();
         }

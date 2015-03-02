@@ -2,6 +2,7 @@ api.syncany.org/config/database/*.properties
 api.syncany.org/config/keys/*.properties
 api.syncany.org/config/keys/gnupg/
 api.syncany.org/upload/*/*
+api.syncany.org/log/*.log
 api.syncany.org/html/badge/
 api.syncany.org/html/donate-thanks.php
 api.syncany.org/html/ipaddr.php

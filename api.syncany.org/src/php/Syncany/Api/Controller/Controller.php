@@ -8,6 +8,7 @@ use Syncany\Api\Exception\Http\BadRequestHttpException;
 use Syncany\Api\Exception\Http\UnauthorizedHttpException;
 use Syncany\Api\Model\FileHandle;
 use Syncany\Api\Util\FileUtil;
+use Syncany\Api\Util\Log;
 
 abstract class Controller
 {
@@ -104,6 +105,8 @@ abstract class Controller
             . ":" . $actualTime
             . ":" . $actualRandomValue;
 
+        Log::debug(__CLASS__, "Protected input is $protectedInput");
+
         try {
             $apiKey = $this->readApiKey($securityContext);
         } catch (ApiException $e) {
@@ -113,8 +116,11 @@ abstract class Controller
         $expectedSignature = hash_hmac("sha256", $protectedInput, $apiKey);
 
         if ($expectedSignature != $actualSignature) {
+            Log::error(__CLASS__, "Given signature does not match expected signature.");
             throw new UnauthorizedHttpException(self::ERR_INVALID_AUTH_PARAMS);
         }
+
+        Log::info(__CLASS__, "Authentication successful.");
     }
 
     private function readApiKey($securityContext)
@@ -130,9 +136,12 @@ abstract class Controller
 
     private function validateTimeRandAndSignature($methodArgs)
     {
+        Log::debug(__CLASS__, "Validating time, rand and signature parameter ...");
+
         if (!isset($methodArgs['signature']) || !isset($methodArgs['time']) || !isset($methodArgs['rand'])
             || !is_numeric($methodArgs['time'])) {
 
+            Log::warning(__CLASS__, "Invalid signature, time or rand value while.");
             throw new UnauthorizedHttpException(self::ERR_INVALID_AUTH_PARAMS);
         }
 
@@ -140,6 +149,7 @@ abstract class Controller
         $timeInAllowedRange = $actualTime > time() - self::REPLAY_RANGE && $actualTime < time() + self::REPLAY_RANGE; // Replay attacks
 
         if (!$timeInAllowedRange) {
+            Log::warning(__CLASS__, "Time not in allowed range.");
             throw new UnauthorizedHttpException(self::ERR_INVALID_AUTH_PARAMS);
         }
     }
