@@ -33,8 +33,14 @@ abstract class UploadTask
 	}
 
 	public abstract function execute();
-	protected abstract function getTargetFolder();
+
 	protected abstract function getTargetFile();
+	protected abstract function getLatestLinkBasename();
+
+	protected function getTargetFolder()
+	{
+		return dirname($this->getTargetFile());
+	}
 
 	protected function validateChecksum(TempFile $tempFile)
 	{
@@ -67,4 +73,18 @@ abstract class UploadTask
 		return $targetFile;
 	}
 
+	protected function createLatestLink($targetFile)
+	{
+		$targetLinkBasename = $this->getLatestLinkBasename();
+		$pluginTargetFolder = $this->getTargetFolder();
+
+		$targetLinkFile = $pluginTargetFolder . "/" . $targetLinkBasename;
+		$targetFileBasename = basename($targetFile);
+
+		@unlink($targetLinkFile);
+
+		if (!symlink($targetFileBasename, $targetLinkFile)) {
+			throw new ServerErrorHttpException("Cannot create symlink");
+		}
+	}
 }

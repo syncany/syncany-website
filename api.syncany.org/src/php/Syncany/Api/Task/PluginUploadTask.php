@@ -23,33 +23,11 @@ abstract class PluginUploadTask extends UploadTask
 		$this->pluginId = $pluginId;
 	}
 
-	protected function getTargetFolder()
+	protected function getTargetFile()
 	{
 		$pluginTargetSubFolder = ($this->snapshot) ? "snapshots" : "releases";
 		$pluginTargetFolder = $this->pathPluginDist . "/" . $pluginTargetSubFolder . "/" . $this->pluginId;
 
-		return $pluginTargetFolder;
+		return $pluginTargetFolder . "/" . basename($this->fileName);
 	}
-
-	protected function getTargetFile()
-	{
-		return $this->getTargetFolder() . "/" . basename($this->fileName);
-	}
-
-	protected function createLatestLink($targetFile)
-	{
-		$targetLinkBasename = $this->getLatestLinkBasename();
-		$pluginTargetFolder = $this->getTargetFolder();
-
-		$targetLinkFile = $pluginTargetFolder . "/" . $targetLinkBasename;
-		$targetFileBasename = basename($targetFile);
-
-		@unlink($targetLinkFile);
-
-		if (!symlink($targetFileBasename, $targetLinkFile)) {
-			throw new ServerErrorHttpException("Cannot create symlink");
-		}
-	}
-
-	abstract protected function getLatestLinkBasename();
 }

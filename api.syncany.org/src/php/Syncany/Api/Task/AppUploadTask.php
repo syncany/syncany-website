@@ -17,33 +17,11 @@ abstract class AppUploadTask extends UploadTask
 		parent::__construct($fileHandle, $fileName, $checksum, $snapshot, "all", "all");
 	}
 
-	protected function getTargetFolder()
+	protected function getTargetFile()
 	{
 		$targetSubFolder = ($this->snapshot) ? "snapshots" : "releases";
 		$targetFolder = $this->pathDist . "/" . $targetSubFolder;
 
-		return $targetFolder;
+		return $targetFolder . "/" . basename($this->fileName);
 	}
-
-	protected function getTargetFile()
-	{
-		return $this->getTargetFolder() . "/" . basename($this->fileName);
-	}
-
-	protected function createLatestLink($targetFile)
-	{
-		$targetLinkBasename = $this->getLatestLinkBasename();
-		$targetFolder = $this->getTargetFolder();
-
-		$targetLinkFile = $targetFolder . "/" . $targetLinkBasename;
-		$targetFileBasename = basename($targetFile);
-
-		@unlink($targetLinkFile);
-
-		if (!symlink($targetFileBasename, $targetLinkFile)) {
-			throw new ServerErrorHttpException("Cannot create symlink");
-		}
-	}
-
-	abstract protected function getLatestLinkBasename();
 }

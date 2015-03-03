@@ -88,12 +88,7 @@ abstract class Controller
     {
         $this->validateTimeRandAndSignature($methodArgs);
 
-        $actualTime = $methodArgs['time'];
-        $actualRandomValue = $methodArgs['rand'];
         $actualSignature = $methodArgs['signature'];
-
-        unset($methodArgs['time']);
-        unset($methodArgs['rand']);
         unset($methodArgs['signature']);
 
         $originalRequest = $this->getOriginalRequest($requestArgs);
@@ -101,9 +96,7 @@ abstract class Controller
         $protectedInput =
                     $this->method
             . ":" . $originalRequest
-            . ":" . http_build_query($methodArgs)
-            . ":" . $actualTime
-            . ":" . $actualRandomValue;
+            . ":" . http_build_query($methodArgs);
 
         Log::debug(__CLASS__, "Protected input is $protectedInput");
 
