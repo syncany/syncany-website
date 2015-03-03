@@ -16,16 +16,22 @@ use Syncany\Api\Task\ExePluginUploadTask;
 use Syncany\Api\Task\JarPluginUploadTask;
 use Syncany\Api\Util\Log;
 
-class PluginsController extends Controller
+class PluginController extends Controller
 {
     public function get(array $methodArgs, array $requestArgs)
     {
+        $this->getList($methodArgs, $requestArgs);
+    }
+
+    public function getList(array $methodArgs, array $requestArgs)
+    {
         // Check request params
         $appVersion = ControllerHelper::validateAppVersion($methodArgs);
-        $pluginId = ControllerHelper::validatePluginId($methodArgs, $requestArgs);
         $operatingSystem = ControllerHelper::validateOperatingSystem($methodArgs);
         $architecture = ControllerHelper::validateArchitecture($methodArgs);
         $includeSnapshots = ControllerHelper::validateWithSnapshots($methodArgs);
+
+        $pluginId = $this->validatePluginId($methodArgs, $requestArgs);
 
         // Get data
         $plugins = ($pluginId)
@@ -37,11 +43,6 @@ class PluginsController extends Controller
         // Print XML
         $this->printResponseXml(200, "OK", $compatiblePlugins);
         exit;
-    }
-
-    public function getList(array $methodArgs, array $requestArgs)
-    {
-        $this->get($methodArgs, $requestArgs);
     }
 
     public function put(array $methodArgs, array $requestArgs, FileHandle $fileHandle)

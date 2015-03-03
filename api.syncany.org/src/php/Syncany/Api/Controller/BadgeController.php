@@ -3,8 +3,10 @@
 namespace Syncany\Api\Controller;
 
 use Syncany\Api\Config\Config;
+use Syncany\Api\Util\FileUtil;
+use Syncany\Api\Util\StringUtil;
 
-class BadgesController extends Controller
+class BadgeController extends Controller
 {
     const COLOR_GREEN = "#4c1";
     const COLOR_YELLOW = "#db2";
@@ -147,27 +149,13 @@ class BadgesController extends Controller
         // Dump SVG
         header('Content-type: image/svg+xml');
 
-        echo <<<EOD
-<svg xmlns="http://www.w3.org/2000/svg" width="90" height="18">
-<linearGradient id="a" x2="0" y2="100%">
-    <stop offset="0" stop-color="#fff" stop-opacity=".7"/>
-    <stop offset=".1" stop-color="#aaa" stop-opacity=".1"/>
-    <stop offset=".9" stop-opacity=".3"/>
-    <stop offset="1" stop-opacity=".5"/>
-</linearGradient>
-<rect rx="4" width="90" height="18" fill="#555"/>
-<rect rx="4" x="57" width="33" height="18" fill="$color"/>
-<path fill="$color" d="M57 0h4v18h-4z"/>
-<rect rx="4" width="90" height="18" fill="url(#a)"/>
-<g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
-    <text x="28.5" y="13" fill="#010101" fill-opacity=".3">$labelText</text>
-    <text x="28.5" y="12">$labelText</text>
-    <text x="72.5" y="13" fill="#010101" fill-opacity=".3">$percentageText</text>
-    <text x="72.5" y="12">$percentageText</text>
-</g>
-</svg>
-EOD;
+        $svgSkeleton = FileUtil::readResourceFile(__NAMESPACE__, "badges.skeleton.svg");
+        $svgSource = StringUtil::replace($svgSkeleton, array(
+            "percentageText" => $percentageText,
+            "labelText" => $labelText,
+            "color" => $color
+        ));
 
+        echo $svgSource;
     }
-
 }

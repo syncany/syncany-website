@@ -50,22 +50,12 @@ class AppController extends Controller
 
     public function putJavadoc(array $methodArgs, array $requestArgs, FileHandle $fileHandle)
     {
-        print_r($fileHandle->getHandle());
+        // Nothing.
     }
 
     public function putReports(array $methodArgs, array $requestArgs, FileHandle $fileHandle)
     {
-        print_r($fileHandle->getHandle());
-    }
-
-    public function getInfo(array $methodArgs, array $requestArgs)
-    {
-        if (isset($methodArgs['snapshot'])) {
-            echo "v0.4.3-alpha+SNAPSHOT-123123";
-        }
-        else {
-            echo "v0.4.3-alpha";
-        }
+        // Nothing.
     }
 
     private function validateType($methodArgs)

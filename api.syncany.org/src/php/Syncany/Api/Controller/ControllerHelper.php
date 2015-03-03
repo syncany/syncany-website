@@ -2,6 +2,7 @@
 
 namespace Syncany\Api\Controller;
 
+use Naneau\SemVer\Parser;
 use Syncany\Api\Exception\Http\BadRequestHttpException;
 
 class ControllerHelper

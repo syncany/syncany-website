@@ -9,7 +9,7 @@ use Syncany\Api\Model\ApplicationLink;
 use Syncany\Api\Persistence\Database;
 use Syncany\Api\Util\StringUtil;
 
-class LinksController extends Controller
+class LinkController extends Controller
 {
     public function get(array $methodArgs, array $requestArgs)
     {
