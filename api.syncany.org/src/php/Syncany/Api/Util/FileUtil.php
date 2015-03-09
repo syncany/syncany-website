@@ -4,11 +4,14 @@ namespace Syncany\Api\Util;
 
 use Syncany\Api\Config\Config;
 use Syncany\Api\Exception\ConfigException;
+use Syncany\Api\Exception\Http\ServerErrorHttpException;
 use Syncany\Api\Model\FileHandle;
 use Syncany\Api\Model\TempFile;
 
 class FileUtil
 {
+    const MAX_WRITE_FILE_SIZE = 52428800; // 50 MB
+
 	public static function readPropertiesFile($configContext, $configName)
 	{
 		$propertiesFile = self::getConfigFileName($configContext, $configName);
@@ -73,10 +76,15 @@ class FileUtil
 	public static function writeToFile(FileHandle $sourceFileInputStream, TempFile $tempFile)
 	{
 		$tempFileHandle = new FileHandle(fopen($tempFile->getFile(), "w"));
+        $writtenBytes = 0;
 
 		while (!feof($sourceFileInputStream->getHandle())) {
 			$buffer = fread($sourceFileInputStream->getHandle(), 8192);
-			fwrite($tempFileHandle->getHandle(), $buffer);
+			$writtenBytes += fwrite($tempFileHandle->getHandle(), $buffer);
+
+            if ($writtenBytes > self::MAX_WRITE_FILE_SIZE) {
+                throw new ConfigException("Uploaded file to big. For security reasons, we do not accept so large files.");
+            }
 		}
 
 		fclose($sourceFileInputStream->getHandle());
@@ -167,18 +175,87 @@ class FileUtil
 
 	public static function deleteTempDir(TempFile $tempDir)
 	{
-		$directoryIterator = new \RecursiveDirectoryIterator($tempDir->getFile(), \FilesystemIterator::SKIP_DOTS);
-		$iteratorIterator = new \RecursiveIteratorIterator($directoryIterator, \RecursiveIteratorIterator::CHILD_FIRST);
+        if (!defined('UPLOAD_PATH')) {
+            throw new ConfigException("Upload path not set via CONFIG_PATH.");
+        }
 
-		foreach ($iteratorIterator as $path) {
-			if ($path->isDir() && !$path->isLink()) {
-				rmdir($path->getPathname());
-			}
-			else {
-				unlink($path->getPathname());
-			}
-		}
-
-		rmdir($tempDir->getFile());
+        self::deleteDir(UPLOAD_PATH, $tempDir->getFile());
 	}
+
+    public static function deleteDir($lockInDir, $dir)
+    {
+        if (is_dir($dir)) {
+            self::checkLockInDirMustExist($lockInDir, $dir);
+
+            $directoryIterator = new \RecursiveDirectoryIterator($dir, \FilesystemIterator::SKIP_DOTS);
+            $iteratorIterator = new \RecursiveIteratorIterator($directoryIterator, \RecursiveIteratorIterator::CHILD_FIRST);
+
+            foreach ($iteratorIterator as $path) {
+                if ($path->isDir() && !$path->isLink()) {
+                    rmdir($path->getPathname());
+                } else {
+                    unlink($path->getPathname());
+                }
+            }
+
+            rmdir($dir);
+        }
+        else {
+            Log::info(__CLASS__, __METHOD__, "Directory '$dir' is not a directory. Doing nothing.");
+        }
+    }
+
+    public static function deleteFile($lockInDir, $file)
+    {
+        if (is_file($file)) {
+            self::checkLockInDirMustExist($lockInDir, $file);
+
+            Log::info(__CLASS__, __METHOD__, "Deleting '$file' ...");
+            unlink($file);
+        }
+        else {
+            Log::info(__CLASS__, __METHOD__, "File '$file' is not a file. Doing nothing.");
+        }
+    }
+
+    public static function moveFile($sourceLockInDir, $sourceFile, $targetLockInDir, $targetFile)
+    {
+        self::checkLockInDirMustExist($sourceLockInDir, $sourceFile);
+        self::checkLockInDirMustNotExist($targetLockInDir, $targetFile);
+
+        Log::info(__CLASS__, __METHOD__, "Move '$sourceFile' to '$targeFile' ...");
+
+        if (!rename($sourceFile, $targetFile)) {
+            Log::info(__CLASS__, __METHOD__, "Move failed.");
+            throw new ConfigException("Cannot move file to target folder");
+        }
+    }
+
+    public static function checkLockInDirMustNotExist($lockInDir, $file)
+    {
+        self::checkLockInDir($lockInDir, $file);
+    }
+
+    public static function checkLockInDirMustExist($lockInDir, $file)
+    {
+        self::checkLockInDir($lockInDir, $file);
+
+        $fileRealPath = realpath($file); // Returns 'false' if not existent
+        self::checkLockInDir($lockInDir, $fileRealPath);
+    }
+
+    private static function checkLockInDir($lockInDir, $file)
+    {
+        if (!$lockInDir || !is_dir($lockInDir) || $lockInDir == "/") {
+            throw new ConfigException("Invalid lock-in directory");
+        }
+
+        if (!$file) {
+            throw new ConfigException("Invalid file.");
+        }
+
+        if (substr($file, 0, strlen($lockInDir)) != $lockInDir) {
+            throw new ConfigException("Invalid file. Must reside in upload folder.");
+        }
+    }
 }

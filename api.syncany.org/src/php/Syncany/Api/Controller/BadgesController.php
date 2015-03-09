@@ -6,7 +6,7 @@ use Syncany\Api\Config\Config;
 use Syncany\Api\Util\FileUtil;
 use Syncany\Api\Util\StringUtil;
 
-class BadgeController extends Controller
+class BadgesController extends Controller
 {
     const COLOR_GREEN = "#4c1";
     const COLOR_YELLOW = "#db2";

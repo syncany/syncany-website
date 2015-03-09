@@ -6,15 +6,16 @@ use Syncany\Api\Exception\Http\BadRequestHttpException;
 use Syncany\Api\Util\FileUtil;
 use Syncany\Api\Util\StringUtil;
 
-class ExePluginUploadTask extends PluginUploadTask
+class AppZipPluginReleaseUploadTask extends PluginReleaseUploadTask
 {
 	public function execute()
 	{
 		$this->validatePluginId();
 
-		$tempDirContext = "plugins/" . $this->pluginId . "/exe";
+		$tempDirContext = "plugins/" . $this->pluginId . "/appzip";
+
 		$tempDir = FileUtil::createTempDir($tempDirContext);
-		$tempFile = FileUtil::writeToTempFile($this->fileHandle, $tempDir, ".exe");
+		$tempFile = FileUtil::writeToTempFile($this->fileHandle, $tempDir, ".app.zip");
 
 		$this->validateChecksum($tempFile);
 
@@ -27,16 +28,16 @@ class ExePluginUploadTask extends PluginUploadTask
 	private function validatePluginId()
 	{
 		if ($this->pluginId != "gui") {
-			throw new BadRequestHttpException("Exe files can only be uploaded for the GUI plugin");
+			throw new BadRequestHttpException("AppZip files can only be uploaded for the GUI plugin");
 		}
 	}
 
 	protected function getLatestLinkBasename()
 	{
 		$snapshotSuffix = ($this->snapshot) ? "-snapshot" : "";
-		$archSuffix = (isset($this->arch) && $this->arch != "" && $this->arch != "all") ? "-" . $this->arch : "";
+		$archSuffix = (!isset($this->arch)) ? "" : ($this->arch == "x86") ? "-i386" : "-amd64";
 
-		return StringUtil::replace("syncany-plugin-latest{snapshot}-{id}{arch}.exe", array(
+		return StringUtil::replace("syncany-plugin-latest{snapshot}-{id}{arch}.app.zip", array(
 			"id" => $this->pluginId,
 			"snapshot" => $snapshotSuffix,
 			"arch" => $archSuffix

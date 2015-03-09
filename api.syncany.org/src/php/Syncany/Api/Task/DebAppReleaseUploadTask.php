@@ -7,7 +7,7 @@ use Syncany\Api\Util\FileUtil;
 use Syncany\Api\Util\RepreproUtil;
 use Syncany\Api\Util\StringUtil;
 
-class DebAppUploadTask extends AppUploadTask
+class DebAppReleaseUploadTask extends AppReleaseUploadTask
 {
 	public function execute()
 	{

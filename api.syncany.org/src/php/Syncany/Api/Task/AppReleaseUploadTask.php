@@ -10,7 +10,7 @@ use Syncany\Api\Model\TempFile;
 use Syncany\Api\Util\FileUtil;
 use Syncany\Api\Util\StringUtil;
 
-abstract class AppUploadTask extends UploadTask
+abstract class AppReleaseUploadTask extends ReleaseUploadTask
 {
 	public function __construct(FileHandle $fileHandle, $fileName, $checksum, $snapshot)
 	{

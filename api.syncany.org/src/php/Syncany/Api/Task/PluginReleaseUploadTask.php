@@ -10,7 +10,7 @@ use Syncany\Api\Model\TempFile;
 use Syncany\Api\Util\FileUtil;
 use Syncany\Api\Util\StringUtil;
 
-abstract class PluginUploadTask extends UploadTask
+abstract class PluginReleaseUploadTask extends ReleaseUploadTask
 {
 	protected $pathPluginDist;
 	protected $pluginId;

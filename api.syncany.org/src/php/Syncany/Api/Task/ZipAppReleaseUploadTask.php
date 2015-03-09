@@ -6,7 +6,7 @@ use Syncany\Api\Exception\Http\BadRequestHttpException;
 use Syncany\Api\Util\FileUtil;
 use Syncany\Api\Util\StringUtil;
 
-class ZipAppUploadTask extends AppUploadTask
+class ZipAppReleaseUploadTask extends AppReleaseUploadTask
 {
 	public function execute()
 	{

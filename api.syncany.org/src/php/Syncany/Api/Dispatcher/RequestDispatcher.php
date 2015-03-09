@@ -26,7 +26,7 @@ class RequestDispatcher
             $object = array_shift($requestArgs);
             $verb = (count($requestArgs) > 0) ? $requestArgs[0] : false;
 
-            Log::info(__CLASS__, "$method $request");
+            Log::info(__CLASS__, __METHOD__, "$method $request");
 
             $controller = self::createController($object);
 
@@ -38,10 +38,10 @@ class RequestDispatcher
                 $controller->call($method, "", $requestArgs);
             }
         } catch (HttpException $e) {
-            Log::error(__CLASS__, $e->getMessage());
+            Log::error(__CLASS__, __METHOD__, $e->getMessage());
             $e->sendErrorHeadersAndExit();
         } catch (\Exception $e) {
-            Log::error(__CLASS__, $e->getMessage());
+            Log::error(__CLASS__, __METHOD__, $e->getMessage());
 
             $wrappedError = new ServerErrorHttpException($e->getMessage());
             $wrappedError->sendErrorHeadersAndExit();

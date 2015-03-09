@@ -10,24 +10,24 @@ class Log
     private static $initialized = false;
     private static $file;
 
-    public static function info($class, $message, array $args = array())
+    public static function info($class, $method, $message, array $args = array())
     {
-        self::log('INFO', $class, $message, $args);
+        self::log('INFO', $class, $method, $message, $args);
     }
 
-    public static function warning($class, $message, array $args = array())
+    public static function warning($class, $method, $message, array $args = array())
     {
-        self::log('WARNING', $class, $message, $args);
+        self::log('WARNING', $class, $method, $message, $args);
     }
 
-    public static function error($class, $message, array $args = array())
+    public static function error($class, $method, $message, array $args = array())
     {
-        self::log('ERROR', $class, $message, $args);
+        self::log('ERROR', $class, $method, $message, $args);
     }
 
-    public static function debug($class, $message, array $args = array())
+    public static function debug($class, $method, $message, array $args = array())
     {
-        self::log('DEBUG', $class, $message, $args);
+        self::log('DEBUG', $class, $method, $message, $args);
     }
 
     public static function init()
@@ -42,7 +42,7 @@ class Log
         self::$initialized = true;
     }
 
-    private static function log($logLevel, $class, $message, array $args)
+    private static function log($logLevel, $class, $method, $message, array $args)
     {
         self::init();
 
@@ -55,7 +55,7 @@ class Log
             $class = $reflectionClass->getShortName();
         }
 
-        $line = sprintf("%-10s | %-15s | %-20s | %-6s | %s\n", $datetime, $ipAddr, $class, $logLevel, $formattedMessage);
+        $line = sprintf("%-10s | %-15s | %-15s | %-20s | %-6s | %s\n", $datetime, $ipAddr, $class, $method, $logLevel, $formattedMessage);
 
         $fd = fopen(self::$file, "a");
         fputs($fd, $line);

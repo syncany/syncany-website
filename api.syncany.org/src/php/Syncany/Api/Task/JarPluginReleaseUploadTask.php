@@ -9,7 +9,7 @@ use Syncany\Api\Persistence\Database;
 use Syncany\Api\Util\FileUtil;
 use Syncany\Api\Util\StringUtil;
 
-class JarPluginUploadTask extends PluginUploadTask
+class JarPluginReleaseUploadTask extends PluginReleaseUploadTask
 {
 	private $manifest;
 

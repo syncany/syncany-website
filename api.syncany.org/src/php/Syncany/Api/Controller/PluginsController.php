@@ -10,13 +10,13 @@ use Syncany\Api\Exception\Http\ServerErrorHttpException;
 use Syncany\Api\Model\FileHandle;
 use Syncany\Api\Model\Plugin;
 use Syncany\Api\Persistence\Database;
-use Syncany\Api\Task\AppZipPluginUploadTask;
-use Syncany\Api\Task\DebPluginUploadTask;
-use Syncany\Api\Task\ExePluginUploadTask;
-use Syncany\Api\Task\JarPluginUploadTask;
+use Syncany\Api\Task\AppZipPluginReleaseUploadTask;
+use Syncany\Api\Task\DebPluginReleaseUploadTask;
+use Syncany\Api\Task\ExePluginReleaseUploadTask;
+use Syncany\Api\Task\JarPluginReleaseUploadTask;
 use Syncany\Api\Util\Log;
 
-class PluginController extends Controller
+class PluginsController extends Controller
 {
     public function get(array $methodArgs, array $requestArgs)
     {
@@ -53,8 +53,8 @@ class PluginController extends Controller
             throw new BadRequestHttpException("Invalid request, no plugin identifier given");
         }
 
-        Log::info(__CLASS__, "Put request for plugin $pluginId received. Authenticating ...");
-        $this->authenticate("plugins-put-$pluginId", $methodArgs, $requestArgs);
+        Log::info(__CLASS__, __METHOD__, "Put request for plugin $pluginId received. Authenticating ...");
+        $this->authorize("plugins-put-$pluginId", $methodArgs, $requestArgs);
 
         $checksum = ControllerHelper::validateChecksum($methodArgs);
         $fileName = ControllerHelper::validateFileName($methodArgs);
@@ -66,19 +66,19 @@ class PluginController extends Controller
 
         switch ($type) {
             case "jar":
-                $task = new JarPluginUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
+                $task = new JarPluginReleaseUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
                 break;
 
             case "deb":
-                $task = new DebPluginUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
+                $task = new DebPluginReleaseUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
                 break;
 
             case "app.zip":
-                $task = new AppZipPluginUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
+                $task = new AppZipPluginReleaseUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
                 break;
 
             case "exe":
-                $task = new ExePluginUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
+                $task = new ExePluginReleaseUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
                 break;
 
             default:

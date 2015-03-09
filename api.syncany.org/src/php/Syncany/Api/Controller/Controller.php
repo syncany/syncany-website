@@ -84,7 +84,7 @@ abstract class Controller
         return strtolower($method) . strtoupper(substr($verb, 0, 1)) . substr($verb, 1);
     }
 
-    protected function authenticate($securityContext, array $methodArgs, array $requestArgs)
+    protected function authorize($keyName, array $methodArgs, array $requestArgs)
     {
         $this->validateTimeRandAndSignature($methodArgs);
 
@@ -98,10 +98,10 @@ abstract class Controller
             . ":" . $originalRequest
             . ":" . http_build_query($methodArgs);
 
-        Log::debug(__CLASS__, "Protected input is $protectedInput");
+        Log::debug(__CLASS__, __METHOD__, "Protected input is $protectedInput");
 
         try {
-            $apiKey = $this->readApiKey($securityContext);
+            $apiKey = $this->readApiKey($keyName);
         } catch (ApiException $e) {
             throw new UnauthorizedHttpException(self::ERR_INVALID_AUTH_PARAMS);
         }
@@ -109,16 +109,16 @@ abstract class Controller
         $expectedSignature = hash_hmac("sha256", $protectedInput, $apiKey);
 
         if ($expectedSignature != $actualSignature) {
-            Log::error(__CLASS__, "Given signature does not match expected signature.");
+            Log::error(__CLASS__, __METHOD__, "Given signature does not match expected signature.");
             throw new UnauthorizedHttpException(self::ERR_INVALID_AUTH_PARAMS);
         }
 
-        Log::info(__CLASS__, "Authentication successful.");
+        Log::info(__CLASS__, __METHOD__, "Authentication successful.");
     }
 
-    private function readApiKey($securityContext)
+    private function readApiKey($keyName)
     {
-        $keys = FileUtil::readPropertiesFile("keys", $securityContext);
+        $keys = FileUtil::readPropertiesFile("keys", $keyName);
 
         if (!isset($keys['key'])) {
             throw new ConfigException("Cannot read API key from configuration");
@@ -129,20 +129,20 @@ abstract class Controller
 
     private function validateTimeRandAndSignature($methodArgs)
     {
-        Log::debug(__CLASS__, "Validating time, rand and signature parameter ...");
+        Log::debug(__CLASS__, __METHOD__, "Validating time, rand and signature parameter ...");
 
         if (!isset($methodArgs['signature']) || !isset($methodArgs['time']) || !isset($methodArgs['rand'])
             || !is_numeric($methodArgs['time'])) {
 
-            Log::warning(__CLASS__, "Invalid signature, time or rand value while.");
+            Log::warning(__CLASS__, __METHOD__, "Invalid signature, time or rand value while.");
             throw new UnauthorizedHttpException(self::ERR_INVALID_AUTH_PARAMS);
         }
 
         $actualTime = intval($methodArgs['time']);
-        $timeInAllowedRange = $actualTime > time() - self::REPLAY_RANGE && $actualTime < time() + self::REPLAY_RANGE; // Replay attacks
+        $timeInAllowedRange = abs($actualTime - time()) <= self::REPLAY_RANGE; // Replay attacks
 
         if (!$timeInAllowedRange) {
-            Log::warning(__CLASS__, "Time not in allowed range.");
+            Log::warning(__CLASS__, __METHOD__, "Time not in allowed range.");
             throw new UnauthorizedHttpException(self::ERR_INVALID_AUTH_PARAMS);
         }
     }
