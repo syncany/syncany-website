@@ -12,6 +12,7 @@ api.syncany.org/html/ping.php
 api.syncany.org/html/v1/
 api.syncany.org/html/v2/
 api.syncany.org/inc/
+api.syncany.org/vendor/
 get.syncany.org/html/apt/release/
 get.syncany.org/html/apt/snapshot/
 get.syncany.org/html/dist/*/*

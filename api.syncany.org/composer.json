@@ -1,0 +1,19 @@
+{
+    "name": "syncany/syncany-api",
+    "description": "Syncany API",
+    "require": {
+        "naneau/semver": "0.0.7.*"
+    },
+    "license": "GPLv3",
+    "authors": [
+        {
+            "name": "Philipp Heckel",
+            "email": "philipp.heckel@gmail.com"
+        }
+    ],    
+    "autoload": {
+        "psr-0": {
+            "Syncany\\": "src/main/php"
+        }
+    }
+}
