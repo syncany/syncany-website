@@ -31,10 +31,10 @@ class RepreproUtil
 		$output = array();
 		$exitCode = -1;
 
-		Log::info(__CLASS__, "Calling reprepro with command: $command");
+		Log::info(__CLASS__, __METHOD__, "Calling reprepro with command: $command");
 		exec($command, $output, $exitCode);
 
-		Log::info(__CLASS__, "Exit code = {code}, command output: {output}", array(
+		Log::info(__CLASS__, __METHOD__, "Exit code = {code}, command output: {output}", array(
 			"code" => $exitCode,
 			"output" => join("\n", $output)
 		));

@@ -3,6 +3,7 @@
 namespace Syncany\Api\Task;
 
 use Syncany\Api\Model\FileHandle;
+use Syncany\Api\Util\Log;
 
 class ReportsExtractZipUploadTask extends ZipExtractUploadTask
 {
@@ -13,10 +14,12 @@ class ReportsExtractZipUploadTask extends ZipExtractUploadTask
 
 	public function execute()
 	{
-		$tempExtractDir = $this->extractZip("apps/reports");
+        Log::info(__CLASS__, __METHOD__, "Processing uploaded REPORTS archive file ...");
 
-        $this->deleteAndMoveDir($tempExtractDir, $this->targetParentDir, "tests");
-        $this->deleteAndMoveDir($tempExtractDir, $this->targetParentDir, "coverage");
-        $this->deleteAndMoveFile($tempExtractDir, $this->targetParentDir, "cloc.xml");
+		$tempExtractDir = $this->extractZip("app/reports");
+
+        $this->deleteAndMoveDir($tempExtractDir->getFile(), $this->targetParentDir, "reports/tests");
+        $this->deleteAndMoveDir($tempExtractDir->getFile(), $this->targetParentDir, "reports/coverage");
+        $this->deleteAndMoveFile($tempExtractDir->getFile(), $this->targetParentDir, "reports/cloc.xml");
 	}
 }

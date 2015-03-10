@@ -22,26 +22,27 @@ class RequestDispatcher
 
             unset($_GET['request']);
 
+            Log::info(__CLASS__, __METHOD__, "$method " . $_SERVER['REQUEST_URI']);
+
             $requestArgs = explode('/', rtrim($request, '/'));
             $object = array_shift($requestArgs);
             $verb = (count($requestArgs) > 0) ? $requestArgs[0] : false;
-
-            Log::info(__CLASS__, __METHOD__, "$method $request");
 
             $controller = self::createController($object);
 
             if ($verb && $controller->isCallable($method, $verb)) {
                 array_shift($requestArgs);
+
                 $controller->call($method, $verb, $requestArgs);
             }
             else {
                 $controller->call($method, "", $requestArgs);
             }
         } catch (HttpException $e) {
-            Log::error(__CLASS__, __METHOD__, $e->getMessage());
+            Log::error(__CLASS__, __METHOD__, $e->getMessage() . ": " . $e->getReason(), null, $e);
             $e->sendErrorHeadersAndExit();
         } catch (\Exception $e) {
-            Log::error(__CLASS__, __METHOD__, $e->getMessage());
+            Log::error(__CLASS__, __METHOD__, $e->getMessage(), null, $e);
 
             $wrappedError = new ServerErrorHttpException($e->getMessage());
             $wrappedError->sendErrorHeadersAndExit();

@@ -68,9 +68,10 @@ class FileUtil
 			throw new ConfigException("Invalid suffix passed. Illegal characters.");
 		}
 
-
 		$tempFile = new TempFile($targetDir->getFile() . "/" . StringUtil::generateRandomString(5) . $suffix);
-		return self::writeToFile($sourceFileInputStream, $tempFile);
+
+        Log::info(__CLASS__, __METHOD__, "Writing temp file " . $tempFile->getFile() . " ...");
+        return self::writeToFile($sourceFileInputStream, $tempFile);
 	}
 
 	public static function writeToFile(FileHandle $sourceFileInputStream, TempFile $tempFile)
@@ -104,7 +105,9 @@ class FileUtil
 
 	public static function extractZipArchive(TempFile $tempFile, TempFile $tempDir)
 	{
-		$zip = new \ZipArchive();
+        Log::info(__CLASS__, __METHOD__, "Extracting uploaded ZIP archive to " . $tempDir->getFile() . " ...");
+
+        $zip = new \ZipArchive();
 
 		if ($zip->open($tempFile->getFile()) === true) {
 			$zip->extractTo($tempDir->getFile() . "/");
@@ -180,12 +183,14 @@ class FileUtil
         }
 
         self::deleteDir(UPLOAD_PATH, $tempDir->getFile());
-	}
+    }
 
     public static function deleteDir($lockInDir, $dir)
     {
         if (is_dir($dir)) {
             self::checkLockInDirMustExist($lockInDir, $dir);
+
+            Log::info(__CLASS__, __METHOD__, "Deleting directory '$dir' recursively ...");
 
             $directoryIterator = new \RecursiveDirectoryIterator($dir, \FilesystemIterator::SKIP_DOTS);
             $iteratorIterator = new \RecursiveIteratorIterator($directoryIterator, \RecursiveIteratorIterator::CHILD_FIRST);
@@ -223,10 +228,10 @@ class FileUtil
         self::checkLockInDirMustExist($sourceLockInDir, $sourceFile);
         self::checkLockInDirMustNotExist($targetLockInDir, $targetFile);
 
-        Log::info(__CLASS__, __METHOD__, "Move '$sourceFile' to '$targeFile' ...");
+        Log::info(__CLASS__, __METHOD__, "Move '$sourceFile' to '$targetFile' ...");
 
         if (!rename($sourceFile, $targetFile)) {
-            Log::info(__CLASS__, __METHOD__, "Move failed.");
+            Log::info(__CLASS__, __METHOD__, "Move failed. Cannot move file to target $targetFile.");
             throw new ConfigException("Cannot move file to target folder");
         }
     }
@@ -256,6 +261,19 @@ class FileUtil
 
         if (substr($file, 0, strlen($lockInDir)) != $lockInDir) {
             throw new ConfigException("Invalid file. Must reside in upload folder.");
+        }
+    }
+
+    public static function makeParentDirs($file)
+    {
+        $parentDir = dirname($file);
+
+        if (!is_dir($parentDir)) {
+            Log::info(__CLASS__, __METHOD__, "Creating directories $parentDir ...");
+
+            if (!mkdir($parentDir, 0755, true)) {
+                throw new ConfigException("Creating parent directory failed");
+            }
         }
     }
 }

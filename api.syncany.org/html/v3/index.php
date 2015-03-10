@@ -15,7 +15,7 @@ if (!LIB_PATH || !RESOURCES_PATH || !CONFIG_PATH || !UPLOAD_PATH || !LOG_PATH ||
 }
 
 // Autoload
-require_once(VENDOR_PATH . '/autoload.php');
+require_once VENDOR_PATH . '/autoload.php';
 
 // Go!
 use Syncany\Api\Config\Config;

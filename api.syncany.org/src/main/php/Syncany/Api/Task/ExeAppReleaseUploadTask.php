@@ -4,12 +4,15 @@ namespace Syncany\Api\Task;
 
 use Syncany\Api\Exception\Http\BadRequestHttpException;
 use Syncany\Api\Util\FileUtil;
+use Syncany\Api\Util\Log;
 use Syncany\Api\Util\StringUtil;
 
 class ExeAppReleaseUploadTask extends AppReleaseUploadTask
 {
 	public function execute()
 	{
+        Log::info(__CLASS__, __METHOD__, "Processing uploaded EXE release file ...");
+
 		$tempDirContext = "app/exe";
 		$tempDir = FileUtil::createTempDir($tempDirContext);
 		$tempFile = FileUtil::writeToTempFile($this->fileHandle, $tempDir, ".exe");

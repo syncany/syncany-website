@@ -33,6 +33,7 @@ abstract class ZipExtractUploadTask extends UploadTask
         FileUtil::extractZipArchive($tempFile, $tempExtractDir);
         FileUtil::deleteTempDir($tempLandingDir);
 
+        Log::info(__CLASS__, __METHOD__, "Successfully extracted to " . $tempExtractDir->getFile());
         return $tempExtractDir;
     }
 
@@ -55,6 +56,7 @@ abstract class ZipExtractUploadTask extends UploadTask
             }
         }
 
+        FileUtil::makeParentDirs($targetDir);
         FileUtil::moveFile($tempExtractDir, $tempSourceDir, $this->targetParentDir, $targetDir);
     }
 

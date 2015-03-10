@@ -30,18 +30,6 @@ class AppController extends Controller
         $task->execute();
     }
 
-    public function putDocs(array $methodArgs, array $requestArgs, FileHandle $fileHandle)
-    {
-        $methodArgs['type'] = "docs";
-        $this->put($methodArgs, $requestArgs, $fileHandle);
-    }
-
-    public function putReports(array $methodArgs, array $requestArgs, FileHandle $fileHandle)
-    {
-        $methodArgs['type'] = "reports";
-        $this->put($methodArgs, $requestArgs, $fileHandle);
-    }
-
     private function validateType($methodArgs)
     {
         if (!isset($methodArgs['type']) || !in_array($methodArgs['type'], array("tar.gz", "zip", "deb", "exe", "docs", "reports"))) {

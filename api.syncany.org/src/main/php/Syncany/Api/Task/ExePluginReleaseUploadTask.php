@@ -4,12 +4,15 @@ namespace Syncany\Api\Task;
 
 use Syncany\Api\Exception\Http\BadRequestHttpException;
 use Syncany\Api\Util\FileUtil;
+use Syncany\Api\Util\Log;
 use Syncany\Api\Util\StringUtil;
 
 class ExePluginReleaseUploadTask extends PluginReleaseUploadTask
 {
 	public function execute()
 	{
+        Log::info(__CLASS__, __METHOD__, "Processing uploaded EXE plugin release file ...");
+
 		$this->validatePluginId();
 
 		$tempDirContext = "plugins/" . $this->pluginId . "/exe";

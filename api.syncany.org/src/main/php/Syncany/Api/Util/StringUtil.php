@@ -18,13 +18,15 @@ class StringUtil
 		return $randomString;
 	}
 
-	public static function replace($format, array $variables)
+	public static function replace($format, $variables)
 	{
 		$resultStr = $format;
 
-		foreach ($variables as $name=>$value) {
-			$resultStr = str_replace("{" . $name . "}", $value, $resultStr);
-		}
+        if (is_array($variables)) {
+            foreach ($variables as $name => $value) {
+                $resultStr = str_replace("{" . $name . "}", $value, $resultStr);
+            }
+        }
 
 		if (preg_match('/\{(\w)+\}/', $resultStr, $match)) {
 			throw new ConfigException("Format string still contains variables");

@@ -10,24 +10,24 @@ class Log
     private static $initialized = false;
     private static $file;
 
-    public static function info($class, $method, $message, array $args = array())
+    public static function info($class, $method, $message, $args = null)
     {
         self::log('INFO', $class, $method, $message, $args);
     }
 
-    public static function warning($class, $method, $message, array $args = array())
+    public static function warning($class, $method, $message, $args = null)
     {
         self::log('WARNING', $class, $method, $message, $args);
     }
 
-    public static function error($class, $method, $message, array $args = array())
+    public static function error($class, $method, $message, $args = null, \Exception $exception = null)
     {
-        self::log('ERROR', $class, $method, $message, $args);
+        self::log('ERROR', $class, $method, $message, $args, $exception);
     }
 
-    public static function debug($class, $method, $message, array $args = array())
+    public static function debug($class, $method, $message, $args = null, \Exception $exception = null)
     {
-        self::log('DEBUG', $class, $method, $message, $args);
+        self::log('DEBUG', $class, $method, $message, $args, $exception);
     }
 
     public static function init()
@@ -37,12 +37,12 @@ class Log
         }
 
         self::initLogFile();
-        //self::rotateIfNeeded(); // This let's Apache segfault :-(
+        // self::rotateIfNeeded(); // This let's Apache segfault :-(
 
         self::$initialized = true;
     }
 
-    private static function log($logLevel, $class, $method, $message, array $args)
+    private static function log($logLevel, $class, $method, $message, array $args = null, \Exception $exception = null)
     {
         self::init();
 
@@ -52,10 +52,22 @@ class Log
 
         if ($class) {
             $reflectionClass = new \ReflectionClass($class);
-            $class = $reflectionClass->getShortName();
+            $class = substr($reflectionClass->getShortName(), 0, 15);
+        }
+
+        if ($method) {
+            if (strpos($method, "::") !== false) {
+                $method = substr($method, strpos($method, "::") + 2, 20);
+            } else {
+                $method = substr($method, 0, 20);
+            }
         }
 
         $line = sprintf("%-10s | %-15s | %-15s | %-20s | %-6s | %s\n", $datetime, $ipAddr, $class, $method, $logLevel, $formattedMessage);
+
+        if ($exception) {
+            $line .= "\nException: \n" . $exception->getTraceAsString() . "\n";
+        }
 
         $fd = fopen(self::$file, "a");
         fputs($fd, $line);
@@ -99,7 +111,7 @@ class Log
                 $currentIndex--;
             }
 
-            self::info(__CLASS__, "Log rotated.");
+            self::info(__CLASS__, __METHOD__, "Log rotated.");
         }
     }
 }

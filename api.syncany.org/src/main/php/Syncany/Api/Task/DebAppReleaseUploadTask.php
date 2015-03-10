@@ -4,6 +4,7 @@ namespace Syncany\Api\Task;
 
 use Syncany\Api\Model\TempFile;
 use Syncany\Api\Util\FileUtil;
+use Syncany\Api\Util\Log;
 use Syncany\Api\Util\RepreproUtil;
 use Syncany\Api\Util\StringUtil;
 
@@ -11,6 +12,8 @@ class DebAppReleaseUploadTask extends AppReleaseUploadTask
 {
 	public function execute()
 	{
+        Log::info(__CLASS__, __METHOD__, "Processing uploaded DEB release file ...");
+
 		$tempDirContext = "app/deb";
 
 		$tempDir = FileUtil::createTempDir($tempDirContext);

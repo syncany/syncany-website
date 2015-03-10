@@ -4,12 +4,15 @@ namespace Syncany\Api\Task;
 
 use Syncany\Api\Exception\Http\BadRequestHttpException;
 use Syncany\Api\Util\FileUtil;
+use Syncany\Api\Util\Log;
 use Syncany\Api\Util\StringUtil;
 
 class ZipAppReleaseUploadTask extends AppReleaseUploadTask
 {
 	public function execute()
 	{
+        Log::info(__CLASS__, __METHOD__, "Processing uploaded ZIP release file ...");
+
 		$tempDirContext = "app/zip";
 		$tempDir = FileUtil::createTempDir($tempDirContext);
 		$tempFile = FileUtil::writeToTempFile($this->fileHandle, $tempDir, ".zip");

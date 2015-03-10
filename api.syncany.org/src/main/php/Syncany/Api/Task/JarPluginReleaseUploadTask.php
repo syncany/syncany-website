@@ -7,6 +7,7 @@ use Syncany\Api\Exception\Http\ServerErrorHttpException;
 use Syncany\Api\Model\TempFile;
 use Syncany\Api\Persistence\Database;
 use Syncany\Api\Util\FileUtil;
+use Syncany\Api\Util\Log;
 use Syncany\Api\Util\StringUtil;
 
 class JarPluginReleaseUploadTask extends PluginReleaseUploadTask
@@ -15,7 +16,9 @@ class JarPluginReleaseUploadTask extends PluginReleaseUploadTask
 
 	public function execute()
 	{
-		$tempDirContext = "plugins/" . $this->pluginId . "/jar";
+        Log::info(__CLASS__, __METHOD__, "Processing uploaded JAR plugin release file ...");
+
+        $tempDirContext = "plugins/" . $this->pluginId . "/jar";
 
 		$tempDir = FileUtil::createTempDir($tempDirContext);
 		$tempFile = FileUtil::writeToTempFile($this->fileHandle, $tempDir, ".jar");
