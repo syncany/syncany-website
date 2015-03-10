@@ -17,6 +17,6 @@ class DocsExtractZipUploadTask extends ZipExtractUploadTask
         Log::info(__CLASS__, __METHOD__, "Processing uploaded DOCS archive file ...");
 
         $tempExtractDir = $this->extractZip("app/docs");
-        $this->deleteAndMoveDir($tempExtractDir->getFile(), $this->targetParentDir, "docs/javadoc");
+        $this->deleteAndMoveDir($tempExtractDir, $this->targetParentDir, "javadoc");
     }
 }

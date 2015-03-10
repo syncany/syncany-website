@@ -18,8 +18,8 @@ class ReportsExtractZipUploadTask extends ZipExtractUploadTask
 
 		$tempExtractDir = $this->extractZip("app/reports");
 
-        $this->deleteAndMoveDir($tempExtractDir->getFile(), $this->targetParentDir, "reports/tests");
-        $this->deleteAndMoveDir($tempExtractDir->getFile(), $this->targetParentDir, "reports/coverage");
-        $this->deleteAndMoveFile($tempExtractDir->getFile(), $this->targetParentDir, "reports/cloc.xml");
+        $this->deleteAndMoveDir($tempExtractDir, $this->targetParentDir, "tests");
+        $this->deleteAndMoveDir($tempExtractDir, $this->targetParentDir, "coverage");
+        $this->deleteAndMoveFile($tempExtractDir, $this->targetParentDir, "cloc.xml");
 	}
 }

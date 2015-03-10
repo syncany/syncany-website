@@ -65,7 +65,7 @@ class RequestDispatcher
             throw new BadRequestHttpException("Invalid controller file. Not found.");
         }
 
-        require_once($controllerFileName);
+        require_once $controllerFileName;
 
         if (!class_exists($controllerFullyQualifiedClassName)) {
             throw new ServerErrorHttpException("Cannot find controller class.");

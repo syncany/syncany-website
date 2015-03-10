@@ -6,6 +6,7 @@ use Syncany\Api\Config\Config;
 use Syncany\Api\Exception\ConfigException;
 use Syncany\Api\Exception\Http\BadRequestHttpException;
 use Syncany\Api\Model\FileHandle;
+use Syncany\Api\Model\TempFile;
 use Syncany\Api\Util\FileUtil;
 use Syncany\Api\Util\Log;
 
@@ -37,9 +38,9 @@ abstract class ZipExtractUploadTask extends UploadTask
         return $tempExtractDir;
     }
 
-    protected function deleteAndMoveDir($tempExtractDir, $targetParentDir, $relativeDir)
+    protected function deleteAndMoveDir(TempFile $tempExtractDir, $targetParentDir, $relativeDir)
     {
-        $tempSourceDir = $tempExtractDir . "/" . $relativeDir;
+        $tempSourceDir = $tempExtractDir->getFile() . "/" . $relativeDir;
         $targetDir = $targetParentDir . "/" . $relativeDir;
 
         if (!is_dir($tempSourceDir)) {
@@ -57,12 +58,12 @@ abstract class ZipExtractUploadTask extends UploadTask
         }
 
         FileUtil::makeParentDirs($targetDir);
-        FileUtil::moveFile($tempExtractDir, $tempSourceDir, $this->targetParentDir, $targetDir);
+        FileUtil::moveFile($tempExtractDir->getFile(), $tempSourceDir, $this->targetParentDir, $targetDir);
     }
 
-    protected function deleteAndMoveFile($tempExtractDir, $targetParentDir, $relativeFile)
+    protected function deleteAndMoveFile(TempFile $tempExtractDir, $targetParentDir, $relativeFile)
     {
-        $tempSourceFile = $tempExtractDir . "/" . $relativeFile;
+        $tempSourceFile = $tempExtractDir->getFile() . "/" . $relativeFile;
         $targetFile = $targetParentDir . "/" . $relativeFile;
 
         if (!is_file($tempSourceFile)) {
@@ -79,6 +80,6 @@ abstract class ZipExtractUploadTask extends UploadTask
             }
         }
 
-        FileUtil::moveFile($tempExtractDir, $tempSourceFile, $this->targetParentDir, $targetFile);
+        FileUtil::moveFile($tempExtractDir->getFile(), $tempSourceFile, $this->targetParentDir, $targetFile);
     }
 }

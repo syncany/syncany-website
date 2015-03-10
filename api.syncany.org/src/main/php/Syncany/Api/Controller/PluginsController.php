@@ -64,28 +64,28 @@ class PluginsController extends Controller
 
         $type = $this->validateType($methodArgs);
 
+        $task = $this->createTask($type, $fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
+        $task->execute();
+    }
+
+    private function createTask($type, $fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId)
+    {
         switch ($type) {
             case "jar":
-                $task = new JarPluginReleaseUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
-                break;
+                return new JarPluginReleaseUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
 
             case "deb":
-                $task = new DebPluginReleaseUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
-                break;
+                return new DebPluginReleaseUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
 
             case "app.zip":
-                $task = new AppZipPluginReleaseUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
-                break;
+                return  new AppZipPluginReleaseUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
 
             case "exe":
-                $task = new ExePluginReleaseUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
-                break;
+                return new ExePluginReleaseUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
 
             default:
                 throw new ServerErrorHttpException("Type not supported.");
         }
-
-        $task->execute();
     }
 
     private function validateType($methodArgs)

@@ -169,6 +169,8 @@ class FileUtil
 
 		$configFile = CONFIG_PATH . "/" . $configContext . "/" . $configName . ".properties";
 
+        FileUtil::checkLockInDirMustExist(CONFIG_PATH, $configFile);
+
 		if (!file_exists($configFile)) {
 			throw new ConfigException("Config file not found for context $configContext.");
 		}
@@ -245,21 +247,26 @@ class FileUtil
     {
         self::checkLockInDir($lockInDir, $file);
 
-        $fileRealPath = realpath($file); // Returns 'false' if not existent
-        self::checkLockInDir($lockInDir, $fileRealPath);
+        $canonicalFile = FileUtil::canonicalize($file);
+
+        if (!file_exists($canonicalFile)) {
+            throw new ConfigException("File does not exist");
+        }
     }
 
     private static function checkLockInDir($lockInDir, $file)
     {
+        $canonicalFile = FileUtil::canonicalize($file);
+
         if (!$lockInDir || !is_dir($lockInDir) || $lockInDir == "/") {
             throw new ConfigException("Invalid lock-in directory");
         }
 
-        if (!$file) {
+        if (!$canonicalFile || !is_string($canonicalFile)) {
             throw new ConfigException("Invalid file.");
         }
 
-        if (substr($file, 0, strlen($lockInDir)) != $lockInDir) {
+        if (substr($canonicalFile, 0, strlen($lockInDir)) != $lockInDir) {
             throw new ConfigException("Invalid file. Must reside in upload folder.");
         }
     }
@@ -275,5 +282,25 @@ class FileUtil
                 throw new ConfigException("Creating parent directory failed");
             }
         }
+    }
+
+    public static function canonicalize($path)
+    {
+        $out = array();
+        $parts = explode('/', $path);
+
+        foreach ($parts as $index => $fold) {
+            if ($fold == '' || $fold == '.') {
+                continue;
+            }
+
+            if ($fold == '..' && $index > 0 && end($out) != '..') {
+                array_pop($out);
+            } else {
+                $out[] = $fold;
+            }
+        }
+
+        return ($path{0} == '/' ? '/' : '') . join('/', $out);
     }
 }

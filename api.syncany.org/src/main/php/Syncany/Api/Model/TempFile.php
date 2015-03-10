@@ -14,8 +14,8 @@ class TempFile
 			throw new ConfigException("Upload path not set via CONFIG_PATH.");
 		}
 
+        $this->file = FileUtil::canonicalize($file);
         FileUtil::checkLockInDirMustNotExist(UPLOAD_PATH, $file);
-		$this->file = $file;
 	}
 
 	public function getFile() {
