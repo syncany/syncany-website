@@ -28,6 +28,30 @@ use Syncany\Api\Model\FileHandle;
 use Syncany\Api\Util\FileUtil;
 use Syncany\Api\Util\Log;
 
+/**
+ * A controller implements the behavioral logic for a certain resource
+ * group. All its public methods are by convention accessible via the API.
+ * They must follow a certain method name pattern (see below) and have
+ * exactly two arguments, <tt>requestArgs</tt> and <tt>methodArgs</tt>.
+ * All <tt>put*</tt> methods must have an additional argument <tt>$fileHandle</tt>,
+ * which will contain the file input stream of the uploaded file.
+ *
+ * <p>Method pattern: [method][verb], e.g. get, getList, putSnapshot, ...
+ * The method is mandatory, the verb is optional.
+ *
+ * <p><tt>requestArgs</tt> are the arguments passed in request URI (e.g.
+ * /plugins/list/arg1/arg2), <tt>methodArgs</tt> are the arguments of the
+ * corresponding method, i.e. $_GET for GET/PUT, and $_POST for POST/DELETE.
+ *
+ * <p>Example method signatures:
+ * <pre>
+ *   public function getList(array $methodArgs, array $requestArgs) { .. }
+ *   public function post(array $methodArgs, array $requestArgs) { .. }
+ *   public function putFile(array $methodArgs, array $requestArgs, FileHandle $fileHandle) { .. }
+ * </pre>
+ *
+ * @author Philipp Heckel <philipp.heckel@gmail.com>
+ */
 abstract class Controller
 {
     /**

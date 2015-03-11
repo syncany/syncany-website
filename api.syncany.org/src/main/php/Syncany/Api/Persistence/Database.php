@@ -23,8 +23,16 @@ namespace Syncany\Api\Persistence;
 use Syncany\Api\Exception\ConfigException;
 use Syncany\Api\Util\FileUtil;
 
+/**
+ * Helper class for database access to create {@link PDO} objects and/or
+ * create PDO statements from SQL resources.
+ *
+ * @author Philipp Heckel <philipp.heckel@gmail.com>
+ */
 class Database
 {
+    const CONFIG_CONTEXT = 1;
+
 	public static function createInstance($configContext)
 	{
 		$config = self::readConfigFile($configContext);
@@ -46,7 +54,7 @@ class Database
 
 	private static function readConfigFile($configName)
 	{
-		$config = FileUtil::readPropertiesFile("database", $configName);
+		$config = FileUtil::readPropertiesFile(self::CONFIG_CONTEXT, $configName);
 
 		if (!$config) {
 			throw new ConfigException("Invalid config file. Parsing failed.");

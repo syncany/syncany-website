@@ -20,184 +20,194 @@
 
 namespace Syncany\Api\Util;
 
-use Syncany\Api\Config\Config;
 use Syncany\Api\Exception\ConfigException;
-use Syncany\Api\Exception\Http\ServerErrorHttpException;
 use Syncany\Api\Model\FileHandle;
 use Syncany\Api\Model\TempFile;
 
+/**
+ * Utility class for file-specific methods.
+ *
+ * <p>Most of the methods in this class can only be used if a bootstrap
+ * class has been run before, namely if the following global constants
+ * have been defined: RESOURCES_PATH, UPLOAD_PATH, CONFIG_PATH.
+ *
+ * @author Philipp Heckel <philipp.heckel@gmail.com>
+ */
 class FileUtil
 {
     const MAX_WRITE_FILE_SIZE = 52428800; // 50 MB
 
-	public static function readPropertiesFile($configContext, $configName)
-	{
-		$propertiesFile = self::getConfigFileName($configContext, $configName);
+    public static function readPropertiesFile($configContext, $configName)
+    {
+        $propertiesFile = self::getConfigFileName($configContext, $configName);
 
-		$properties = array();
-		$lines = explode("\n", file_get_contents($propertiesFile));
+        $properties = array();
+        $lines = explode("\n", file_get_contents($propertiesFile));
 
-		foreach ($lines as $line) {
-			if (!preg_match('/^\s*#/', $line) && preg_match('/^([^=]+)\s*=\s*(.*)$/', $line, $m)) {
-				$properties[trim($m[1])] = trim($m[2]);
-			}
-		}
+        foreach ($lines as $line) {
+            if (!preg_match('/^\s*#/', $line) && preg_match('/^([^=]+)\s*=\s*(.*)$/', $line, $m)) {
+                $key = trim($m[1]);
+                $value = trim($m[2]);
 
-		return $properties;
-	}
+                $properties[$key] = $value;
+            }
+        }
 
-	public static function readResourceFile($namespace, $relativePath)
-	{
-		if (!defined('RESOURCES_PATH')) {
-			throw new ConfigException("Resources path not set via RESOURCES_PATH.");
-		}
+        return $properties;
+    }
 
-		$absoluteFilePath = RESOURCES_PATH . '/' . str_replace('\\', '/', $namespace) . '/' . $relativePath;
+    public static function readResourceFile($namespace, $relativePath)
+    {
+        if (!defined('RESOURCES_PATH')) {
+            throw new ConfigException("Resources path not set via RESOURCES_PATH.");
+        }
 
-		if (!file_exists($absoluteFilePath)) {
-			throw new ConfigException("File file does not exist: " . $absoluteFilePath);
-		}
+        $absoluteFilePath = RESOURCES_PATH . '/' . str_replace('\\', '/', $namespace) . '/' . $relativePath;
 
-		return file_get_contents($absoluteFilePath);
-	}
+        if (!file_exists($absoluteFilePath)) {
+            throw new ConfigException("File file does not exist: " . $absoluteFilePath);
+        }
 
-	public static function createTempDir($uploadContext)
-	{
-		if (!defined('UPLOAD_PATH')) {
-			throw new ConfigException("Upload path not set via CONFIG_PATH.");
-		}
+        return file_get_contents($absoluteFilePath);
+    }
 
-		if (!preg_match('/^[-_\/a-z0-9]+$/', $uploadContext)) {
-			throw new ConfigException("Invalid upload context passed. Illegal characters.");
-		}
+    public static function createTempDir($uploadContext)
+    {
+        if (!defined('UPLOAD_PATH')) {
+            throw new ConfigException("Upload path not set via CONFIG_PATH.");
+        }
 
-		$tempDir = UPLOAD_PATH . "/" . $uploadContext . "/" . time() . "-" . StringUtil::generateRandomString(7);
+        if (!preg_match('/^[-_\/a-z0-9]+$/', $uploadContext)) {
+            throw new ConfigException("Invalid upload context passed. Illegal characters.");
+        }
 
-		if (!mkdir($tempDir, 0777, true)) {
-			throw new ConfigException("Cannot create upload directory");
-		}
+        $tempDir = UPLOAD_PATH . "/" . $uploadContext . "/" . time() . "-" . StringUtil::generateRandomString(7);
 
-		return new TempFile($tempDir);
-	}
+        if (!mkdir($tempDir, 0777, true)) {
+            throw new ConfigException("Cannot create upload directory");
+        }
 
-	public static function writeToTempFile(FileHandle $sourceFileInputStream, TempFile $targetDir, $suffix = "")
-	{
-		if (!preg_match('/^[.a-z0-9]*$/i', $suffix)) {
-			throw new ConfigException("Invalid suffix passed. Illegal characters.");
-		}
+        return new TempFile($tempDir);
+    }
 
-		$tempFile = new TempFile($targetDir->getFile() . "/" . StringUtil::generateRandomString(5) . $suffix);
+    public static function writeToTempFile(FileHandle $sourceFileInputStream, TempFile $targetDir, $suffix = "")
+    {
+        if (!preg_match('/^[.a-z0-9]*$/i', $suffix)) {
+            throw new ConfigException("Invalid suffix passed. Illegal characters.");
+        }
+
+        $tempFile = new TempFile($targetDir->getFile() . "/" . StringUtil::generateRandomString(5) . $suffix);
 
         Log::info(__CLASS__, __METHOD__, "Writing temp file " . $tempFile->getFile() . " ...");
         return self::writeToFile($sourceFileInputStream, $tempFile);
-	}
+    }
 
-	public static function writeToFile(FileHandle $sourceFileInputStream, TempFile $tempFile)
-	{
-		$tempFileHandle = new FileHandle(fopen($tempFile->getFile(), "w"));
+    public static function writeToFile(FileHandle $sourceFileInputStream, TempFile $tempFile)
+    {
+        $tempFileHandle = new FileHandle(fopen($tempFile->getFile(), "w"));
         $writtenBytes = 0;
 
-		while (!feof($sourceFileInputStream->getHandle())) {
-			$buffer = fread($sourceFileInputStream->getHandle(), 8192);
-			$writtenBytes += fwrite($tempFileHandle->getHandle(), $buffer);
+        while (!feof($sourceFileInputStream->getHandle())) {
+            $buffer = fread($sourceFileInputStream->getHandle(), 8192);
+            $writtenBytes += fwrite($tempFileHandle->getHandle(), $buffer);
 
             if ($writtenBytes > self::MAX_WRITE_FILE_SIZE) {
                 throw new ConfigException("Uploaded file to big. For security reasons, we do not accept so large files.");
             }
-		}
+        }
 
-		fclose($sourceFileInputStream->getHandle());
-		fclose($tempFileHandle->getHandle());
+        fclose($sourceFileInputStream->getHandle());
+        fclose($tempFileHandle->getHandle());
 
-		return $tempFile;
-	}
+        return $tempFile;
+    }
 
-	public static function calculateChecksum(TempFile $file)
-	{
-		if (!file_exists($file->getFile())) {
-			throw new ConfigException("Cannot calculate checksum. File does not exist.");
-		}
+    public static function calculateChecksum(TempFile $file)
+    {
+        if (!file_exists($file->getFile())) {
+            throw new ConfigException("Cannot calculate checksum. File does not exist.");
+        }
 
-		return hash_file("sha256", $file->getFile());
-	}
+        return hash_file("sha256", $file->getFile());
+    }
 
-	public static function extractZipArchive(TempFile $tempFile, TempFile $tempDir)
-	{
+    public static function extractZipArchive(TempFile $tempFile, TempFile $tempDir)
+    {
         Log::info(__CLASS__, __METHOD__, "Extracting uploaded ZIP archive to " . $tempDir->getFile() . " ...");
 
         $zip = new \ZipArchive();
 
-		if ($zip->open($tempFile->getFile()) === true) {
-			$zip->extractTo($tempDir->getFile() . "/");
-			$zip->close();
-		} else {
-			throw new ConfigException("Cannot extract ZIP archive.");
-		}
-	}
+        if ($zip->open($tempFile->getFile()) === true) {
+            $zip->extractTo($tempDir->getFile() . "/");
+            $zip->close();
+        } else {
+            throw new ConfigException("Cannot extract ZIP archive.");
+        }
+    }
 
-	public static function readZipFileEntry($zipFileName, $searchEntryName)
-	{
-		$zip = zip_open($zipFileName);
+    public static function readZipFileEntry($zipFileName, $searchEntryName)
+    {
+        $zip = zip_open($zipFileName);
 
-		if ($zip) {
-			while ($zipEntry = zip_read($zip)) {
-				$entryName = zip_entry_name($zipEntry);
+        if ($zip) {
+            while ($zipEntry = zip_read($zip)) {
+                $entryName = zip_entry_name($zipEntry);
 
-				if ($entryName == $searchEntryName) {
-					if (zip_entry_open($zip, $zipEntry, "r")) {
-						$searchFileContents = zip_entry_read($zipEntry, zip_entry_filesize($zipEntry));
+                if ($entryName == $searchEntryName) {
+                    if (zip_entry_open($zip, $zipEntry, "r")) {
+                        $searchFileContents = zip_entry_read($zipEntry, zip_entry_filesize($zipEntry));
 
-						zip_entry_close($zipEntry);
-						zip_close($zip);
+                        zip_entry_close($zipEntry);
+                        zip_close($zip);
 
-						return $searchFileContents;
-					}
-				}
-			}
+                        return $searchFileContents;
+                    }
+                }
+            }
 
-			zip_close($zip);
-		}
+            zip_close($zip);
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public static function parseJarManifest($manifestFileContents)
-	{
-		$manifest = array();
-		$lines = explode("\n", $manifestFileContents);
+    public static function parseJarManifest($manifestFileContents)
+    {
+        $manifest = array();
+        $lines = explode("\n", $manifestFileContents);
 
-		foreach ($lines as $line) {
-			if (preg_match('/^([^:]+):\s*(.*)$/', $line, $m)) {
-				$manifest[$m[1]] = trim($m[2]);
-			}
-		}
+        foreach ($lines as $line) {
+            if (preg_match('/^([^:]+):\s*(.*)$/', $line, $m)) {
+                $manifest[$m[1]] = trim($m[2]);
+            }
+        }
 
-		return $manifest;
-	}
+        return $manifest;
+    }
 
-	private static function getConfigFileName($configContext, $configName)
-	{
-		if (!defined('CONFIG_PATH')) {
-			throw new ConfigException("Config path not set via CONFIG_PATH.");
-		}
+    private static function getConfigFileName($configContext, $configName)
+    {
+        if (!defined('CONFIG_PATH')) {
+            throw new ConfigException("Config path not set via CONFIG_PATH.");
+        }
 
-		if (!preg_match('/^[-_a-z0-9]+$/', $configContext) || !preg_match('/^[-_a-z0-9]+$/', $configName)) {
-			throw new ConfigException("Invalid config context passed. Illegal characters.");
-		}
+        if (!preg_match('/^[-_a-z0-9]+$/', $configContext) || !preg_match('/^[-_a-z0-9]+$/', $configName)) {
+            throw new ConfigException("Invalid config context passed. Illegal characters.");
+        }
 
-		$configFile = CONFIG_PATH . "/" . $configContext . "/" . $configName . ".properties";
+        $configFile = CONFIG_PATH . "/" . $configContext . "/" . $configName . ".properties";
 
         FileUtil::checkLockInDirMustExist(CONFIG_PATH, $configFile);
 
-		if (!file_exists($configFile)) {
-			throw new ConfigException("Config file not found for context $configContext.");
-		}
+        if (!file_exists($configFile)) {
+            throw new ConfigException("Config file not found for context $configContext.");
+        }
 
-		return $configFile;
-	}
+        return $configFile;
+    }
 
-	public static function deleteTempDir(TempFile $tempDir)
-	{
+    public static function deleteTempDir(TempFile $tempDir)
+    {
         if (!defined('UPLOAD_PATH')) {
             throw new ConfigException("Upload path not set via CONFIG_PATH.");
         }
@@ -224,8 +234,7 @@ class FileUtil
             }
 
             rmdir($dir);
-        }
-        else {
+        } else {
             Log::info(__CLASS__, __METHOD__, "Directory '$dir' is not a directory. Doing nothing.");
         }
     }
@@ -237,8 +246,7 @@ class FileUtil
 
             Log::info(__CLASS__, __METHOD__, "Deleting '$file' ...");
             unlink($file);
-        }
-        else {
+        } else {
             Log::info(__CLASS__, __METHOD__, "File '$file' is not a file. Doing nothing.");
         }
     }

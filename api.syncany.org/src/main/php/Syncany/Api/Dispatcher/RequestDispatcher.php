@@ -26,6 +26,22 @@ use Syncany\Api\Exception\Http\HttpException;
 use Syncany\Api\Exception\Http\ServerErrorHttpException;
 use Syncany\Api\Util\Log;
 
+/**
+ * The request dispatcher is the entry point for all API requests. It analyzes the
+ * request URI and determines a responsible {@link Controller}, and calls it. The request
+ * URI is passed via the GET variable 'request'.
+ *
+ * <p>The request pattern is /[controller]/[verb]/[arg1]/[arg2]/...
+ * The controller is mandatory, the verb and the arguments are optional. The dispatcher
+ * instantiates a new controller class and calls it via its call() method.
+ *
+ * <p>Example: A GET request to /plugins/list will instantiate a <tt>PluginsController</tt> class
+ * and eventually call its <tt>getList()</tt> method. If no method for the given verb is found,
+ * the verb is interpreted as a request argument. In this example, if <tt>getList()</tt> does not
+ * exist, <tt>get()</tt> is called.
+ *
+ * @author Philipp Heckel <philipp.heckel@gmail.com>
+ */
 class RequestDispatcher
 {
     public static function dispatch()
@@ -67,11 +83,6 @@ class RequestDispatcher
         }
     }
 
-    /**
-     * @return Controller
-     * @throws BadRequestHttpException
-     * @throws ServerErrorHttpException
-     */
     private static function createController($object)
     {
         $controllerSimpleClassName = self::getControllerClassName($object);
