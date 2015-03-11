@@ -1,0 +1,25 @@
+; Database configuration file.
+; Can be used via Database::createInstance("<context>");
+;
+; Do NOT add it to the version control system!
+;
+; General syntax:
+;    <context>.dsn = mysql:host=localhost;port=3306;dbname=<somedatabase>
+;    <context>.user = <someusername>
+;    <context>.pass = <somepassword>
+
+links-read.dsn = mysql:host=localhost;port=3306;dbname=syncanylink
+links-read.user = syncanylinkread
+links-read.pass = <somepassword>
+
+links-write.dsn = mysql:host=localhost;port=3306;dbname=syncanylink
+links-write.user = syncanylinkwrite
+links-write.pass = <somepassword>
+
+plugins-read.dsn = mysql:host=localhost;port=3306;dbname=syncanydist
+plugins-read.user = syncanypluginapi
+plugins-read.pass = <somepassword>
+
+plugins-write.dsn = mysql:host=localhost;port=3306;dbname=syncanydist
+plugins-write.user = syncanydist
+plugins-write.pass = <somepassword>
