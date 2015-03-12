@@ -117,8 +117,11 @@ class PluginsController extends Controller
 
     private function validatePluginId($methodArgs, $requestArgs)
     {
-        if (isset($methodArgs['pluginId']) || isset($requestArgs[0])) {
-            $pluginId = (isset($methodArgs['pluginId'])) ? $methodArgs['pluginId'] : $requestArgs[0];
+        $methodArgGiven = isset($methodArgs['pluginId']) && !empty($methodArgs['pluginId']); // Treat empty as not present (v2-compatible!)
+        $requestArgGiven = isset($requestArgs[0]);
+
+        if ($methodArgGiven || $requestArgGiven) {
+            $pluginId = ($methodArgGiven) ? $methodArgs['pluginId'] : $requestArgs[0];
 
             if (!preg_match('/^[a-z0-9]+/i', $pluginId)) {
                 throw new BadRequestHttpException("Invalid request. Plugin identifier is invalid.");
@@ -217,7 +220,8 @@ class PluginsController extends Controller
 
         foreach ($plugins as $plugin) {
             $downloadUrl = $downloadBaseUrl . $plugin->getFilenameFull();
-            $isThirdPartyPlugin = intval(!in_array($plugin->getId(), $teamSupportedPlugins));
+            $isThirdPartyPlugin = (in_array($plugin->getId(), $teamSupportedPlugins)) ? "false" : "true";
+            $isRelease = ($plugin->getRelease()) ? "true" : "false";
 
             echo "		<pluginInfo>\n";
             echo "			<pluginId>{$plugin->getId()}</pluginId>\n";
@@ -227,7 +231,7 @@ class PluginsController extends Controller
             echo "			<pluginArchitecture>{$plugin->getArchitecture()}</pluginArchitecture>\n";
             echo "			<pluginDate>{$plugin->getDate()}</pluginDate>\n";
             echo "			<pluginAppMinVersion>{$plugin->getAppMinVersion()}</pluginAppMinVersion>\n";
-            echo "			<pluginRelease>{$plugin->getRelease()}</pluginRelease>\n";
+            echo "			<pluginRelease>{$isRelease}</pluginRelease>\n";
             echo "			<pluginConflictsWith>{$plugin->getConflictsWith()}</pluginConflictsWith>\n";
             echo "			<pluginThirdParty>{$isThirdPartyPlugin}</pluginThirdParty>\n";
             echo "			<downloadUrl>{$downloadUrl}</downloadUrl>\n";

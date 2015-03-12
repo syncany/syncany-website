@@ -160,13 +160,14 @@ abstract class Controller
 
     private function readApiKey($keyName)
     {
-        $keys = FileUtil::readPropertiesFile("keys", $keyName);
+        $keyFile = FileUtil::readPropertiesFile("keys", "keys");
+        $keyProperty = $keyName . ".key";
 
-        if (!isset($keys['key'])) {
+        if (!isset($keyFile[$keyProperty])) {
             throw new ConfigException("Cannot read API key from configuration");
         }
 
-        return $keys['key'];
+        return $keyFile[$keyProperty];
     }
 
     private function validateTimeRandAndSignature($methodArgs)
