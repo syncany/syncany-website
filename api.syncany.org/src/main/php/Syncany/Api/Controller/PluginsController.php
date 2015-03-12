@@ -204,6 +204,7 @@ class PluginsController extends Controller
     }
 
     private function printResponseXml($code, $message, $plugins) {
+        $teamSupportedPlugins = preg_split("/,/", Config::get("plugins.team-supported"));
         $downloadBaseUrl = Config::get("plugins.base-url");
 
         header("Content-Type: application/xml");
@@ -216,6 +217,7 @@ class PluginsController extends Controller
 
         foreach ($plugins as $plugin) {
             $downloadUrl = $downloadBaseUrl . $plugin->getFilenameFull();
+            $isThirdPartyPlugin = intval(!in_array($plugin->getId(), $teamSupportedPlugins));
 
             echo "		<pluginInfo>\n";
             echo "			<pluginId>{$plugin->getId()}</pluginId>\n";
@@ -227,6 +229,7 @@ class PluginsController extends Controller
             echo "			<pluginAppMinVersion>{$plugin->getAppMinVersion()}</pluginAppMinVersion>\n";
             echo "			<pluginRelease>{$plugin->getRelease()}</pluginRelease>\n";
             echo "			<pluginConflictsWith>{$plugin->getConflictsWith()}</pluginConflictsWith>\n";
+            echo "			<pluginThirdParty>{$isThirdPartyPlugin}</pluginThirdParty>\n";
             echo "			<downloadUrl>{$downloadUrl}</downloadUrl>\n";
             echo "			<sha256sum>{$plugin->getSha256sum()}</sha256sum>\n";
             echo "		</pluginInfo>\n";
