@@ -22,6 +22,7 @@ namespace Syncany\Api\Controller;
 
 use Syncany\Api\Exception\Http\BadRequestHttpException;
 use Syncany\Api\Exception\Http\ServerErrorHttpException;
+use Syncany\Api\Exception\Http\UnauthorizedHttpException;
 use Syncany\Api\Model\FileHandle as FileHandle;
 use Syncany\Api\Task\DebAppReleaseUploadTask;
 use Syncany\Api\Task\DocsExtractZipUploadTask;
@@ -31,8 +32,38 @@ use Syncany\Api\Task\TarGzAppReleaseUploadTask;
 use Syncany\Api\Task\ZipAppReleaseUploadTask;
 use Syncany\Api\Util\Log;
 
+/**
+ * The app controller is responsible to handling application related requests, mainly
+ * the upload of new main/core application releases and snapshots.
+ *
+ * @author Philipp Heckel <philipp.heckel@gmail.com>
+ */
 class AppController extends Controller
 {
+    /**
+     * This method handles the upload of a release or snapshot file, as well as the upload of reports
+     * and documentation in the form of an archive. The uploaded files are validated and then placed in
+     * the appropriate place to make them accessible to the end users.
+     *
+     * <p>The release/snapshot formats tar.gz, zip, exe and deb are simply put moved to the target download
+     * page. The deb file is additionally put into the Debian/APT archive. The reports archive is extracted
+     * and placed on the reports page, the docs archive is extracted and placed on the docs page.
+     *
+     * <p>Expected method arguments (in <tt>methodArgs</tt>) are:
+     * <ul>
+     *   <li>filename: Target filename of the uploaded file</li>
+     *   <li>checksum: SHA-256 checksum of the uploaded file</li>
+     *   <li>snapshot: Whether or not the uploaded file is a snapshot, or a release (true or false)</li>
+     *   <li>type: Type of the upload (one in: tar.gz, zip, deb, exe, reports or docs)</li>
+     * </ul>
+     *
+     * @param array $methodArgs GET arguments, expected are filename, checksum, snapshot and type
+     * @param array $requestArgs No request arguments are expected by this method
+     * @param FileHandle $fileHandle File handle to the uploaded file
+     * @throws BadRequestHttpException If any of the given arguments is invalid
+     * @throws UnauthorizedHttpException If the given signature does not match the expected signature
+     * @throws ServerErrorHttpException If there is any unexpected server behavior
+     */
     public function put(array $methodArgs, array $requestArgs, FileHandle $fileHandle)
     {
         Log::info(__CLASS__, __METHOD__, "Put request for application received. Authenticating ...");

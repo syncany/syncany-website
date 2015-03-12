@@ -83,6 +83,18 @@ class RequestDispatcher
         }
     }
 
+    /**
+     * Given the object name passed in the request URI, this method constructs the expected class name for
+     * the responsible controller and (if it exists), creates a instance of it.
+     *
+     * <p>Example: In the request "/plugins/list", "plugins" is the object identifier and it will result in
+     * the creation of a "PluginsController".
+     *
+     * @param string $object The object identifies the controller class
+     * @return Controller An instance of the object-matching controller
+     * @throws BadRequestHttpException If the given object is invalid, i.e. the controller class file does not exist
+     * @throws ServerErrorHttpException If the controller class file exists, but the class is still not found
+     */
     private static function createController($object)
     {
         $controllerSimpleClassName = self::getControllerClassName($object);
