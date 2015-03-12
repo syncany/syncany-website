@@ -4,22 +4,26 @@
 ; Do NOT add it to the version control system!
 ;
 ; General syntax:
-;    <context>.dsn = mysql:host=localhost;port=3306;dbname=<somedatabase>
-;    <context>.user = <someusername>
-;    <context>.pass = <somepassword>
+;   <context>.dsn  = mysql:host=localhost;port=3306;dbname=<somedatabase>
+;   <context>.user = <someusername>
+;   <context>.pass = <somepassword>
+;
+; Generate new password:
+;   < /dev/urandom tr -dc A-Za-z0-9 | head -c${1:-16}; echo
+;
 
-links-read.dsn     = mysql:host=localhost;port=3306;dbname=syncanylink
-links-read.user    = syncanylinkread
+links-read.dsn     = mysql:host=localhost;port=3306;dbname=syncanyapi
+links-read.user    = sylinksread
 links-read.pass    = <somepassword>
 
-links-write.dsn    = mysql:host=localhost;port=3306;dbname=syncanylink
-links-write.user   = syncanylinkwrite
+links-write.dsn    = mysql:host=localhost;port=3306;dbname=syncanyapi
+links-write.user   = sylinkswrite
 links-write.pass   = <somepassword>
 
-plugins-read.dsn   = mysql:host=localhost;port=3306;dbname=syncanydist
-plugins-read.user  = syncanypluginapi
+plugins-read.dsn   = mysql:host=localhost;port=3306;dbname=syncanyapi
+plugins-read.user  = sypluginsread
 plugins-read.pass  = <somepassword>
 
-plugins-write.dsn  = mysql:host=localhost;port=3306;dbname=syncanydist
-plugins-write.user = syncanydist
+plugins-write.dsn  = mysql:host=localhost;port=3306;dbname=syncanyapi
+plugins-write.user = sypluginswrite
 plugins-write.pass = <somepassword>
