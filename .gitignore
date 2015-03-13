@@ -1,6 +1,9 @@
 api.syncany.org/config/database/*.properties
 api.syncany.org/config/keys/*.properties
-api.syncany.org/config/keys/gnupg/
+api.syncany.org/config/keys/gnupg/pubring*
+api.syncany.org/config/keys/gnupg/secring*
+api.syncany.org/config/keys/gnupg/trustdb*
+api.syncany.org/config/keys/gnupg/random_seed*
 api.syncany.org/upload/*/*
 api.syncany.org/log/*.log
 api.syncany.org/html/badge/
@@ -13,8 +16,12 @@ api.syncany.org/html/v1/
 api.syncany.org/html/v2/
 api.syncany.org/inc/
 api.syncany.org/vendor/
-get.syncany.org/html/apt/release/
-get.syncany.org/html/apt/snapshot/
+get.syncany.org/html/apt/release/db/
+get.syncany.org/html/apt/release/dists/
+get.syncany.org/html/apt/release/pool/
+get.syncany.org/html/apt/snapshot/db/
+get.syncany.org/html/apt/snapshot/dists/
+get.syncany.org/html/apt/snapshot/pool/
 get.syncany.org/html/dist/*/*
 dav.syncany.org/
 docs.syncany.org/html/javadoc/
@@ -25,3 +32,4 @@ upload.syncany.org/
 syncany.org/html/dist/
 archive.syncany.org/html/apt/release/
 archive.syncany.org/html/apt/snapshot/
+configuration/mysql/grant-users.sql
