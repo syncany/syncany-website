@@ -26,6 +26,9 @@ apt-get install \
 
 a2enmod php5
 a2enmod rewrite
+
+curl -sS https://getcomposer.org/installer | php
+  # Urgh. But, yes ...
 ```
 
 API Configuration
@@ -42,6 +45,13 @@ vi database/database.properties
   
 vi keys/keys.properties
   # Edit the file! Don't forget this :)
+```
+
+Then, download the dependencies via composer:
+
+```bash
+cd /silv/www/syncany.org/api.syncany.org
+php composer.phar install
 ```
 
 Apache
@@ -138,5 +148,3 @@ chown -R www-data:www-data /silv/www/syncany.org/api.syncany.org/log
 chown -R www-data:www-data /silv/www/syncany.org/api.syncany.org/config/keys/gnupg
 chmod 700 /silv/www/syncany.org/api.syncany.org/config/keys/gnupg
 ```
-
-
