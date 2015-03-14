@@ -7,8 +7,8 @@ api.syncany.org/config/keys/gnupg/random_seed*
 api.syncany.org/upload/*/*
 api.syncany.org/log/*.log
 api.syncany.org/html/ping.php
-api.syncany.org/html/v1/
-api.syncany.org/html/v2/
+api.syncany.org/html/v1-deactivated/
+api.syncany.org/html/v2-deactivated/
 api.syncany.org/vendor/
 get.syncany.org/html/apt/release/db/
 get.syncany.org/html/apt/release/dists/

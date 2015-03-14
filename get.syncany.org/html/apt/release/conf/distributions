@@ -3,5 +3,5 @@ Label: Syncany Releases
 Codename: release
 Architectures: i386 amd64
 Components: main
-Description: Official Syncany Release APT Repository
+Description: Official Syncany APT Repository
 SignWith: 651D12BD

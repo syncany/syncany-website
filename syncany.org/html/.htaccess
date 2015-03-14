@@ -12,7 +12,7 @@ RewriteCond %{HTTPS} !=on
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=302,L]
 
 # Redirect URL shortener links
-RewriteRule ^s/(.+)$ https://api.syncany.org/v2/links/?l=$1 [R=302,L]
+RewriteRule ^s/(.+)$ https://api.syncany.org/v3/links/?l=$1 [R=302,L]
 
 # Redirect links from programs
 RewriteRule ^r/howto$ http://syncany.readthedocs.org/en/latest/getting_started.html [R=302,L]
@@ -24,9 +24,9 @@ RewriteRule ^r/team$ https://github.com/syncany/syncany/blob/develop/AUTHORS.md 
 RewriteRule ^r/donate$ https://www.syncany.org/donate.html [R=302,L]
 
 # Redirect old URLs
-RewriteRule ^reports(.*) https://reports.syncany.org$1 [R=302,L] 
-RewriteRule ^docs(.*) https://docs.syncany.org$1 [R=302,L] 
-RewriteRule ^dist(.*) https://get.syncany.org/dist$1 [R=302,L] 
+RewriteRule ^reports(.*) https://reports.syncany.org$1 [R=301,L] 
+RewriteRule ^docs(.*) https://docs.syncany.org$1 [R=301,L] 
+RewriteRule ^dist(.*) https://get.syncany.org/dist$1 [R=301,L] 
 
 # Redirect latest dist/snapshot 
 RewriteRule ^(r/)?(syncany-)?latest\.(deb|tar\.gz|zip)$ https://get.syncany.org/dist/releases/syncany-latest.$3 [R=302,L]

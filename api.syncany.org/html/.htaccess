@@ -1,6 +1,13 @@
 RewriteEngine On
+
+# Redirect API calls to request dispatcher
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule v3/(.+)$ v3/index.php?request=$1 [QSA,NC,L]
 
+# Redirect old APIs
+RewriteRule v1/(.+)$ v3/index.php?request=$1 [QSA,NC,L]
+RewriteRule v2/(.+)$ v3/index.php?request=$1 [QSA,NC,L]
+
+# Redirect old sites and APIs
 RewriteRule donate-thanks.php https://www.syncany.org/donate-thanks.html [L]

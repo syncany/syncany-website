@@ -1,10 +1,10 @@
 RewriteEngine On
 
-# Redirect 'syncany.org' to 'www.syncany.org'
+# Redirect to HTTPS; do NOT redirect /apt/!
 RewriteCond %{HTTP_USER_AGENT} !^.+MSIE\s6
 RewriteCond %{HTTPS} !=on
 RewriteCond %{HTTP_HOST} ^get.syncany.org$
-RewriteRule ^(.*) https://get.syncany.org/$1 [R=302,L] 
+RewriteRule ^(arch.*|debian.*|dist.*|homebrew.*|other.*|windows.*|index.php|)$ https://get.syncany.org/$1 [R=302,L] 
 
 # Redirect old distributions dist/*.deb -> dist/releases/*.deb
 RewriteRule ^dist/([^/]+\.(exe|tar.gz|zip|deb))$ dist/releases/$1
