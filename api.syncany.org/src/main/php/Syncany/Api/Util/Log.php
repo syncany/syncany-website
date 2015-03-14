@@ -64,6 +64,7 @@ class Log
     {
         self::init();
 
+        $logLevel = substr($logLevel, 0, 4);
         $datetime = @date("Y-m-d H:i:s");
         $ipAddr = $_SERVER['REMOTE_ADDR'];
         $formattedMessage = StringUtil::replace($message, $args);
@@ -75,13 +76,13 @@ class Log
 
         if ($method) {
             if (strpos($method, "::") !== false) {
-                $method = substr($method, strpos($method, "::") + 2, 20);
+                $method = substr($method, strpos($method, "::") + 2, 15);
             } else {
                 $method = substr($method, 0, 20);
             }
         }
 
-        $line = sprintf("%-10s | %-15s | %-15s | %-20s | %-6s | %s\n", $datetime, $ipAddr, $class, $method, $logLevel, $formattedMessage);
+        $line = sprintf("%-10s | %-15s | %-15s | %-15s | %-4s | %s\n", $datetime, $ipAddr, $class, $method, $logLevel, $formattedMessage);
 
         if ($exception) {
             $line .= "\nException: \n" . $exception->getTraceAsString() . "\n";

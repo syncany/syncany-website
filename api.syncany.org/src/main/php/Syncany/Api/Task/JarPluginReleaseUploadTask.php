@@ -116,13 +116,16 @@ class JarPluginReleaseUploadTask extends PluginReleaseUploadTask
 		$statement->bindValue(':pluginArchitecture', $pluginArchitecture, \PDO::PARAM_STR);
 		$statement->bindValue(':pluginDate', $pluginDate, \PDO::PARAM_STR);
 		$statement->bindValue(':pluginAppMinVersion', $pluginAppMinVersion, \PDO::PARAM_STR);
-		$statement->bindValue(':pluginRelease', $pluginRelease, \PDO::PARAM_STR);
+		$statement->bindValue(':pluginRelease', $pluginRelease, \PDO::PARAM_INT);
 		$statement->bindValue(':pluginConflictsWith', $pluginConflictsWith, \PDO::PARAM_INT);
 		$statement->bindValue(':sha256sum', $sha256sum, \PDO::PARAM_STR);
 		$statement->bindValue(':filenameBasename', $filenameBasename, \PDO::PARAM_STR);
 		$statement->bindValue(':filenameFull', $filenameFull, \PDO::PARAM_STR);
 
 		if (!$statement->execute()) {
+            $errorMessage = join("\n", $statement->errorInfo());
+            Log::error(__CLASS__, __METHOD__, "Insert in database failed:\n\n$errorMessage")
+
 			throw new ServerErrorHttpException("Cannot insert plugin to database.");
 		}
 	}

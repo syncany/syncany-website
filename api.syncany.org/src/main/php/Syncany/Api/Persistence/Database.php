@@ -43,7 +43,7 @@ class Database
      * context is a prefix used to identify the database credentials in the
      * database properties file.
      *
-     * @param $configContext Database config context/prefix, e.g. plugins-write, plugins-read, ...
+     * @param string $configContext Database config context/prefix, e.g. plugins-write, plugins-read, ...
      * @return \PDO The desired PDO object
      * @throws ConfigException If the given config context is invalid or does not exist.
      */
@@ -52,7 +52,10 @@ class Database
         $config = self::readConfigFile($configContext);
 
         try {
-            return new \PDO($config['dsn'], $config['user'], $config['pass'], array());
+            $pdo = new \PDO($config['dsn'], $config['user'], $config['pass'], array());
+            $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING);
+
+            return $pdo;
         } catch (\PDOException $e) {
             throw new ConfigException("Cannot connect to database. Invalid credentials or database down.");
         }
@@ -73,9 +76,9 @@ class Database
      *   // and creates a PDOStatement object from it.
      * </pre>
      *
-     * @param $configContext Database config context/prefix, e.g. plugins-write, plugins-read, ...
-     * @param $namespaceContext Namespace context, e.g. 'Syncany\Api\Controller'
-     * @param $sqlFile Specific SQL file, e.g. 'plugins.getById.sql'
+     * @param string $configContext Database config context/prefix, e.g. plugins-write, plugins-read, ...
+     * @param string $namespaceContext Namespace context, e.g. 'Syncany\Api\Controller'
+     * @param string $sqlFile Specific SQL file, e.g. 'plugins.getById.sql'
      * @return \PDOStatement The desired PDO statement
      * @throws ConfigException If any of the given parameters is incorrect/invalid.
      */
