@@ -24,17 +24,18 @@ use Syncany\Api\Util\FileUtil;
 use Syncany\Api\Util\Log;
 use Syncany\Api\Util\StringUtil;
 
-class ExeGuiPluginReleaseUploadTask extends GuiPluginReleaseUploadTask
+class AppZipGuiPluginReleaseUploadTask extends GuiPluginReleaseUploadTask
 {
 	public function execute()
 	{
-        Log::info(__CLASS__, __METHOD__, "Processing uploaded EXE plugin release file ...");
+        Log::info(__CLASS__, __METHOD__, "Processing uploaded APP.ZIP release file ...");
 
 		$this->validatePluginId();
 
-		$tempDirContext = "plugins/" . $this->pluginId . "/exe";
+		$tempDirContext = "plugins/" . $this->pluginId . "/appzip";
+
 		$tempDir = FileUtil::createTempDir($tempDirContext);
-		$tempFile = FileUtil::writeToTempFile($this->fileHandle, $tempDir, ".exe");
+		$tempFile = FileUtil::writeToTempFile($this->fileHandle, $tempDir, ".app.zip");
 
 		$this->validateChecksum($tempFile);
 
@@ -47,10 +48,9 @@ class ExeGuiPluginReleaseUploadTask extends GuiPluginReleaseUploadTask
 	protected function getLatestLinkBasename()
 	{
 		$snapshotSuffix = ($this->snapshot) ? "-snapshot" : "";
-		$archSuffix = (isset($this->arch) && $this->arch != "" && $this->arch != "all") ? "-" . $this->arch : "";
+		$archSuffix = (!isset($this->arch)) ? "" : ($this->arch == "x86") ? "-x86" : "-x86_64";
 
-		return StringUtil::replace("syncany-plugin-latest{snapshot}-{id}{arch}.exe", array(
-			"id" => $this->pluginId,
+		return StringUtil::replace("syncany-latest{snapshot}{arch}.app.zip", array(
 			"snapshot" => $snapshotSuffix,
 			"arch" => $archSuffix
 		));
