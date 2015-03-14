@@ -20,12 +20,11 @@
 
 namespace Syncany\Api\Task;
 
-use Syncany\Api\Exception\Http\BadRequestHttpException;
 use Syncany\Api\Util\FileUtil;
 use Syncany\Api\Util\Log;
 use Syncany\Api\Util\StringUtil;
 
-class ExePluginReleaseUploadTask extends PluginReleaseUploadTask
+class ExeGuiPluginReleaseUploadTask extends GuiPluginReleaseUploadTask
 {
 	public function execute()
 	{
@@ -43,13 +42,6 @@ class ExePluginReleaseUploadTask extends PluginReleaseUploadTask
 		$this->createLatestLink($targetFile);
 
 		FileUtil::deleteTempDir($tempDir);
-	}
-
-	private function validatePluginId()
-	{
-		if ($this->pluginId != "gui") {
-			throw new BadRequestHttpException("Exe files can only be uploaded for the GUI plugin");
-		}
 	}
 
 	protected function getLatestLinkBasename()
