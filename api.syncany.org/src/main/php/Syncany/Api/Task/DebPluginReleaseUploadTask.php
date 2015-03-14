@@ -55,7 +55,7 @@ class DebPluginReleaseUploadTask extends PluginReleaseUploadTask
 	protected function getLatestLinkBasename()
 	{
 		$snapshotSuffix = ($this->snapshot) ? "-snapshot" : "";
-		$archSuffix = (!isset($this->arch)) ? "" : ($this->arch == "x86") ? "-i386" : "-amd64";
+        $archSuffix = (isset($this->arch) && $this->arch != "" && $this->arch != "all") ? ($this->arch == "x86") ? "-i386" : "-amd64" : "";
 
 		return StringUtil::replace("syncany-plugin-{id}-latest{snapshot}{arch}.deb", array(
 			"id" => $this->pluginId,
