@@ -124,7 +124,7 @@ class JarPluginReleaseUploadTask extends PluginReleaseUploadTask
 
 		if (!$statement->execute()) {
             $errorMessage = join("\n", $statement->errorInfo());
-            Log::error(__CLASS__, __METHOD__, "Insert in database failed:\n\n$errorMessage")
+            Log::error(__CLASS__, __METHOD__, "Insert in database failed:\n\n$errorMessage");
 
 			throw new ServerErrorHttpException("Cannot insert plugin to database.");
 		}
