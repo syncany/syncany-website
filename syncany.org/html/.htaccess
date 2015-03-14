@@ -29,21 +29,27 @@ RewriteRule ^docs(.*) https://docs.syncany.org$1 [R=301,L]
 RewriteRule ^dist(.*) https://get.syncany.org/dist$1 [R=301,L] 
 
 # Redirect latest dist/snapshot 
-RewriteRule ^(r/)?(syncany-)?latest\.(deb|tar\.gz|zip)$ https://get.syncany.org/dist/releases/syncany-latest.$3 [R=302,L]
-RewriteRule ^(r/)?(syncany-)?latest-snapshot\.(deb|tar\.gz|exe|zip)$ https://get.syncany.org/dist/snapshots/syncany-latest-snapshot.$3 [R=302,L]
-RewriteRule ^(r/)?(syncany-)?latest-(x86|x86_64)\.(exe|app\.zip)$ https://get.syncany.org/dist/releases/syncany-latest-$3.$4 [R=302,L]
-RewriteRule ^(r/)?(syncany-)?latest-snapshot-(x86|x86_64)\.(exe|app\.zip)$ https://get.syncany.org/dist/snapshots/syncany-latest-snapshot-$3.$4 [R=302,L]
-RewriteRule ^(r/)?(syncany-)?cli-latest\.exe$ https://get.syncany.org/dist/releases/syncany-cli-latest.exe [R=302,L]
+RewriteRule ^(r/)?(syncany-)?latest\.(deb|tar\.gz|zip)$ https://get.syncany.org/dist/releases/syncany-latest.$3 [R=302,L]                                                             # 1
+RewriteRule ^(r/)?(syncany-)?latest-snapshot\.(deb|tar\.gz|exe|zip)$ https://get.syncany.org/dist/snapshots/syncany-latest-snapshot.$3 [R=302,L]                                      # 2
+RewriteRule ^(r/)?(syncany-)?latest-(x86|x86_64)\.(exe|app\.zip)$ https://get.syncany.org/dist/releases/syncany-latest-$3.$4 [R=302,L]                                                # 3
+RewriteRule ^(r/)?(syncany-)?latest-snapshot-(x86|x86_64)\.(exe|app\.zip)$ https://get.syncany.org/dist/snapshots/syncany-latest-snapshot-$3.$4 [R=302,L]                             # 4
+RewriteRule ^(r/)?(syncany-)?cli-latest\.exe$ https://get.syncany.org/dist/releases/syncany-cli-latest.exe [R=302,L]                                                                  # 5
 
-# Redirect latest plugins
-RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest\.(jar|deb)$ https://get.syncany.org/dist/plugins/releases/$3/syncany-plugin-$3-latest.$4 [R=302,L]
-RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest-(x86|x86_64)\.jar$ https://get.syncany.org/dist/plugins/releases/$3/syncany-plugin-$3-latest-$4.jar [R=302,L]
-RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest-(i386|amd64)\.deb$ https://get.syncany.org/dist/plugins/releases/$3/syncany-plugin-$3-latest-$4.deb [R=302,L]
-RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest-snapshot\.(jar|deb)$ https://get.syncany.org/dist/plugins/snapshots/$3/syncany-plugin-$3-latest.$4 [R=302,L]
-RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest-snapshot-(x86|x86_64)\.jar$ https://get.syncany.org/dist/plugins/snapshots/$3/syncany-plugin-$3-latest-snapshot-$4.jar [R=302,L]
-RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest-snapshot-(i386|amd64)\.deb$ https://get.syncany.org/dist/plugins/snapshots/$3/syncany-plugin-$3-latest-snapshot-$4.deb [R=302,L]
+# Redirect latest architecture-independent plugins
+RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest\.(jar|deb)$ https://get.syncany.org/dist/plugins/releases/$3/syncany-plugin-$3-latest.$4 [R=302,L]                                 # 6
+RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest-snapshot\.(jar|deb)$ https://get.syncany.org/dist/plugins/snapshots/$3/syncany-plugin-$3-latest-snapshot.$4 [R=302,L]              # 7
+
+# Redirect latest architecture-dependent plugins, without OS
+RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest-(x86|x86_64)\.jar$ https://get.syncany.org/dist/plugins/releases/$3/syncany-plugin-$3-latest-$4.jar [R=302,L]                      # 8
+RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest-(i386|amd64)\.deb$ https://get.syncany.org/dist/plugins/releases/$3/syncany-plugin-$3-latest-$4.deb [R=302,L]                      # 9
+RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest-snapshot-(x86|x86_64)\.jar$ https://get.syncany.org/dist/plugins/snapshots/$3/syncany-plugin-$3-latest-snapshot-$4.jar [R=302,L]   # 10
+RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest-snapshot-(i386|amd64)\.deb$ https://get.syncany.org/dist/plugins/snapshots/$3/syncany-plugin-$3-latest-snapshot-$4.deb [R=302,L]   # 11
+
+# Redirect latest architecture-dependent plugins, with OS
+RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest-(windows|linux|macosx)-(x86|x86_64)\.jar$ https://get.syncany.org/dist/plugins/releases/$3/syncany-plugin-$3-latest-$4-$5.jar [R=302,L]                      # 12
+RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest-snapshot-(windows|linux|macosx)-(x86|x86_64)\.jar$ https://get.syncany.org/dist/plugins/snapshots/$3/syncany-plugin-$3-latest-snapshot-$4-$5.jar [R=302,L]   # 13
 
 # Redirect latest OSX notifier
-RewriteRule ^(r/)?(syncany-)?osx-notifier-latest.app.zip$ https://get.syncany.org/dist/universe/osxnotifier/releases/syncany-osx-notifier-latest.app.zip [R=302,L]
-RewriteRule ^(r/)?(syncany-)?osx-notifier-latest-snapshot.app.zip$ https://get.syncany.org/dist/universe/osxnotifier/snapshots/syncany-osx-notifier-latest-snapshot.app.zip [R=302,L]
+RewriteRule ^(r/)?(syncany-)?osx-notifier-latest.app.zip$ https://get.syncany.org/dist/universe/osxnotifier/releases/syncany-osx-notifier-latest.app.zip [R=302,L]                    # 14
+RewriteRule ^(r/)?(syncany-)?osx-notifier-latest-snapshot.app.zip$ https://get.syncany.org/dist/universe/osxnotifier/snapshots/syncany-osx-notifier-latest-snapshot.app.zip [R=302,L] # 15
 
