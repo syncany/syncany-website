@@ -2,6 +2,7 @@
 
 IFS=$'\n'
 redirects='
+# 1
 latest.deb
 latest.tar.gz
 latest.zip
