@@ -57,7 +57,7 @@ class DebPluginReleaseUploadTask extends PluginReleaseUploadTask
 		$snapshotSuffix = ($this->snapshot) ? "-snapshot" : "";
 		$archSuffix = (!isset($this->arch)) ? "" : ($this->arch == "x86") ? "-i386" : "-amd64";
 
-		return StringUtil::replace("syncany-plugin-latest{snapshot}-{id}{arch}.deb", array(
+		return StringUtil::replace("syncany-plugin-{id}-latest{snapshot}{arch}.deb", array(
 			"id" => $this->pluginId,
 			"snapshot" => $snapshotSuffix,
 			"arch" => $archSuffix,

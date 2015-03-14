@@ -84,7 +84,7 @@ class JarPluginReleaseUploadTask extends PluginReleaseUploadTask
 		$osSuffix = (isset($this->os) && $this->os != "" && $this->os != "all") ? "-" . $this->os : "";
 		$archSuffix = (isset($this->arch) && $this->arch != "" && $this->arch != "all") ? "-" . $this->arch : "";
 
-		return StringUtil::replace("syncany-plugin-latest{snapshot}-{id}{os}{arch}.jar", array(
+		return StringUtil::replace("syncany-plugin-{id}-latest{snapshot}{os}{arch}.jar", array(
 			"id" => $this->pluginId,
 			"snapshot" => $snapshotSuffix,
 			"os" => $osSuffix,

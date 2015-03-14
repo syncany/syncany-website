@@ -26,6 +26,7 @@ use Syncany\Api\Exception\Http\ServerErrorHttpException;
 use Syncany\Api\Model\FileHandle;
 use Syncany\Api\Model\TempFile;
 use Syncany\Api\Util\FileUtil;
+use Syncany\Api\Util\Log;
 
 abstract class ReleaseUploadTask extends UploadTask
 {
@@ -61,6 +62,8 @@ abstract class ReleaseUploadTask extends UploadTask
         $targetFolder = $this->getTargetFolder();
         $targetFile = $this->getTargetFile();
 
+        Log::info(__CLASS__, __METHOD__, "Moving to target: " . $tempFile->getFile() . " -> $targetFile ...");
+
         if (!file_exists($targetFolder) || !is_dir($targetFolder)) {
             if (!mkdir($targetFolder, 0755, true)) {
                 throw new ServerErrorHttpException("Cannot create target folder");
@@ -85,6 +88,8 @@ abstract class ReleaseUploadTask extends UploadTask
 
 		$targetLinkFile = $pluginTargetFolder . "/" . $targetLinkBasename;
 		$targetFileBasename = basename($targetFile);
+
+        Log::info(__CLASS__, __METHOD__, "Creating symlink: $targetLinkFile -> $targetFileBasename ...");
 
 		@unlink($targetLinkFile);
 
