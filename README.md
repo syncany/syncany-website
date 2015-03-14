@@ -143,6 +143,7 @@ A couple of directories need to be writable by the web server user (we assume Ap
 
 ```bash
 chown -R www-data:www-data /silv/www/syncany.org/get.syncany.org/html/dist
+chown -R www-data:www-data /silv/www/syncany.org/get.syncany.org/html/apt
 chown -R www-data:www-data /silv/www/syncany.org/api.syncany.org/upload
 chown -R www-data:www-data /silv/www/syncany.org/api.syncany.org/log
 chown -R www-data:www-data /silv/www/syncany.org/api.syncany.org/config/keys/gnupg
