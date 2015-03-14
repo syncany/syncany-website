@@ -49,7 +49,7 @@ class ExeGuiPluginReleaseUploadTask extends GuiPluginReleaseUploadTask
 		$snapshotSuffix = ($this->snapshot) ? "-snapshot" : "";
 		$archSuffix = (isset($this->arch) && $this->arch != "" && $this->arch != "all") ? "-" . $this->arch : "";
 
-		return StringUtil::replace("syncany-latest{snapshot}-{arch}.exe", array(
+		return StringUtil::replace("syncany-latest{snapshot}{arch}.exe", array(
 			"snapshot" => $snapshotSuffix,
 			"arch" => $archSuffix
 		));
