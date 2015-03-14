@@ -48,7 +48,7 @@ class AppZipGuiPluginReleaseUploadTask extends GuiPluginReleaseUploadTask
 	protected function getLatestLinkBasename()
 	{
 		$snapshotSuffix = ($this->snapshot) ? "-snapshot" : "";
-		$archSuffix = (!isset($this->arch)) ? "" : ($this->arch == "x86") ? "-x86" : "-x86_64";
+        $archSuffix = (isset($this->arch) && $this->arch != "" && $this->arch != "all") ? "-" . $this->arch : "";
 
 		return StringUtil::replace("syncany-latest{snapshot}{arch}.app.zip", array(
 			"snapshot" => $snapshotSuffix,
