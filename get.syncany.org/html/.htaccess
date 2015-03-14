@@ -5,3 +5,6 @@ RewriteCond %{HTTP_USER_AGENT} !^.+MSIE\s6
 RewriteCond %{HTTPS} !=on
 RewriteCond %{HTTP_HOST} ^get.syncany.org$
 RewriteRule ^(.*) https://get.syncany.org/$1 [R=302,L] 
+
+# Redirect old distributions dist/*.deb -> dist/releases/*.deb
+RewriteRule ^dist/([^/]+\.(exe|tar.gz|zip|deb))$ dist/releases/$1

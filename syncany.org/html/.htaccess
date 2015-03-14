@@ -1,8 +1,5 @@
 RewriteEngine On
 
-# Redirect old distributions dist/*.deb -> dist/releases/*.deb
-RewriteRule ^dist/([^/]+\.(exe|tar.gz|zip|deb))$ dist/releases/$1
-
 # Redirect 'syncany.org' to 'www.syncany.org'
 RewriteCond %{HTTP_USER_AGENT} !^.+MSIE\s6
 RewriteCond %{HTTPS} !=on [OR]
@@ -29,23 +26,24 @@ RewriteRule ^r/donate$ https://www.syncany.org/donate.html [R=302,L]
 # Redirect old URLs
 RewriteRule ^reports(.*) https://reports.syncany.org$1 [R=302,L] 
 RewriteRule ^docs(.*) https://docs.syncany.org$1 [R=302,L] 
+RewriteRule ^dist(.*) https://get.syncany.org/dist$1 [R=302,L] 
 
 # Redirect latest dist/snapshot 
-RewriteRule ^(r/)?(syncany-)?latest\.(deb|tar\.gz|zip)$ https://www.syncany.org/dist/releases/syncany-latest.$3 [R=302,L]
-RewriteRule ^(r/)?(syncany-)?latest-snapshot\.(deb|tar\.gz|exe|zip)$ https://www.syncany.org/dist/snapshots/syncany-latest-snapshot.$3 [R=302,L]
-RewriteRule ^(r/)?(syncany-)?latest-(x86|x86_64)\.(exe|app\.zip)$ https://www.syncany.org/dist/releases/syncany-latest-$3.$4 [R=302,L]
-RewriteRule ^(r/)?(syncany-)?latest-snapshot-(x86|x86_64)\.(exe|app\.zip)$ https://www.syncany.org/dist/snapshots/syncany-latest-snapshot-$3.$4 [R=302,L]
-RewriteRule ^(r/)?(syncany-)?cli-latest\.exe$ https://www.syncany.org/dist/releases/syncany-cli-latest.exe [R=302,L]
+RewriteRule ^(r/)?(syncany-)?latest\.(deb|tar\.gz|zip)$ https://get.syncany.org/dist/releases/syncany-latest.$3 [R=302,L]
+RewriteRule ^(r/)?(syncany-)?latest-snapshot\.(deb|tar\.gz|exe|zip)$ https://get.syncany.org/dist/snapshots/syncany-latest-snapshot.$3 [R=302,L]
+RewriteRule ^(r/)?(syncany-)?latest-(x86|x86_64)\.(exe|app\.zip)$ https://get.syncany.org/dist/releases/syncany-latest-$3.$4 [R=302,L]
+RewriteRule ^(r/)?(syncany-)?latest-snapshot-(x86|x86_64)\.(exe|app\.zip)$ https://get.syncany.org/dist/snapshots/syncany-latest-snapshot-$3.$4 [R=302,L]
+RewriteRule ^(r/)?(syncany-)?cli-latest\.exe$ https://get.syncany.org/dist/releases/syncany-cli-latest.exe [R=302,L]
 
 # Redirect latest plugins
-RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest\.(jar|deb)$ https://www.syncany.org/dist/plugins/releases/$3/syncany-plugin-$3-latest.$4 [R=302,L]
-RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest-(x86|x86_64)\.jar$ https://www.syncany.org/dist/plugins/releases/$3/syncany-plugin-$3-latest-$4.jar [R=302,L]
-RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest-(i386|amd64)\.deb$ https://www.syncany.org/dist/plugins/releases/$3/syncany-plugin-$3-latest-$4.deb [R=302,L]
-RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest-snapshot\.(jar|deb)$ https://www.syncany.org/dist/plugins/snapshots/$3/syncany-plugin-$3-latest.$4 [R=302,L]
-RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest-snapshot-(x86|x86_64)\.jar$ https://www.syncany.org/dist/plugins/snapshots/$3/syncany-plugin-$3-latest-snapshot-$4.jar [R=302,L]
-RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest-snapshot-(i386|amd64)\.deb$ https://www.syncany.org/dist/plugins/snapshots/$3/syncany-plugin-$3-latest-snapshot-$4.deb [R=302,L]
+RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest\.(jar|deb)$ https://get.syncany.org/dist/plugins/releases/$3/syncany-plugin-$3-latest.$4 [R=302,L]
+RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest-(x86|x86_64)\.jar$ https://get.syncany.org/dist/plugins/releases/$3/syncany-plugin-$3-latest-$4.jar [R=302,L]
+RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest-(i386|amd64)\.deb$ https://get.syncany.org/dist/plugins/releases/$3/syncany-plugin-$3-latest-$4.deb [R=302,L]
+RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest-snapshot\.(jar|deb)$ https://get.syncany.org/dist/plugins/snapshots/$3/syncany-plugin-$3-latest.$4 [R=302,L]
+RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest-snapshot-(x86|x86_64)\.jar$ https://get.syncany.org/dist/plugins/snapshots/$3/syncany-plugin-$3-latest-snapshot-$4.jar [R=302,L]
+RewriteRule ^(r/)?(syncany-)?plugin-([^-]+)-latest-snapshot-(i386|amd64)\.deb$ https://get.syncany.org/dist/plugins/snapshots/$3/syncany-plugin-$3-latest-snapshot-$4.deb [R=302,L]
 
 # Redirect latest OSX notifier
-RewriteRule ^(r/)?(syncany-)?osx-notifier-latest.app.zip$ https://www.syncany.org/dist/universe/osxnotifier/releases/syncany-osx-notifier-latest.app.zip [R=302,L]
-RewriteRule ^(r/)?(syncany-)?osx-notifier-latest-snapshot.app.zip$ https://www.syncany.org/dist/universe/osxnotifier/snapshots/syncany-osx-notifier-latest-snapshot.app.zip [R=302,L]
+RewriteRule ^(r/)?(syncany-)?osx-notifier-latest.app.zip$ https://get.syncany.org/dist/universe/osxnotifier/releases/syncany-osx-notifier-latest.app.zip [R=302,L]
+RewriteRule ^(r/)?(syncany-)?osx-notifier-latest-snapshot.app.zip$ https://get.syncany.org/dist/universe/osxnotifier/snapshots/syncany-osx-notifier-latest-snapshot.app.zip [R=302,L]
 
