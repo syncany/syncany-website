@@ -27,7 +27,7 @@ apt-get install \
 a2enmod php5
 a2enmod rewrite
 
-curl -sS https://getcomposer.org/installer | php
+curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
   # Urgh. But, yes ...
 ```
 
@@ -51,7 +51,7 @@ Then, download the dependencies via composer:
 
 ```bash
 cd /silv/www/syncany.org/api.syncany.org
-php composer.phar install
+composer install
 ```
 
 Apache
