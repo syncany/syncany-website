@@ -23,7 +23,6 @@ namespace Syncany\Api\Controller;
 use Syncany\Api\Exception\Http\BadRequestHttpException;
 use Syncany\Api\Exception\Http\NotFoundHttpException;
 use Syncany\Api\Exception\Http\ServerErrorHttpException;
-use Syncany\Api\Model\ApplicationLink;
 use Syncany\Api\Persistence\Database;
 use Syncany\Api\Util\StringUtil;
 
@@ -51,9 +50,9 @@ class LinksController extends Controller
         }
 
         // Redirect to long link
-        $applicationLink = ApplicationLink::fromArray($applicationLinkArray);
+        $longLink = $applicationLinkArray['longlink'];
 
-        header("Location: {$applicationLink->getLongLink()}");
+        header("Location: $longLink");
         exit;
     }
 

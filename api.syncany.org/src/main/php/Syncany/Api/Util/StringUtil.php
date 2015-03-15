@@ -22,6 +22,11 @@ namespace Syncany\Api\Util;
 
 use Syncany\Api\Exception\ConfigException;
 
+/**
+ * String utility class used throughout the application.
+ *
+ * @author Philipp Heckel <philipp.heckel@gmail.com>
+ */
 class StringUtil
 {
 	public static function generateRandomString($length = 10)

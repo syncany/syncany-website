@@ -23,6 +23,15 @@ namespace Syncany\Api\Util;
 use Syncany\Api\Config\Config;
 use Syncany\Api\Exception\ConfigException;
 
+/**
+ * Logging class used throughout the application to log to a
+ * certain log file, and to rotate the logs.
+ *
+ * <p>This class can only be used if bootstrapping is done. In
+ * particular, the constant LOG_PATH needs to be set.
+ *
+ * @author Philipp Heckel <philipp.heckel@gmail.com>
+ */
 class Log
 {
     private static $initialized = false;

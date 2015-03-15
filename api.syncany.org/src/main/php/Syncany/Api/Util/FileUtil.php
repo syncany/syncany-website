@@ -35,8 +35,23 @@ use Syncany\Api\Model\TempFile;
  */
 class FileUtil
 {
+    /**
+     * Maximum accepted file size for this API (security measure).
+     */
     const MAX_WRITE_FILE_SIZE = 52428800; // 50 MB
 
+    /**
+     * Read a key/value properties file from the config directory and
+     * return a corresponding array.
+     *
+     * <p>The properties file will be read from
+     * <tt>CONFIG_PATH/[configContext]/[configName]</tt>.
+     *
+     * @param string $configContext Config path directory, e.g. "keys", "database", or "config"
+     * @param string $configName Config file name (basename), e.g. "keys" (for keys.properties)
+     * @return array Associative array representing the properties file
+     * @throws ConfigException If the given config context or name is invalid
+     */
     public static function readPropertiesFile($configContext, $configName)
     {
         $propertiesFile = self::getConfigFileName($configContext, $configName);
