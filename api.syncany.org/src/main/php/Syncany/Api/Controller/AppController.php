@@ -80,6 +80,19 @@ class AppController extends Controller
         $task->execute();
     }
 
+    public function putOsxnotifier(array $methodArgs, array $requestArgs, FileHandle $fileHandle)
+    {
+        Log::info(__CLASS__, __METHOD__, "Put request for OSX notifier received. Authenticating ...");
+        $this->authorize("osx-notifier-put", $methodArgs, $requestArgs);
+
+        $checksum = ControllerHelper::validateChecksum($methodArgs);
+        $fileName = ControllerHelper::validateFileName($methodArgs);
+        $snapshot = ControllerHelper::validateIsSnapshot($methodArgs);
+
+        $task = new AppZipOsxNotifierReleaseUploadTask($fileHandle, $fileName, $checksum, $snapshot);
+        $task->execute();
+    }
+
     private function validateType($methodArgs)
     {
         if (!isset($methodArgs['type']) || !in_array($methodArgs['type'], array("tar.gz", "zip", "deb", "exe", "docs", "reports"))) {
@@ -109,9 +122,6 @@ class AppController extends Controller
 
             case "reports":
                 return new ReportsExtractZipUploadTask($fileHandle, $fileName, $checksum);
-
-            case "osxnotifier":
-                return new AppZipOsxNotifierReleaseUploadTask($fileHandle, $fileName, $checksum, $snapshot);
 
             default:
                 throw new ServerErrorHttpException("Type not supported.");
