@@ -2,9 +2,9 @@ RewriteEngine On
 
 # Redirect to new archive
 RewriteCond %{HTTPS} !=on
-RewriteRule apt/(.*)$ http://get.syncany.org/apt/$1 [R=302,L]
+RewriteRule apt/(.*)$ http://get.syncany.org/apt/$1 [R=301,L]
 
 # Redirect to new archive
 RewriteCond %{HTTPS} ==on
-RewriteRule apt/(.*)$ https://get.syncany.org/apt/$1 [R=302,L]
+RewriteRule apt/(.*)$ https://get.syncany.org/apt/$1 [R=301,L]
 
