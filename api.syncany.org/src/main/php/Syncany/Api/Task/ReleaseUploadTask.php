@@ -40,7 +40,7 @@ abstract class ReleaseUploadTask extends UploadTask
 	{
         parent::__construct($fileHandle, $fileName, $checksum);
 
-		$this->pathDist = Config::get("paths.dist");
+		$this->pathDist = Config::get("paths.dist.app");
 
 		$this->snapshot = $snapshot;
 		$this->os = $os;

@@ -37,7 +37,7 @@ abstract class PluginReleaseUploadTask extends ReleaseUploadTask
 	{
 		parent::__construct($fileHandle, $fileName, $checksum, $snapshot, $os, $arch);
 
-		$this->pathPluginDist = Config::get("paths.plugindist");
+		$this->pathPluginDist = Config::get("paths.dist.plugins");
 		$this->pluginId = $pluginId;
 	}
 

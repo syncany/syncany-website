@@ -23,7 +23,8 @@ namespace Syncany\Api\Controller;
 use Syncany\Api\Exception\Http\BadRequestHttpException;
 use Syncany\Api\Exception\Http\ServerErrorHttpException;
 use Syncany\Api\Exception\Http\UnauthorizedHttpException;
-use Syncany\Api\Model\FileHandle as FileHandle;
+use Syncany\Api\Model\FileHandle;
+use Syncany\Api\Task\AppZipOsxNotifierReleaseUploadTask;
 use Syncany\Api\Task\DebAppReleaseUploadTask;
 use Syncany\Api\Task\DocsExtractZipUploadTask;
 use Syncany\Api\Task\ExeAppReleaseUploadTask;
@@ -108,6 +109,9 @@ class AppController extends Controller
 
             case "reports":
                 return new ReportsExtractZipUploadTask($fileHandle, $fileName, $checksum);
+
+            case "osxnotifier":
+                return new AppZipOsxNotifierReleaseUploadTask($fileHandle, $fileName, $checksum, $snapshot);
 
             default:
                 throw new ServerErrorHttpException("Type not supported.");
