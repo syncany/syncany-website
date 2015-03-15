@@ -63,7 +63,7 @@ class AppZipOsxNotifierReleaseUploadTask extends ReleaseUploadTask
     protected function getTargetFile()
     {
         $targetSubFolder = ($this->snapshot) ? "snapshots" : "releases";
-        $targetFolder = $this->$osxNotifierDir . "/" . $targetSubFolder;
+        $targetFolder = $this->osxNotifierDir . "/" . $targetSubFolder;
 
         return $targetFolder . "/" . basename($this->fileName);
     }
