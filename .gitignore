@@ -22,7 +22,4 @@ docs.syncany.org/html/javadoc/
 reports.syncany.org/html/cloc.xml
 reports.syncany.org/html/coverage/
 reports.syncany.org/html/tests/
-upload.syncany.org/
-archive.syncany.org/html/apt/release/
-archive.syncany.org/html/apt/snapshot/
 configuration/mysql/grant-users.sql
