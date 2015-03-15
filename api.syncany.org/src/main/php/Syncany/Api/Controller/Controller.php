@@ -65,7 +65,7 @@ abstract class Controller
      * time to deviate. This should be small, to prevent replay
      * attacks.
      */
-    const REPLAY_RANGE = 180;
+    const REPLAY_RANGE = 300;
 
     private $name;
     private $method;
