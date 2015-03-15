@@ -77,7 +77,7 @@ class DebAppReleaseUploadTask extends AppReleaseUploadTask
     private function triggerDocker()
     {
         $keysFile = FileUtil::readPropertiesFile("keys", "keys");
-        $triggerUrlProperty = "docker.trigger-url." . ($this->snapshot) ? "snapshot" : "release";
+        $triggerUrlProperty = "docker.trigger-url." . (($this->snapshot) ? "snapshot" : "release");
 
         if (!isset($keysFile[$triggerUrlProperty])) {
             throw new ServerErrorHttpException("Cannot find docker trigger token for property $triggerUrlProperty");
