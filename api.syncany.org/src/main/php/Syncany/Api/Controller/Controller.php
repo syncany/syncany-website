@@ -99,6 +99,7 @@ abstract class Controller
             case 'POST':
                 return $this->$methodName($_POST, $requestArgs);
 
+            case 'HEAD':
             case 'GET':
                 return $this->$methodName($_GET, $requestArgs);
 

@@ -28,6 +28,11 @@ use Syncany\Api\Util\StringUtil;
 
 class LinksController extends Controller
 {
+    public function head(array $methodArgs, array $requestArgs)
+    {
+        $this->get($methodArgs, $requestArgs);
+    }
+
     public function get(array $methodArgs, array $requestArgs)
     {
         // Check params
