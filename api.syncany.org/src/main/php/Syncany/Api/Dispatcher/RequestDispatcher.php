@@ -44,6 +44,12 @@ use Syncany\Api\Util\Log;
  */
 class RequestDispatcher
 {
+    /**
+     * Dispatches all API calls to the responsible controllers. This method is the
+     * single point of entry for all API calls. It analyzes the GET parameter "request"
+     * as well as the request method (GET, PUT, ...). It instantiates a Controller and
+     * calls the responsible method.
+     */
     public static function dispatch()
     {
         try {
@@ -59,14 +65,14 @@ class RequestDispatcher
             Log::info(__CLASS__, __METHOD__, "$method " . $_SERVER['REQUEST_URI']);
 
             $requestArgs = explode('/', rtrim($request, '/'));
-            $object = array_shift($requestArgs);
+            $object = array_shift($requestArgs); // First URL part is object
             $verb = (count($requestArgs) > 0) ? $requestArgs[0] : false;
 
             $controller = self::createController($object);
+            $controllerMethodWithVerbCallable = $verb && $controller->isCallable($method, $verb);
 
-            if ($verb && $controller->isCallable($method, $verb)) {
-                array_shift($requestArgs);
-
+            if ($controllerMethodWithVerbCallable) {
+                array_shift($requestArgs); // Second URL part is verb (if callable)
                 $controller->call($method, $verb, $requestArgs);
             }
             else {

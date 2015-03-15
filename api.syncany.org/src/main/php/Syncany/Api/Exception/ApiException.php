@@ -20,6 +20,11 @@
 
 namespace Syncany\Api\Exception;
 
+/**
+ * Central exception class for all API exceptions.
+ *
+ * @author Philipp Heckel <philipp.heckel@gmail.com>
+ */
 abstract class ApiException extends \Exception {
     public function __construct($message, $code = 0) {
         parent::__construct($message, $code);

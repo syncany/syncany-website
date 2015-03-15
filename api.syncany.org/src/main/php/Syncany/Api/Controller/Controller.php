@@ -67,15 +67,44 @@ abstract class Controller
      */
     const REPLAY_RANGE = 300;
 
+    /**
+     * Name of the config context/directory for the API keys.
+     * This is a subdirectory of CONFIG_PATH.
+     */
+    const KEYS_CONTEXT = "keys";
+
+    /**
+     * Basename of the properties file in the config
+     * directory.
+     */
+    const KEYS_NAME = "keys";
+
     private $name;
     private $method;
     private $verb;
 
+    /**
+     * Instantiates a new controller object.
+     *
+     * @param string $name Name of the controller, e.g. "plugins", if request was /plugins/list
+     * @todo The controller name should be derived from the class name, not passed to the constructor
+     */
     public function __construct($name)
     {
         $this->name = $name;
     }
 
+    /**
+     * Determines whether the given method/verb combination can be translated to a
+     * valid and public method name.
+     *
+     * <p>Example: In a request "GET /plugins/list", "GET" is the HTTP method, and
+     * "list" is the verb.
+     *
+     * @param string $method HTTP method, e.g. GET, POST, PUT, HEAD, DELETE, ...
+     * @param string $verb Verb for the method in this controller, e.g. "list"
+     * @return bool Returns true if a method exists, false otherwise
+     */
     public function isCallable($method, $verb)
     {
         if (!$verb) {
@@ -161,7 +190,7 @@ abstract class Controller
 
     private function readApiKey($keyName)
     {
-        $keyFile = FileUtil::readPropertiesFile("keys", "keys");
+        $keyFile = FileUtil::readPropertiesFile(self::KEYS_CONTEXT, self::KEYS_NAME);
         $keyProperty = $keyName . ".key";
 
         if (!isset($keyFile[$keyProperty])) {

@@ -20,6 +20,12 @@
 
 namespace Syncany\Api\Exception;
 
+/**
+ * Configuration exceptions represent issues with the API deployment
+ * configuration, such as permission/read/write issues.
+ *
+ * @author Philipp Heckel <philipp.heckel@gmail.com>
+ */
 class ConfigException extends ApiException {
     public function __construct($message) {
         parent::__construct($message);

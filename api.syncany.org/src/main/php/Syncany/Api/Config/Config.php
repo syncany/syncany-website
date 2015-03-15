@@ -23,9 +23,24 @@ namespace Syncany\Api\Config;
 use Syncany\Api\Exception\ConfigException;
 use Syncany\Api\Util\FileUtil;
 
+/**
+ * The config class retrieves configuration values from the central
+ * config file in the config directory. It is located in CONFIG_PATH
+ * in a file called config/config.properties.
+ *
+ * @author Philipp Heckel <philipp.heckel@gmail.com>
+ */
 class Config
 {
+    const CONFIG_CONTEXT = "config";
+    const CONFIG_NAME = "config";
+
     private static $config;
+
+    public static function load()
+    {
+        self::$config = FileUtil::readPropertiesFile(self::CONFIG_CONTEXT, self::CONFIG_NAME);
+    }
 
     public static function get($id)
     {
@@ -38,10 +53,5 @@ class Config
         }
 
         return self::$config[$id];
-    }
-
-    public static function load()
-    {
-        self::$config = FileUtil::readPropertiesFile("config", "config");
     }
 }
