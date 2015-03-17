@@ -22,6 +22,7 @@ apt-get install \
    mysql-server \
    apache2 \
    libapache2-mod-php5 \
+   php5-curl \
    reprepro
 
 a2enmod php5

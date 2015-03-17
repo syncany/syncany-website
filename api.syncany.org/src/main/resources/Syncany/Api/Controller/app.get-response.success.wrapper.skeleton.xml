@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<appInfoResponse xmlns="http://syncany.org/app/1/list">
+    <code>{code}</code>
+    <message>{message}</message>
+    <common>
+        <appVersion>{appVersion}</appVersion>
+        <date>{date}</date>
+        <release>{release}</release>
+    </common>
+    <appInfoList>
+{apps}
+    </appInfoList>
+</appInfoResponse>

@@ -1,8 +1,19 @@
-CREATE TABLE IF NOT EXISTS `links` (
-  `id` varchar(255) NOT NULL,
-  `date` datetime NOT NULL,
-  `longlink` text NOT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE IF NOT EXISTS `app` (
+  `id` int(14) NOT NULL AUTO_INCREMENT,
+  `type` varchar(255) NOT NULL,
+  `appVersion` varchar(255) NOT NULL,
+  `os` varchar(255) NOT NULL DEFAULT 'all',
+  `arch` varchar(255) NOT NULL DEFAULT 'all',
+  `date` varchar(255) NOT NULL,
+  `release` int(1) NOT NULL DEFAULT '0',
+  `checksum` varchar(255) NOT NULL,
+  `basename` varchar(255) NOT NULL,
+  `fullpath` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `appVersion` (`appVersion`),
+  KEY `os` (`os`),
+  KEY `arch` (`arch`),
+  KEY `release` (`release`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `plugins` (
@@ -23,4 +34,11 @@ CREATE TABLE IF NOT EXISTS `plugins` (
   UNIQUE KEY `pluginId_2` (`pluginId`,`pluginVersion`,`pluginOperatingSystem`,`pluginArchitecture`),
   KEY `pluginId` (`pluginId`),
   KEY `pluginDate` (`pluginDate`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `links` (
+  `id` varchar(255) NOT NULL,
+  `date` datetime NOT NULL,
+  `longlink` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
