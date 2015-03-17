@@ -30,9 +30,9 @@ abstract class AppReleaseUploadTask extends ReleaseUploadTask
     protected $appVersion;
     protected $date;
 
-    public function __construct(FileHandle $fileHandle, $fileName, $checksum, $appVersion, $date, $snapshot)
+    public function __construct(FileHandle $fileHandle, $fileName, $checksum, $appVersion, $date, $snapshot, $os = "all", $arch = "all")
     {
-        parent::__construct($fileHandle, $fileName, $checksum, $snapshot, "all", "all");
+        parent::__construct($fileHandle, $fileName, $checksum, $snapshot, $os, $arch);
 
         $this->appVersion = $appVersion;
         $this->date = $date;
