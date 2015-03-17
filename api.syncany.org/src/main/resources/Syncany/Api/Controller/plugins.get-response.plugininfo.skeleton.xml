@@ -1,0 +1,14 @@
+        <pluginInfo>
+            <pluginId>{pluginId}</pluginId>
+            <pluginName>{pluginName}</pluginName>
+            <pluginVersion>{pluginVersion}</pluginVersion>
+            <pluginOperatingSystem>{pluginOperatingSystem}</pluginOperatingSystem>
+            <pluginArchitecture>{pluginArchitecture}</pluginArchitecture>
+            <pluginDate>{pluginDate}</pluginDate>
+            <pluginAppMinVersion>{pluginAppMinVersion}</pluginAppMinVersion>
+            <pluginRelease>{pluginRelease}</pluginRelease>
+            <pluginConflictsWith>{pluginConflictsWith}</pluginConflictsWith>
+            <pluginThirdParty>{pluginThirdParty}</pluginThirdParty>
+            <downloadUrl>{downloadUrl}</downloadUrl>
+            <sha256sum>{sha256sum}</sha256sum>
+        </pluginInfo>

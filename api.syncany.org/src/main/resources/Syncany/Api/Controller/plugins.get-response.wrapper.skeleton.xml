@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<pluginListResponse xmlns="http://syncany.org/plugins/1/list">
+    <code>{code}</code>
+    <message>{message}</message>
+    <plugins>
+{plugins}
+    </plugins>
+</pluginListResponse>

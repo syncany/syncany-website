@@ -32,7 +32,9 @@ use Syncany\Api\Task\AppZipGuiPluginReleaseUploadTask;
 use Syncany\Api\Task\DebPluginReleaseUploadTask;
 use Syncany\Api\Task\ExeGuiPluginReleaseUploadTask;
 use Syncany\Api\Task\JarPluginReleaseUploadTask;
+use Syncany\Api\Util\FileUtil;
 use Syncany\Api\Util\Log;
+use Syncany\Api\Util\StringUtil;
 
 class PluginsController extends Controller
 {
@@ -206,41 +208,47 @@ class PluginsController extends Controller
         }
     }
 
-    private function printResponseXml($code, $message, $plugins) {
+    private function printResponseXml($code, $message, $plugins)
+    {
         $teamSupportedPlugins = preg_split("/,/", Config::get("plugins.team-supported"));
         $downloadBaseUrl = Config::get("plugins.base-url");
 
-        header("Content-Type: application/xml");
+        $wrapperSkeleton = FileUtil::readResourceFile(__NAMESPACE__, "plugins.get-response.wrapper.skeleton.xml");
+        $pluginInfoSkeleton = FileUtil::readResourceFile(__NAMESPACE__, "plugins.get-response.plugininfo.skeleton.xml");
 
-        echo "<?xml version=\"1.0\"?>\n";
-        echo "<pluginListResponse xmlns=\"http://syncany.org/plugins/1/list\">\n";
-        echo "	<code>$code</code>\n";
-        echo "	<message>$message</message>\n";
-        echo "	<plugins>\n";
+        $pluginInfoBlocks = array();
 
         foreach ($plugins as $plugin) {
             $downloadUrl = $downloadBaseUrl . $plugin->getFilenameFull();
             $isThirdPartyPlugin = (in_array($plugin->getId(), $teamSupportedPlugins)) ? "false" : "true";
             $isRelease = ($plugin->getRelease()) ? "true" : "false";
 
-            echo "		<pluginInfo>\n";
-            echo "			<pluginId>{$plugin->getId()}</pluginId>\n";
-            echo "			<pluginName>{$plugin->getName()}</pluginName>\n";
-            echo "			<pluginVersion>{$plugin->getVersion()}</pluginVersion>\n";
-            echo "			<pluginOperatingSystem>{$plugin->getOperatingSystem()}</pluginOperatingSystem>\n";
-            echo "			<pluginArchitecture>{$plugin->getArchitecture()}</pluginArchitecture>\n";
-            echo "			<pluginDate>{$plugin->getDate()}</pluginDate>\n";
-            echo "			<pluginAppMinVersion>{$plugin->getAppMinVersion()}</pluginAppMinVersion>\n";
-            echo "			<pluginRelease>{$isRelease}</pluginRelease>\n";
-            echo "			<pluginConflictsWith>{$plugin->getConflictsWith()}</pluginConflictsWith>\n";
-            echo "			<pluginThirdParty>{$isThirdPartyPlugin}</pluginThirdParty>\n";
-            echo "			<downloadUrl>{$downloadUrl}</downloadUrl>\n";
-            echo "			<sha256sum>{$plugin->getSha256sum()}</sha256sum>\n";
-            echo "		</pluginInfo>\n";
+            $pluginInfoBlocks[] = StringUtil::replace($pluginInfoSkeleton, array(
+                "pluginId" => $plugin->getId(),
+                "pluginName" => $plugin->getName(),
+                "pluginVersion" => $plugin->getVersion(),
+                "pluginOperatingSystem" => $plugin->getOperatingSystem(),
+                "pluginArchitecture" => $plugin->getArchitecture(),
+                "pluginDate" => $plugin->getDate(),
+                "pluginAppMinVersion" => $plugin->getAppMinVersion(),
+                "pluginRelease" => $isRelease,
+                "pluginConflictsWith" => $plugin->getConflictsWith(),
+                "pluginThirdParty" => $isThirdPartyPlugin,
+                "downloadUrl" => $downloadUrl,
+                "sha256sum" => $plugin->getSha256sum()
+            ));
         }
 
-        echo "	</plugins>\n";
-        echo "</pluginListResponse>\n";
+        $pluginsStr = join("\n", $pluginInfoBlocks);
+
+        $xml = StringUtil::replace($wrapperSkeleton, array(
+            "code" => $code,
+            "message" => $message,
+            "plugins" => $pluginsStr
+        ));
+
+        header("Content-Type: application/xml");
+        echo $xml;
 
         exit;
     }
