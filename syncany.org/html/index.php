@@ -486,7 +486,7 @@ Massively modified by:
 				</li>
 				<li>Join the <a href="https://launchpad.net/~syncany-team">mailing list on Launchpad</a></li>
 				<li>Ask us a question in the <a href="https://webchat.freenode.net/?channels=syncany">#syncany IRC channel</a> (Freenode)</li>
-				<li>If that doesn't help, <a href="mailto:philipp.heckel@gmail.com">contact the project maintainer</a></li>				
+				<li>If that doesn't help, <a href="mailto:team@syncany.org">contact the project core team</a></li>				
 			</ul>					
 		</div>
 		
