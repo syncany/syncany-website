@@ -53,6 +53,7 @@ class DebAppReleaseUploadTask extends AppReleaseUploadTask
 
         $targetFile = $this->moveFile($tempFile);
         $this->createLatestLink($targetFile);
+        $this->addDatabaseEntry("deb");
 
         $this->triggerDocker();
 
@@ -85,6 +86,10 @@ class DebAppReleaseUploadTask extends AppReleaseUploadTask
 
         $triggerTokenUrl = $keysFile[$triggerUrlProperty];
         $postFields = array("build" => "true");
+
+        if (!function_exists('curl_init')) {
+            throw new ServerErrorHttpException("Curl not installed");
+        }
 
         $curl = curl_init();
 

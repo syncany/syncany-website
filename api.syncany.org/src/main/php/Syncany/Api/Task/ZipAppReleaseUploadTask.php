@@ -27,28 +27,29 @@ use Syncany\Api\Util\StringUtil;
 
 class ZipAppReleaseUploadTask extends AppReleaseUploadTask
 {
-	public function execute()
-	{
+    public function execute()
+    {
         Log::info(__CLASS__, __METHOD__, "Processing uploaded ZIP release file ...");
 
-		$tempDirContext = "app/zip";
-		$tempDir = FileUtil::createTempDir($tempDirContext);
-		$tempFile = FileUtil::writeToTempFile($this->fileHandle, $tempDir, ".zip");
+        $tempDirContext = "app/zip";
+        $tempDir = FileUtil::createTempDir($tempDirContext);
+        $tempFile = FileUtil::writeToTempFile($this->fileHandle, $tempDir, ".zip");
 
-		$this->validateChecksum($tempFile);
+        $this->validateChecksum($tempFile);
 
-		$targetFile = $this->moveFile($tempFile);
-		$this->createLatestLink($targetFile);
+        $targetFile = $this->moveFile($tempFile);
+        $this->createLatestLink($targetFile);
+        $this->addDatabaseEntry("zip");
 
-		FileUtil::deleteTempDir($tempDir);
-	}
+        FileUtil::deleteTempDir($tempDir);
+    }
 
-	protected function getLatestLinkBasename()
-	{
-		$snapshotSuffix = ($this->snapshot) ? "-snapshot" : "";
+    protected function getLatestLinkBasename()
+    {
+        $snapshotSuffix = ($this->snapshot) ? "-snapshot" : "";
 
-		return StringUtil::replace("syncany-latest{snapshot}.zip", array(
-			"snapshot" => $snapshotSuffix
-		));
-	}
+        return StringUtil::replace("syncany-latest{snapshot}.zip", array(
+            "snapshot" => $snapshotSuffix
+        ));
+    }
 }

@@ -27,28 +27,29 @@ use Syncany\Api\Util\StringUtil;
 
 class ExeAppReleaseUploadTask extends AppReleaseUploadTask
 {
-	public function execute()
-	{
+    public function execute()
+    {
         Log::info(__CLASS__, __METHOD__, "Processing uploaded EXE release file ...");
 
-		$tempDirContext = "app/exe";
-		$tempDir = FileUtil::createTempDir($tempDirContext);
-		$tempFile = FileUtil::writeToTempFile($this->fileHandle, $tempDir, ".exe");
+        $tempDirContext = "app/exe";
+        $tempDir = FileUtil::createTempDir($tempDirContext);
+        $tempFile = FileUtil::writeToTempFile($this->fileHandle, $tempDir, ".exe");
 
-		$this->validateChecksum($tempFile);
+        $this->validateChecksum($tempFile);
 
-		$targetFile = $this->moveFile($tempFile);
-		$this->createLatestLink($targetFile);
+        $targetFile = $this->moveFile($tempFile);
+        $this->createLatestLink($targetFile);
+        $this->addDatabaseEntry("exe");
 
-		FileUtil::deleteTempDir($tempDir);
-	}
+        FileUtil::deleteTempDir($tempDir);
+    }
 
-	protected function getLatestLinkBasename()
-	{
-		$snapshotSuffix = ($this->snapshot) ? "-snapshot" : "";
+    protected function getLatestLinkBasename()
+    {
+        $snapshotSuffix = ($this->snapshot) ? "-snapshot" : "";
 
-		return StringUtil::replace("syncany-cli-latest{snapshot}.exe", array(
-			"snapshot" => $snapshotSuffix
-		));
-	}
+        return StringUtil::replace("syncany-cli-latest{snapshot}.exe", array(
+            "snapshot" => $snapshotSuffix
+        ));
+    }
 }

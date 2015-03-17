@@ -27,28 +27,29 @@ use Syncany\Api\Util\StringUtil;
 
 class TarGzAppReleaseUploadTask extends AppReleaseUploadTask
 {
-	public function execute()
-	{
+    public function execute()
+    {
         Log::info(__CLASS__, __METHOD__, "Processing uploaded TAR.GZ release file ...");
 
-		$tempDirContext = "app/targz";
-		$tempDir = FileUtil::createTempDir($tempDirContext);
-		$tempFile = FileUtil::writeToTempFile($this->fileHandle, $tempDir, ".tar.gz");
+        $tempDirContext = "app/targz";
+        $tempDir = FileUtil::createTempDir($tempDirContext);
+        $tempFile = FileUtil::writeToTempFile($this->fileHandle, $tempDir, ".tar.gz");
 
-		$this->validateChecksum($tempFile);
+        $this->validateChecksum($tempFile);
 
-		$targetFile = $this->moveFile($tempFile);
-		$this->createLatestLink($targetFile);
+        $targetFile = $this->moveFile($tempFile);
+        $this->createLatestLink($targetFile);
+        $this->addDatabaseEntry("tar.gz");
 
-		FileUtil::deleteTempDir($tempDir);
-	}
+        FileUtil::deleteTempDir($tempDir);
+    }
 
-	protected function getLatestLinkBasename()
-	{
-		$snapshotSuffix = ($this->snapshot) ? "-snapshot" : "";
+    protected function getLatestLinkBasename()
+    {
+        $snapshotSuffix = ($this->snapshot) ? "-snapshot" : "";
 
-		return StringUtil::replace("syncany-latest{snapshot}.tar.gz", array(
-			"snapshot" => $snapshotSuffix
-		));
-	}
+        return StringUtil::replace("syncany-latest{snapshot}.tar.gz", array(
+            "snapshot" => $snapshotSuffix
+        ));
+    }
 }

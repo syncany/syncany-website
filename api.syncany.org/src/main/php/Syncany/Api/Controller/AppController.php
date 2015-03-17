@@ -20,10 +20,12 @@
 
 namespace Syncany\Api\Controller;
 
+use Syncany\Api\Config\Config;
 use Syncany\Api\Exception\Http\BadRequestHttpException;
 use Syncany\Api\Exception\Http\ServerErrorHttpException;
 use Syncany\Api\Exception\Http\UnauthorizedHttpException;
 use Syncany\Api\Model\FileHandle;
+use Syncany\Api\Persistence\Database;
 use Syncany\Api\Task\AppZipOsxNotifierReleaseUploadTask;
 use Syncany\Api\Task\DebAppReleaseUploadTask;
 use Syncany\Api\Task\DocsExtractZipUploadTask;
@@ -31,7 +33,9 @@ use Syncany\Api\Task\ExeAppReleaseUploadTask;
 use Syncany\Api\Task\ReportsExtractZipUploadTask;
 use Syncany\Api\Task\TarGzAppReleaseUploadTask;
 use Syncany\Api\Task\ZipAppReleaseUploadTask;
+use Syncany\Api\Util\FileUtil;
 use Syncany\Api\Util\Log;
+use Syncany\Api\Util\StringUtil;
 
 /**
  * The app controller is responsible to handling application related requests, mainly
@@ -41,6 +45,21 @@ use Syncany\Api\Util\Log;
  */
 class AppController extends Controller
 {
+    public function get(array $methodArgs, array $requestArgs)
+    {
+        // Check request params
+        $operatingSystem = ControllerHelper::validateOperatingSystem($methodArgs);
+        $architecture = ControllerHelper::validateArchitecture($methodArgs);
+        $includeSnapshots = ControllerHelper::validateWithSnapshots($methodArgs);
+
+        // Get data
+        $appList = $this->queryLatestAppList($operatingSystem, $architecture, $includeSnapshots);
+
+        // Print XML
+        $this->printResponseXml($appList);
+        exit;
+    }
+
     /**
      * This method handles the upload of a release or snapshot file, as well as the upload of reports
      * and documentation in the form of an archive. The uploaded files are validated and then placed in
@@ -72,11 +91,13 @@ class AppController extends Controller
 
         $checksum = ControllerHelper::validateChecksum($methodArgs);
         $fileName = ControllerHelper::validateFileName($methodArgs);
+        $version = ControllerHelper::validateAppVersion($methodArgs);
+        $date = ControllerHelper::validateAppDate($methodArgs);
         $snapshot = ControllerHelper::validateIsSnapshot($methodArgs);
 
         $type = $this->validateType($methodArgs);
 
-        $task = $this->createTask($type, $fileHandle, $fileName, $checksum, $snapshot);
+        $task = $this->createTask($type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot);
         $task->execute();
     }
 
@@ -102,20 +123,20 @@ class AppController extends Controller
         return $methodArgs['type'];
     }
 
-    private function createTask($type, $fileHandle, $fileName, $checksum, $snapshot)
+    private function createTask($type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot)
     {
         switch ($type) {
             case "tar.gz":
-                return new TarGzAppReleaseUploadTask($fileHandle, $fileName, $checksum, $snapshot);
+                return new TarGzAppReleaseUploadTask($fileHandle, $fileName, $checksum, $version, $date, $snapshot);
 
             case "zip":
-                return new ZipAppReleaseUploadTask($fileHandle, $fileName, $checksum, $snapshot);
+                return new ZipAppReleaseUploadTask($fileHandle, $fileName, $checksum, $version, $date, $snapshot);
 
             case "deb":
-                return new DebAppReleaseUploadTask($fileHandle, $fileName, $checksum, $snapshot);
+                return new DebAppReleaseUploadTask($fileHandle, $fileName, $checksum, $version, $date, $snapshot);
 
             case "exe":
-                return new ExeAppReleaseUploadTask($fileHandle, $fileName, $checksum, $snapshot);
+                return new ExeAppReleaseUploadTask($fileHandle, $fileName, $checksum, $version, $date, $snapshot);
 
             case "docs":
                 return new DocsExtractZipUploadTask($fileHandle, $fileName, $checksum);
@@ -126,5 +147,95 @@ class AppController extends Controller
             default:
                 throw new ServerErrorHttpException("Type not supported.");
         }
+    }
+
+    private function queryLatestAppList($operatingSystem, $architecture, $includeSnapshots)
+    {
+        $release = ($includeSnapshots) ? 0 : 1;
+        $statement = Database::prepareStatementFromResource("app-read", __NAMESPACE__, "app.select-latest.sql");
+
+        $statement->bindParam(':release', $release, \PDO::PARAM_INT);
+        $statement->bindParam(':os', $operatingSystem, \PDO::PARAM_STR);
+        $statement->bindParam(':arch', $architecture, \PDO::PARAM_STR);
+
+        return $this->fetchLatestAppList($statement);
+    }
+
+    private function fetchLatestAppList(\PDOStatement $statement)
+    {
+        $statement->setFetchMode(\PDO::FETCH_ASSOC);
+
+        if (!$statement->execute()) {
+            throw new ServerErrorHttpException("Cannot retrieve apps from database.");
+        }
+
+        $appList = array();
+
+        while ($appArray = $statement->fetch()) {
+            $appList[] = $appArray;
+        }
+
+        return $appList;
+    }
+
+    private function printResponseXml($appList) {
+        header("Content-Type: application/xml");
+
+        $firstApp = (count($appList) > 0) ? $appList[0] : false;
+
+        if ($firstApp) {
+            $this->printSuccessResponseXml(200, "OK", $firstApp, $appList);
+        }
+        else {
+            $this->printFailureResponseXml(404, "No apps found");
+        }
+    }
+
+    private function printSuccessResponseXml($code, $message, $firstApp, $appList)
+    {
+        $downloadBaseUrl = Config::get("app.base-url");
+
+        $wrapperSkeleton = FileUtil::readResourceFile(__NAMESPACE__, "app.get-response.success.wrapper.skeleton.xml");
+        $appInfoSkeleton = FileUtil::readResourceFile(__NAMESPACE__, "app.get-response.success.appinfo.skeleton.xml");
+
+        $appInfoBlocks = array();
+
+        foreach ($appList as $app) {
+            $downloadUrl = $downloadBaseUrl . $app['fullpath'];
+
+            $appInfoBlocks[] = StringUtil::replace($appInfoSkeleton, array(
+                "type" => $app['type'],
+                "checksum" => $app['checksum'],
+                "downloadUrl" => $downloadUrl
+            ));
+        }
+
+        $release = ($firstApp['release']) ? "true" : "false";
+        $apps = join("\n", $appInfoBlocks);
+
+        $xml = StringUtil::replace($wrapperSkeleton, array(
+            "code" => $code,
+            "message" => $message,
+            "appVersion" => $firstApp['appVersion'],
+            "date" => $firstApp['date'],
+            "release" => $release,
+            "apps" => $apps
+        ));
+
+        echo $xml;
+        exit;
+    }
+
+    private function printFailureResponseXml($code, $message)
+    {
+        $failureXmlSkeleton = FileUtil::readResourceFile(__NAMESPACE__, "app.get-response.failure.skeleton.xml");
+
+        $xml = StringUtil::replace($failureXmlSkeleton, array(
+            "code" => $code,
+            "message" => $message
+        ));
+
+        echo $xml;
+        exit;
     }
 }

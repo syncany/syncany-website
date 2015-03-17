@@ -1,0 +1,5 @@
+        <appInfo>
+            <type>{type}</type>
+            <checksum>{checksum}</checksum>
+            <downloadUrl>{downloadUrl}</downloadUrl>
+        </appInfo>

@@ -12,18 +12,26 @@
 ;   < /dev/urandom tr -dc A-Za-z0-9 | head -c${1:-16}; echo
 ;
 
-links-read.dsn     = mysql:host=localhost;port=3306;dbname=syncanyapi
-links-read.user    = sylinksread
-links-read.pass    = <somepassword>
+app-read.dsn       = mysql:host=localhost;port=3306;dbname=syncanyapi
+app-read.user      = syappread
+app-read.pass      = ...
 
-links-write.dsn    = mysql:host=localhost;port=3306;dbname=syncanyapi
-links-write.user   = sylinkswrite
-links-write.pass   = <somepassword>
+app-write.dsn      = mysql:host=localhost;port=3306;dbname=syncanyapi
+app-write.user     = syappwrite
+app-write.pass     = ...
 
 plugins-read.dsn   = mysql:host=localhost;port=3306;dbname=syncanyapi
 plugins-read.user  = sypluginsread
-plugins-read.pass  = <somepassword>
+plugins-read.pass  = ...
 
 plugins-write.dsn  = mysql:host=localhost;port=3306;dbname=syncanyapi
 plugins-write.user = sypluginswrite
-plugins-write.pass = <somepassword>
+plugins-write.pass = ...
+
+links-read.dsn     = mysql:host=localhost;port=3306;dbname=syncanyapi
+links-read.user    = sylinksread
+links-read.pass    = ...
+
+links-write.dsn    = mysql:host=localhost;port=3306;dbname=syncanyapi
+links-write.user   = sylinkswrite
+links-write.pass   = ...

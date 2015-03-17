@@ -33,7 +33,9 @@ class ControllerHelper
 
         try {
             $givenAppVersion = $methodArgs['appVersion'];
-            return Parser::parse($givenAppVersion);
+            Parser::parse($givenAppVersion); // throws InvalidArgumentException!
+
+            return $givenAppVersion; // Do NOT return result of parser (differs!)
         } catch (\Exception $e) {
             throw new BadRequestHttpException("Invalid request. appVersion is invalid.");
         }
@@ -88,5 +90,10 @@ class ControllerHelper
         }
 
         return $arch;
+    }
+
+    public static function validateAppDate($methodArgs)
+    {
+        return (isset($methodArgs['date'])) ? $methodArgs['date'] : "";
     }
 }
