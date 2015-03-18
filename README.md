@@ -138,6 +138,14 @@ release|main|amd64: syncany 0.4.3.alpha
 
 A good resource for the setup is [this tutorial](https://wiki.debian.org/SettingUpSignedAptRepositoryWithReprepro).
 
+Logrotate
+---------
+The API log file is located in `/silv/www/syncany.org/api.syncany.org/log/api.log`. To rotate the log file, copy or link the logrotate config file:
+
+```bash
+ln -s /silv/www/syncany.org/configuration/logrotate/syncanyapi /etc/logrotate.d/syncanyapi
+```
+
 Adjust permissions
 ------------------
 A couple of directories need to be writable by the web server user (we assume Apache, so that'd be `www-data`):
