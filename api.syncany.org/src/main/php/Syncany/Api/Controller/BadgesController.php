@@ -30,22 +30,12 @@ class BadgesController extends Controller
     const COLOR_YELLOW = "#db2";
     const COLOR_RED = "#f33";
 
-    private $fileLinesOfCode;
-    private $fileTests;
-    private $fileCoverage;
-
-    public function __construct($name)
-    {
-        parent::__construct($name);
-
-        $this->fileLinesOfCode = Config::get("paths.badges.lines");
-        $this->fileTests = Config::get("paths.badges.tests");
-        $this->fileCoverage = Config::get("paths.badges.coverage");
-    }
-
     public function getLines(array $methodArgs, array $requestArgs)
     {
-        $lines = $this->getLinesOfCode($this->fileLinesOfCode);
+        $clocXmlFile = Config::get("paths.badges.lines");;
+
+        $lines = $this->parseForPattern($clocXmlFile, "/\<total.+code=\"([.0-9]+)\"/i", 4096);
+        $lines = ($lines !== false) ? round($lines/1000) : -1;
 
         $this->printBadgeSvg("src code", $lines, self::COLOR_GREEN, " k");
         exit;
@@ -53,7 +43,11 @@ class BadgesController extends Controller
 
     public function getTests(array $methodArgs, array $requestArgs)
     {
-        $percentage = $this->getTestPercentage($this->fileTests);
+        $testsIndexHtmlFile = Config::get("paths.badges.tests");
+
+        $percentage = $this->parseForPattern($testsIndexHtmlFile, "/class=\"percent\">([.0-9]+)\%\</i", 4096);
+        $percentage = ($percentage !== false) ? round($percentage) : -1;
+
         $color = ($percentage == 100) ? self::COLOR_GREEN : ($percentage > 90) ? self::COLOR_YELLOW : self::COLOR_RED;
 
         $this->printBadgeSvg("unit tests", $percentage, $color);
@@ -62,31 +56,34 @@ class BadgesController extends Controller
 
     public function getCoverage(array $methodArgs, array $requestArgs)
     {
-        $percentage = $this->getCoveragePercentage($this->fileCoverage);
+        $coverageXmlFile = Config::get("paths.badges.coverage");
+
+        $percentage = $this->parseForPattern($coverageXmlFile, "/\<coverage line-rate=\"([.0-9]+)\"/i", 4096);
+        $percentage = ($percentage !== false) ? round($percentage*100) : -1;
+
         $color = ($percentage > 80) ? self::COLOR_GREEN : ($percentage > 70) ? self::COLOR_YELLOW : self::COLOR_RED;
 
         $this->printBadgeSvg("coverage", $percentage, $color);
         exit;
     }
 
-    private function getLinesOfCode($clocXmlFile) {
-        $lines = -1;
+    private function parseForPattern($file, $pattern, $maxBytes) {
+        $searchValue = false;
 
-        $handle = @fopen($clocXmlFile, "r");
+        $handle = @fopen($file, "r");
 
         if ($handle) {
-            $bytecount = 0;
-            $bytemax = 4096;
+            $readBytes = 0;
 
             while (($buffer = fgets($handle, 4096)) !== false) {
-                $bytecount += strlen(trim($buffer));
+                $readBytes += strlen(trim($buffer));
 
-                if (preg_match("/\<total.+code=\"([.0-9]+)\"/i", $buffer, $m)) {
-                    $lines = round($m[1]/1000);
+                if (preg_match($pattern, $buffer, $m)) {
+                    $searchValue = $m[1];
                     break;
                 }
 
-                if ($bytecount >= $bytemax) {
+                if ($readBytes >= $maxBytes) {
                     break;
                 }
             }
@@ -94,67 +91,12 @@ class BadgesController extends Controller
             @fclose($handle);
         }
 
-        return $lines;
-    }
-
-    private function getTestPercentage($testIndexHtmlFile) {
-        $coverage = -1;
-
-        $handle = @fopen($testIndexHtmlFile, "r");
-
-        if ($handle) {
-            $bytecount = 0;
-            $bytemax = 320000;
-
-            while (($buffer = fgets($handle, 4096)) !== false) {
-                $bytecount += strlen(trim($buffer));
-
-                if (preg_match("/class=\"percent\">([.0-9]+)\%\</i", $buffer, $m)) {
-                    $coverage = round($m[1]);
-                    break;
-                }
-
-                if ($bytecount >= $bytemax) {
-                    break;
-                }
-            }
-
-            @fclose($handle);
-        }
-
-        return $coverage;
-    }
-
-    private function getCoveragePercentage($coverageXmlFile) {
-        $coverage = -1;
-
-        $handle = @fopen($coverageXmlFile, "r");
-        if ($handle) {
-            $bytecount = 0;
-            $bytemax = 4096;
-
-            while (($buffer = fgets($handle, 4096)) !== false) {
-                $bytecount += strlen(trim($buffer));
-
-                if (preg_match("/\<coverage line-rate=\"([.0-9]+)\"/i", $buffer, $m)) {
-                    $coverage = round($m[1]*100);
-                    break;
-                }
-
-                if ($bytecount >= $bytemax) {
-                    break;
-                }
-            }
-
-            @fclose($handle);
-        }
-
-        return $coverage;
+        return $searchValue;
     }
 
     private function printBadgeSvg($labelText, $percentage, $color, $suffix = "%")
     {
-        $percentageText = $percentage < 0 ? "n/a" : intval($percentage) . $suffix;
+        $percentageText = ($percentage < 0) ? "n/a" : intval($percentage) . $suffix;
 
         // No caching
         $now = gmdate("D, d M Y H:i:s") . " GMT";
