@@ -39,7 +39,7 @@ class TarGzAppReleaseUploadTask extends AppReleaseUploadTask
 
         $targetFile = $this->moveFile($tempFile);
         $this->createLatestLink($targetFile);
-        $this->addDatabaseEntry("tar.gz");
+        $this->addDatabaseEntry("cli", "tar.gz");
 
         FileUtil::deleteTempDir($tempDir);
     }

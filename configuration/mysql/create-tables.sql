@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS `app` (
   `id` int(14) NOT NULL AUTO_INCREMENT,
+  `dist` enum('cli','gui') NOT NULL,
   `type` varchar(255) NOT NULL,
   `appVersion` varchar(255) NOT NULL,
   `os` varchar(255) NOT NULL DEFAULT 'all',
@@ -31,7 +32,6 @@ CREATE TABLE IF NOT EXISTS `plugins` (
   `filenameBasename` varchar(255) NOT NULL,
   `filenameFull` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `pluginId_2` (`pluginId`,`pluginVersion`,`pluginOperatingSystem`,`pluginArchitecture`),
   KEY `pluginId` (`pluginId`),
   KEY `pluginDate` (`pluginDate`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

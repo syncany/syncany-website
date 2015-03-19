@@ -20,20 +20,20 @@
 
 namespace Syncany\Api\Task;
 
+use Syncany\Api\Exception\Http\BadRequestHttpException;
 use Syncany\Api\Util\FileUtil;
 use Syncany\Api\Util\Log;
 use Syncany\Api\Util\StringUtil;
 
-class AppZipGuiPluginReleaseUploadTask extends GuiPluginReleaseUploadTask
+class AppZipGuiAppReleaseUploadTask extends GuiAppReleaseUploadTask
 {
 	public function execute()
 	{
         Log::info(__CLASS__, __METHOD__, "Processing uploaded APP.ZIP release file ...");
 
-		$this->validatePluginId();
+        $this->validateOperatingSystem();
 
-		$tempDirContext = "plugins/" . $this->pluginId . "/appzip";
-
+		$tempDirContext = "plugins/gui/appzip";
 		$tempDir = FileUtil::createTempDir($tempDirContext);
 		$tempFile = FileUtil::writeToTempFile($this->fileHandle, $tempDir, ".app.zip");
 
@@ -41,6 +41,7 @@ class AppZipGuiPluginReleaseUploadTask extends GuiPluginReleaseUploadTask
 
 		$targetFile = $this->moveFile($tempFile);
 		$this->createLatestLink($targetFile);
+        $this->addDatabaseEntry("gui", "app.zip");
 
 		FileUtil::deleteTempDir($tempDir);
 	}
@@ -55,4 +56,11 @@ class AppZipGuiPluginReleaseUploadTask extends GuiPluginReleaseUploadTask
 			"arch" => $archSuffix
 		));
 	}
+
+    private function validateOperatingSystem()
+    {
+        if ($this->os != "macosx") {
+            throw new BadRequestHttpException("Invalid operating system. App.zip file must be for Mac OSX.");
+        }
+    }
 }

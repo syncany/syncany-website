@@ -26,10 +26,12 @@ use Syncany\Api\Exception\Http\ServerErrorHttpException;
 use Syncany\Api\Exception\Http\UnauthorizedHttpException;
 use Syncany\Api\Model\FileHandle;
 use Syncany\Api\Persistence\Database;
+use Syncany\Api\Task\AppZipGuiAppReleaseUploadTask;
 use Syncany\Api\Task\AppZipOsxNotifierReleaseUploadTask;
 use Syncany\Api\Task\DebAppReleaseUploadTask;
 use Syncany\Api\Task\DocsExtractZipUploadTask;
 use Syncany\Api\Task\ExeAppReleaseUploadTask;
+use Syncany\Api\Task\ExeGuiAppReleaseUploadTask;
 use Syncany\Api\Task\ReportsExtractZipUploadTask;
 use Syncany\Api\Task\TarGzAppReleaseUploadTask;
 use Syncany\Api\Task\ZipAppReleaseUploadTask;
@@ -47,6 +49,9 @@ class AppController extends Controller
 {
     public function get(array $methodArgs, array $requestArgs)
     {
+        $dist = ...........
+        $ype = .................
+
         // Check request params
         $operatingSystem = ControllerHelper::validateOperatingSystem($methodArgs);
         $architecture = ControllerHelper::validateArchitecture($methodArgs);
@@ -94,10 +99,13 @@ class AppController extends Controller
         $version = ControllerHelper::validateAppVersion($methodArgs);
         $date = ControllerHelper::validateAppDate($methodArgs);
         $snapshot = ControllerHelper::validateIsSnapshot($methodArgs);
+        $os = ControllerHelper::validateOperatingSystem($methodArgs);
+        $arch = ControllerHelper::validateArchitecture($methodArgs);
 
+        $dist = $this->validateDist($methodArgs);
         $type = $this->validateType($methodArgs);
 
-        $task = $this->createTask($type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot);
+        $task = $this->createTask($dist, $type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot, $os, $arch);
         $task->execute();
     }
 
@@ -114,6 +122,15 @@ class AppController extends Controller
         $task->execute();
     }
 
+    private function validateDist($methodArgs)
+    {
+        if (!isset($methodArgs['dist']) || !in_array($methodArgs['dist'], array("cli", "gui", "other"))) {
+            throw new BadRequestHttpException("No or invalid dist argument given.");
+        }
+
+        return $methodArgs['dist'];
+    }
+
     private function validateType($methodArgs)
     {
         if (!isset($methodArgs['type']) || !in_array($methodArgs['type'], array("tar.gz", "zip", "deb", "exe", "docs", "reports"))) {
@@ -123,7 +140,24 @@ class AppController extends Controller
         return $methodArgs['type'];
     }
 
-    private function createTask($type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot)
+    private function createTask($dist, $type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot, $os, $arch)
+    {
+        switch ($dist) {
+            case "cli":
+                return $this->createCliTask($type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot);
+
+            case "gui":
+                return $this->createGuiTask($type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot, $os, $arch);
+
+            case "other":
+                return $this->createOtherTask($type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot);
+
+            default:
+                throw new ServerErrorHttpException("Dist not supported.");
+        }
+    }
+
+    private function createCliTask($type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot)
     {
         switch ($type) {
             case "tar.gz":
@@ -138,6 +172,28 @@ class AppController extends Controller
             case "exe":
                 return new ExeAppReleaseUploadTask($fileHandle, $fileName, $checksum, $version, $date, $snapshot);
 
+            default:
+                throw new ServerErrorHttpException("Type not supported.");
+        }
+    }
+
+    private function createGuiTask($type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot, $os, $arch)
+    {
+        switch ($type) {
+            case "app.zip":
+                return new AppZipGuiAppReleaseUploadTask($fileHandle, $fileName, $checksum, $version, $date, $snapshot, $os, $arch);
+
+            case "exe":
+                return new ExeGuiAppReleaseUploadTask($fileHandle, $fileName, $checksum, $version, $date, $snapshot, $os, $arch);
+
+            default:
+                throw new ServerErrorHttpException("Type not supported.");
+        }
+    }
+
+    private function createOtherTask($type, $fileHandle, $fileName, $checksum)
+    {
+        switch ($type) {
             case "docs":
                 return new DocsExtractZipUploadTask($fileHandle, $fileName, $checksum);
 
@@ -181,17 +237,17 @@ class AppController extends Controller
     private function printResponseXml($appList) {
         header("Content-Type: application/xml");
 
-        $firstApp = (count($appList) > 0) ? $appList[0] : false;
+        $hasApps = count($appList) > 0;
 
-        if ($firstApp) {
-            $this->printSuccessResponseXml(200, "OK", $firstApp, $appList);
+        if ($hasApps) {
+            $this->printSuccessResponseXml(200, "OK", $appList);
         }
         else {
             $this->printFailureResponseXml(404, "No apps found");
         }
     }
 
-    private function printSuccessResponseXml($code, $message, $firstApp, $appList)
+    private function printSuccessResponseXml($code, $message, $appList)
     {
         $downloadBaseUrl = Config::get("app.base-url");
 
@@ -201,24 +257,25 @@ class AppController extends Controller
         $appInfoBlocks = array();
 
         foreach ($appList as $app) {
+            $release = ($app['release']) ? "true" : "false";
             $downloadUrl = $downloadBaseUrl . $app['fullpath'];
 
             $appInfoBlocks[] = StringUtil::replace($appInfoSkeleton, array(
+                "dist" => $app['dist'],
                 "type" => $app['type'],
+                "appVersion" => $app['appVersion'],
+                "date" => $app['date'],
+                "release" => $release,
                 "checksum" => $app['checksum'],
                 "downloadUrl" => $downloadUrl
             ));
         }
 
-        $release = ($firstApp['release']) ? "true" : "false";
         $apps = join("\n", $appInfoBlocks);
 
         $xml = StringUtil::replace($wrapperSkeleton, array(
             "code" => $code,
             "message" => $message,
-            "appVersion" => $firstApp['appVersion'],
-            "date" => $firstApp['date'],
-            "release" => $release,
             "apps" => $apps
         ));
 

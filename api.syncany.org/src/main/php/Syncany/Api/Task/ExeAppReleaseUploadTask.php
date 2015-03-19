@@ -39,7 +39,7 @@ class ExeAppReleaseUploadTask extends AppReleaseUploadTask
 
         $targetFile = $this->moveFile($tempFile);
         $this->createLatestLink($targetFile);
-        $this->addDatabaseEntry("exe");
+        $this->addDatabaseEntry("cli", "exe");
 
         FileUtil::deleteTempDir($tempDir);
     }

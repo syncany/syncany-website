@@ -39,7 +39,7 @@ class ZipAppReleaseUploadTask extends AppReleaseUploadTask
 
         $targetFile = $this->moveFile($tempFile);
         $this->createLatestLink($targetFile);
-        $this->addDatabaseEntry("zip");
+        $this->addDatabaseEntry("cli", "zip");
 
         FileUtil::deleteTempDir($tempDir);
     }

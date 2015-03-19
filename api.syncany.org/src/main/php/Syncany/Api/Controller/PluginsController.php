@@ -28,7 +28,7 @@ use Syncany\Api\Exception\Http\ServerErrorHttpException;
 use Syncany\Api\Model\FileHandle;
 use Syncany\Api\Model\Plugin;
 use Syncany\Api\Persistence\Database;
-use Syncany\Api\Task\AppZipGuiPluginReleaseUploadTask;
+use Syncany\Api\Task\AppZipGuiAppReleaseUploadTask;
 use Syncany\Api\Task\DebPluginReleaseUploadTask;
 use Syncany\Api\Task\ExeGuiAppReleaseUploadTask;
 use Syncany\Api\Task\ExeGuiPluginReleaseUploadTask;
@@ -97,13 +97,6 @@ class PluginsController extends Controller
 
             case "deb":
                 return new DebPluginReleaseUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
-
-            case "app.zip":
-                return  new AppZipGuiPluginReleaseUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
-
-            case "exe":
-                XXXXXXXXXXXXXXXXXXX Invalid constructor --> we need the appVersion and the date here but we dont have it....
-                return new ExeGuiAppReleaseUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch);
 
             default:
                 throw new ServerErrorHttpException("Type not supported.");

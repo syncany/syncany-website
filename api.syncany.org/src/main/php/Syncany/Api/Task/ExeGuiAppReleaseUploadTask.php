@@ -41,6 +41,7 @@ class ExeGuiAppReleaseUploadTask extends GuiAppReleaseUploadTask
 
 		$targetFile = $this->moveFile($tempFile);
 		$this->createLatestLink($targetFile);
+        $this->addDatabaseEntry("gui", "exe");
 
 		FileUtil::deleteTempDir($tempDir);
 	}

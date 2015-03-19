@@ -53,7 +53,7 @@ class DebAppReleaseUploadTask extends AppReleaseUploadTask
 
         $targetFile = $this->moveFile($tempFile);
         $this->createLatestLink($targetFile);
-        $this->addDatabaseEntry("deb");
+        $this->addDatabaseEntry("cli", "deb");
 
         $this->triggerDocker();
 
