@@ -64,7 +64,6 @@ class Log
         }
 
         self::initLogFile();
-        // self::rotateIfNeeded(); // This let's Apache segfault :-(
 
         self::$initialized = true;
     }
@@ -113,33 +112,5 @@ class Log
         }
 
         self::$file = LOG_PATH . "/api.log";
-    }
-
-    private static function rotateIfNeeded()
-    {
-        $maxSize = Config::get("log.max-size");
-        $maxCount = Config::get("log.max-count");
-
-        $actualSize = @filesize(self::$file);
-
-        if ($actualSize > $maxSize) {
-            $oldestLogFile = self::$file . "." . $maxCount;
-            @unlink($oldestLogFile);
-
-            $currentIndex = $maxCount - 1;
-
-            while ($currentIndex > 1) {
-                $currentLogFile = self::$file . "." . $currentIndex;
-
-                $previousIndex = $currentIndex - 1;
-                $previousLogFile = self::$file . "." . $previousIndex;
-
-                @rename($previousLogFile, $currentLogFile);
-
-                $currentIndex--;
-            }
-
-            self::info(__CLASS__, __METHOD__, "Log rotated.");
-        }
     }
 }
