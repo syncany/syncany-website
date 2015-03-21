@@ -155,7 +155,7 @@ class AppController extends Controller
 
     private function validatePutType(array $methodArgs)
     {
-        if (!isset($methodArgs['type']) || !in_array($methodArgs['type'], array("tar.gz", "zip", "deb", "exe", "docs", "reports"))) {
+        if (!isset($methodArgs['type']) || !in_array($methodArgs['type'], array("tar.gz", "zip", "deb", "exe", "app.zip", "docs", "reports"))) {
             throw new BadRequestHttpException("No or invalid type argument given.");
         }
 
@@ -263,10 +263,7 @@ class AppController extends Controller
             "where" => $whereQuery
         ));
 
-        Log::debug(__CLASS__, __METHOD__, $sqlQuery);
-
         $statement = $this->prepareLatestAppStatement($sqlQuery, $dist, $type, $operatingSystem, $architecture, $includeSnapshots);
-
         return $this->fetchLatestAppList($statement);
     }
 
