@@ -193,7 +193,7 @@ class AppController extends Controller
     {
         switch ($dist) {
             case "cli":
-                return $this->createCliTask($type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot);
+                return $this->createCliTask($type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot, $os, $arch);
 
             case "gui":
                 return $this->createGuiTask($type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot, $os, $arch);
@@ -206,20 +206,20 @@ class AppController extends Controller
         }
     }
 
-    private function createCliTask($type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot)
+    private function createCliTask($type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot, $os, $arch)
     {
         switch ($type) {
             case "tar.gz":
-                return new TarGzAppReleaseUploadTask($fileHandle, $fileName, $checksum, $version, $date, $snapshot);
+                return new TarGzAppReleaseUploadTask($fileHandle, $fileName, $checksum, $version, $date, $snapshot, $os, $arch);
 
             case "zip":
-                return new ZipAppReleaseUploadTask($fileHandle, $fileName, $checksum, $version, $date, $snapshot);
+                return new ZipAppReleaseUploadTask($fileHandle, $fileName, $checksum, $version, $date, $snapshot, $os, $arch);
 
             case "deb":
-                return new DebAppReleaseUploadTask($fileHandle, $fileName, $checksum, $version, $date, $snapshot);
+                return new DebAppReleaseUploadTask($fileHandle, $fileName, $checksum, $version, $date, $snapshot, $os, $arch);
 
             case "exe":
-                return new ExeAppReleaseUploadTask($fileHandle, $fileName, $checksum, $version, $date, $snapshot);
+                return new ExeAppReleaseUploadTask($fileHandle, $fileName, $checksum, $version, $date, $snapshot, $os, $arch);
 
             default:
                 throw new ServerErrorHttpException("Type not supported.");
