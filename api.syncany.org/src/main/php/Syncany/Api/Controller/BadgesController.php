@@ -30,6 +30,7 @@ class BadgesController extends Controller
     const COLOR_GREEN = "#4c1";
     const COLOR_YELLOW = "#db2";
     const COLOR_RED = "#f33";
+    const COLOR_BLUE = "#78bdf2";
 
     public function getLines(array $methodArgs, array $requestArgs)
     {
@@ -68,13 +69,29 @@ class BadgesController extends Controller
 
     public function getTips(array $methodArgs, array $requestArgs)
     {
-        $tempTipsDir = $this->createOrGetTempTipsDir();
-        $tempUglyBadgeFile = $this->downloadOrGetTempTipsFile($tempTipsDir);
+        $uglyBadgeUrl = Config::get("paths.badges.tips-url");
+
+        $tempTipsDir = $this->createOrGetTempDir("tips");
+        $tempUglyBadgeFile = $this->downloadOrGetTempSvgFile($tempTipsDir, $uglyBadgeUrl);
 
         $tips = $this->parseForPattern($tempUglyBadgeFile, "/([\d.]+)\sɃ/", 10240);
         $tipsText = ($tips !== false) ?  sprintf("%.2f cɃ", floatval($tips)*100) : "n/a";
 
         $this->printBadgeSvg("tip4commit", $tipsText, self::COLOR_GREEN, 125, 0.4);
+        exit;
+    }
+
+    public function getWaffle(array $methodArgs, array $requestArgs)
+    {
+        $uglyBadgeUrl = Config::get("paths.badges.waffle-url");
+
+        $tempTipsDir = $this->createOrGetTempDir("waffle");
+        $tempUglyBadgeFile = $this->downloadOrGetTempSvgFile($tempTipsDir, $uglyBadgeUrl);
+
+        $needsHelpCount = $this->parseForPattern($tempUglyBadgeFile, '/y="13">(\d+)<\/text>/', 10240);
+        $needsHelpCountText = ($needsHelpCount !== false) ? $needsHelpCount : "n/a";
+
+        $this->printBadgeSvg("Needs your help", $needsHelpCountText, self::COLOR_BLUE, 125, 0.19);
         exit;
     }
 
@@ -138,13 +155,13 @@ class BadgesController extends Controller
         echo $svgSource;
     }
 
-    private function createOrGetTempTipsDir()
+    private function createOrGetTempDir($subDir)
     {
         if (!defined('UPLOAD_PATH')) {
             throw new ConfigException("Upload path not set via CONFIG_PATH.");
         }
 
-        $tempDir = UPLOAD_PATH . "/badges/tips";
+        $tempDir = UPLOAD_PATH . "/badges/" . $subDir;
 
         if (!is_dir($tempDir) && !mkdir($tempDir, 0777, true)) {
             throw new ConfigException("Cannot create temporary tips directory");
@@ -153,10 +170,8 @@ class BadgesController extends Controller
         return $tempDir;
     }
 
-    private function downloadOrGetTempTipsFile($tempTipsDir)
+    private function downloadOrGetTempSvgFile($tempTipsDir, $uglyBadgeUrl)
     {
-        $uglyBadgeUrl = Config::get("paths.badges.tips-url");
-
         $tempUglyBadgeFile = $tempTipsDir . "/badge.svg";
         $notFoundOrOutdated = !file_exists($tempUglyBadgeFile) || filemtime($tempUglyBadgeFile) < time() - 3600;
 
