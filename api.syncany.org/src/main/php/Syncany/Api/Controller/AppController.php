@@ -182,7 +182,7 @@ class AppController extends Controller
 
     private function validateGetType(array $methodArgs)
     {
-        if (!isset($methodArgs['type']) || !in_array($methodArgs['type'], array("tar.gz", "zip", "deb", "exe"))) {
+        if (!isset($methodArgs['type']) || !in_array($methodArgs['type'], array("tar.gz", "zip", "deb", "exe", "app.zip"))) {
             return false;
         }
 
