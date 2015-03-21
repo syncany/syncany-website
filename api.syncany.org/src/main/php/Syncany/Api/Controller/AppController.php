@@ -49,16 +49,16 @@ class AppController extends Controller
 {
     public function get(array $methodArgs, array $requestArgs)
     {
-        $dist = ...........
-        $ype = .................
-
         // Check request params
+        $dist = $this->validateGetDist($methodArgs);
+        $type = $this->validateGetType($methodArgs);
+
         $operatingSystem = ControllerHelper::validateOperatingSystem($methodArgs);
         $architecture = ControllerHelper::validateArchitecture($methodArgs);
         $includeSnapshots = ControllerHelper::validateWithSnapshots($methodArgs);
 
         // Get data
-        $appList = $this->queryLatestAppList($operatingSystem, $architecture, $includeSnapshots);
+        $appList = $this->queryLatestAppList($dist, $type, $operatingSystem, $architecture, $includeSnapshots);
 
         // Print XML
         $this->printResponseXml($appList);
@@ -102,8 +102,8 @@ class AppController extends Controller
         $os = ControllerHelper::validateOperatingSystem($methodArgs);
         $arch = ControllerHelper::validateArchitecture($methodArgs);
 
-        $dist = $this->validateDist($methodArgs);
-        $type = $this->validateType($methodArgs);
+        $dist = $this->validatePutDist($methodArgs);
+        $type = $this->validatePutType($methodArgs);
 
         $task = $this->createTask($dist, $type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot, $os, $arch);
         $task->execute();
@@ -122,7 +122,7 @@ class AppController extends Controller
         $task->execute();
     }
 
-    private function validateDist($methodArgs)
+    private function validatePutDist($methodArgs)
     {
         if (!isset($methodArgs['dist']) || !in_array($methodArgs['dist'], array("cli", "gui", "other"))) {
             throw new BadRequestHttpException("No or invalid dist argument given.");
@@ -131,10 +131,28 @@ class AppController extends Controller
         return $methodArgs['dist'];
     }
 
-    private function validateType($methodArgs)
+    private function validatePutType($methodArgs)
     {
         if (!isset($methodArgs['type']) || !in_array($methodArgs['type'], array("tar.gz", "zip", "deb", "exe", "docs", "reports"))) {
             throw new BadRequestHttpException("No or invalid type argument given.");
+        }
+
+        return $methodArgs['type'];
+    }
+
+    private function validateGetDist($methodArgs)
+    {
+        if (!isset($methodArgs['dist']) || !in_array($methodArgs['dist'], array("cli", "gui"))) {
+            return false;
+        }
+
+        return $methodArgs['dist'];
+    }
+
+    private function validateGetType($methodArgs)
+    {
+        if (!isset($methodArgs['type']) || !in_array($methodArgs['type'], array("tar.gz", "zip", "deb", "exe"))) {
+            return false;
         }
 
         return $methodArgs['type'];
@@ -205,16 +223,67 @@ class AppController extends Controller
         }
     }
 
-    private function queryLatestAppList($operatingSystem, $architecture, $includeSnapshots)
+    private function queryLatestAppList($dist, $type, $operatingSystem, $architecture, $includeSnapshots)
     {
-        $release = ($includeSnapshots) ? 0 : 1;
-        $statement = Database::prepareStatementFromResource("app-read", __NAMESPACE__, "app.select-latest.sql");
+        $sqlQuerySkeleton = FileUtil::readResourceFile(__NAMESPACE__, "app.select-latest.skeleton.sql");
+        $whereQuery = $this->createLatestAppWhereQuery($dist, $type, $operatingSystem, $architecture, $includeSnapshots);
 
-        $statement->bindParam(':release', $release, \PDO::PARAM_INT);
-        $statement->bindParam(':os', $operatingSystem, \PDO::PARAM_STR);
-        $statement->bindParam(':arch', $architecture, \PDO::PARAM_STR);
+        $sqlQuery = StringUtil::replace($sqlQuerySkeleton, array(
+            "where" => $whereQuery
+        ));
+
+        Log::debug(__CLASS__, __METHOD__, $sqlQuery);
+
+        $statement = $this->prepareLatestAppStatement($sqlQuery, $dist, $type, $operatingSystem, $architecture, $includeSnapshots);
 
         return $this->fetchLatestAppList($statement);
+    }
+
+    private function createLatestAppWhereQuery($dist, $type, $operatingSystem, $architecture, $includeSnapshots)
+    {
+        $where = array();
+
+        $where[] = ($dist) ? "`dist` = :dist" : "1";
+        $where[] = ($type) ? "`type` = :type" : "1";
+        $where[] = ($operatingSystem && $operatingSystem != "all") ? "`os` = :os" : "1";
+        $where[] = ($architecture && $architecture != "all") ? "`arch` = :arch" : "1";
+        $where[] = (!$includeSnapshots) ? "`release` = :release" : "1";
+
+        if (count($where) > 0) {
+            return join(" and ", $where);
+        }
+        else {
+            return "1";
+        }
+    }
+
+
+    private function prepareLatestAppStatement($sqlQuery, $dist, $type, $operatingSystem, $architecture, $includeSnapshots)
+    {
+        $database = Database::createInstance("app-read");
+        $statement = $database->prepare($sqlQuery);
+
+        if ($dist) {
+            $statement->bindValue(':dist', $dist, \PDO::PARAM_STR);
+        }
+
+        if ($type) {
+            $statement->bindValue(':type', $type, \PDO::PARAM_STR);
+        }
+
+        if ($operatingSystem && $operatingSystem != "all") {
+            $statement->bindValue(':os', $operatingSystem, \PDO::PARAM_STR);
+        }
+
+        if ($architecture && $architecture != "all") {
+            $statement->bindValue(':arch', $architecture, \PDO::PARAM_STR);
+        }
+
+        if (!$includeSnapshots) {
+            $statement->bindValue(':release', 1, \PDO::PARAM_INT);
+        }
+
+        return $statement;
     }
 
     private function fetchLatestAppList(\PDOStatement $statement)
