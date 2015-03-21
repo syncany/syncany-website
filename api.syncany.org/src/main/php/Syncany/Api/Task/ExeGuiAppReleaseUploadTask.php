@@ -25,13 +25,15 @@ use Syncany\Api\Util\FileUtil;
 use Syncany\Api\Util\Log;
 use Syncany\Api\Util\StringUtil;
 
-class ExeAppReleaseUploadTask extends AppReleaseUploadTask
+class ExeGuiAppReleaseUploadTask extends GuiAppReleaseUploadTask
 {
     public function execute()
     {
-        Log::info(__CLASS__, __METHOD__, "Processing uploaded EXE release file ...");
+        Log::info(__CLASS__, __METHOD__, "Processing uploaded EXE app release file ...");
 
-        $tempDirContext = "app/exe";
+        $this->validateOperatingSystem();
+
+        $tempDirContext = "plugins/gui/exe";
         $tempDir = FileUtil::createTempDir($tempDirContext);
         $tempFile = FileUtil::writeToTempFile($this->fileHandle, $tempDir, ".exe");
 
@@ -39,7 +41,7 @@ class ExeAppReleaseUploadTask extends AppReleaseUploadTask
 
         $targetFile = $this->moveFile($tempFile);
         $this->createLatestLink($targetFile);
-        $this->addDatabaseEntry("cli", "exe");
+        $this->addDatabaseEntry("gui", "exe");
 
         FileUtil::deleteTempDir($tempDir);
     }
@@ -47,9 +49,18 @@ class ExeAppReleaseUploadTask extends AppReleaseUploadTask
     protected function getLatestLinkBasename()
     {
         $snapshotSuffix = ($this->snapshot) ? "-snapshot" : "";
+        $archSuffix = (isset($this->arch) && $this->arch != "" && $this->arch != "all") ? "-" . $this->arch : "";
 
-        return StringUtil::replace("syncany-cli-latest{snapshot}.exe", array(
-            "snapshot" => $snapshotSuffix
+        return StringUtil::replace("syncany-latest{snapshot}{arch}.exe", array(
+            "snapshot" => $snapshotSuffix,
+            "arch" => $archSuffix
         ));
+    }
+
+    private function validateOperatingSystem()
+    {
+        if ($this->os != "windows") {
+            throw new BadRequestHttpException("Invalid operating system. Exe file must be for Windows.");
+        }
     }
 }

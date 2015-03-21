@@ -26,10 +26,12 @@ use Syncany\Api\Exception\Http\ServerErrorHttpException;
 use Syncany\Api\Exception\Http\UnauthorizedHttpException;
 use Syncany\Api\Model\FileHandle;
 use Syncany\Api\Persistence\Database;
+use Syncany\Api\Task\AppZipGuiAppReleaseUploadTask;
 use Syncany\Api\Task\AppZipOsxNotifierReleaseUploadTask;
 use Syncany\Api\Task\DebAppReleaseUploadTask;
 use Syncany\Api\Task\DocsExtractZipUploadTask;
 use Syncany\Api\Task\ExeAppReleaseUploadTask;
+use Syncany\Api\Task\ExeGuiAppReleaseUploadTask;
 use Syncany\Api\Task\ReportsExtractZipUploadTask;
 use Syncany\Api\Task\TarGzAppReleaseUploadTask;
 use Syncany\Api\Task\ZipAppReleaseUploadTask;
@@ -39,21 +41,43 @@ use Syncany\Api\Util\StringUtil;
 
 /**
  * The app controller is responsible to handling application related requests, mainly
- * the upload of new main/core application releases and snapshots.
+ * the upload of new main/core application releases and snapshots, as well as the
+ * retrieval of the latest application version(s).
  *
  * @author Philipp Heckel <philipp.heckel@gmail.com>
  */
 class AppController extends Controller
 {
+    /**
+     * This method retrieves the latest application release version(s) from the database
+     * and displays the results as XML. It can be filtered using several filter mechanisms,
+     * e.g. distribution and file type, operating system, and others.
+     *
+     * <p>Optional method arguments (in <tt>methodArgs</tt>) are:
+     * <ul>
+     *   <li>dist: Distribution type (one in: cli, gui; default is empty)</li>
+     *   <li>type: File type (one in: tar.gz, zip, deb, exe, app.zip; default is empty)</li>
+     *   <li>snapshots: Whether or not to include snapshots in the result (true or false; default is false!)</li>
+     *   <li>os: Operating system to upload this release for (one in: all, linux, windows, macosx; default is all)</li>
+     *   <li>arch: Architecture of this release (one in: all, x86, x86_64; default is all)</li>
+     * </ul>
+     *
+     * @param array $methodArgs GET arguments to filter the results (see above)
+     * @param array $requestArgs No request arguments are expected by this method
+     * @throws BadRequestHttpException If any of the given arguments is invalid
+     */
     public function get(array $methodArgs, array $requestArgs)
     {
         // Check request params
+        $dist = $this->validateGetDist($methodArgs, $requestArgs);
+        $type = $this->validateGetType($methodArgs);
+
         $operatingSystem = ControllerHelper::validateOperatingSystem($methodArgs);
         $architecture = ControllerHelper::validateArchitecture($methodArgs);
         $includeSnapshots = ControllerHelper::validateWithSnapshots($methodArgs);
 
         // Get data
-        $appList = $this->queryLatestAppList($operatingSystem, $architecture, $includeSnapshots);
+        $appList = $this->queryLatestAppList($dist, $type, $operatingSystem, $architecture, $includeSnapshots);
 
         // Print XML
         $this->printResponseXml($appList);
@@ -74,10 +98,13 @@ class AppController extends Controller
      *   <li>filename: Target filename of the uploaded file</li>
      *   <li>checksum: SHA-256 checksum of the uploaded file</li>
      *   <li>snapshot: Whether or not the uploaded file is a snapshot, or a release (true or false)</li>
-     *   <li>type: Type of the upload (one in: tar.gz, zip, deb, exe, reports or docs)</li>
+     *   <li>os: Operating system to upload this release for (one in: all, linux, windows, macosx)</li>
+     *   <li>arch: Architecture of this release (one in: all, x86, x86_64)</li>
+     *   <li>dist: Distribution type of this release (one in: cli, gui, other)</li>
+     *   <li>type: File type of the upload (one in: tar.gz, zip, deb, exe, reports or docs)</li>
      * </ul>
      *
-     * @param array $methodArgs GET arguments, expected are filename, checksum, snapshot and type
+     * @param array $methodArgs GET arguments, expected are filename, checksum, snapshot, os, arch, dist and type
      * @param array $requestArgs No request arguments are expected by this method
      * @param FileHandle $fileHandle File handle to the uploaded file
      * @throws BadRequestHttpException If any of the given arguments is invalid
@@ -94,10 +121,13 @@ class AppController extends Controller
         $version = ControllerHelper::validateAppVersion($methodArgs);
         $date = ControllerHelper::validateAppDate($methodArgs);
         $snapshot = ControllerHelper::validateIsSnapshot($methodArgs);
+        $os = ControllerHelper::validateOperatingSystem($methodArgs);
+        $arch = ControllerHelper::validateArchitecture($methodArgs);
 
-        $type = $this->validateType($methodArgs);
+        $dist = $this->validatePutDist($methodArgs);
+        $type = $this->validatePutType($methodArgs);
 
-        $task = $this->createTask($type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot);
+        $task = $this->createTask($dist, $type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot, $os, $arch);
         $task->execute();
     }
 
@@ -114,7 +144,16 @@ class AppController extends Controller
         $task->execute();
     }
 
-    private function validateType($methodArgs)
+    private function validatePutDist(array $methodArgs)
+    {
+        if (!isset($methodArgs['dist']) || !in_array($methodArgs['dist'], array("cli", "gui", "other"))) {
+            throw new BadRequestHttpException("No or invalid dist argument given.");
+        }
+
+        return $methodArgs['dist'];
+    }
+
+    private function validatePutType(array $methodArgs)
     {
         if (!isset($methodArgs['type']) || !in_array($methodArgs['type'], array("tar.gz", "zip", "deb", "exe", "docs", "reports"))) {
             throw new BadRequestHttpException("No or invalid type argument given.");
@@ -123,7 +162,51 @@ class AppController extends Controller
         return $methodArgs['type'];
     }
 
-    private function createTask($type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot)
+    private function validateGetDist(array $methodArgs, array $requestArgs)
+    {
+        $methodArgGiven = isset($methodArgs['dist']) && !empty($methodArgs['dist']); // Treat empty as not present
+        $requestArgGiven = isset($requestArgs[0]);
+
+        if ($methodArgGiven || $requestArgGiven) {
+            $dist = ($methodArgGiven) ? $methodArgs['dist'] : $requestArgs[0];
+
+            if (!in_array($dist, array("cli", "gui"))) {
+                return false;
+            }
+
+            return $dist;
+        } else {
+            return false;
+        }
+    }
+
+    private function validateGetType(array $methodArgs)
+    {
+        if (!isset($methodArgs['type']) || !in_array($methodArgs['type'], array("tar.gz", "zip", "deb", "exe"))) {
+            return false;
+        }
+
+        return $methodArgs['type'];
+    }
+
+    private function createTask($dist, $type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot, $os, $arch)
+    {
+        switch ($dist) {
+            case "cli":
+                return $this->createCliTask($type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot);
+
+            case "gui":
+                return $this->createGuiTask($type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot, $os, $arch);
+
+            case "other":
+                return $this->createOtherTask($type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot);
+
+            default:
+                throw new ServerErrorHttpException("Dist not supported.");
+        }
+    }
+
+    private function createCliTask($type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot)
     {
         switch ($type) {
             case "tar.gz":
@@ -138,6 +221,28 @@ class AppController extends Controller
             case "exe":
                 return new ExeAppReleaseUploadTask($fileHandle, $fileName, $checksum, $version, $date, $snapshot);
 
+            default:
+                throw new ServerErrorHttpException("Type not supported.");
+        }
+    }
+
+    private function createGuiTask($type, $fileHandle, $fileName, $checksum, $version, $date, $snapshot, $os, $arch)
+    {
+        switch ($type) {
+            case "app.zip":
+                return new AppZipGuiAppReleaseUploadTask($fileHandle, $fileName, $checksum, $version, $date, $snapshot, $os, $arch);
+
+            case "exe":
+                return new ExeGuiAppReleaseUploadTask($fileHandle, $fileName, $checksum, $version, $date, $snapshot, $os, $arch);
+
+            default:
+                throw new ServerErrorHttpException("Type not supported.");
+        }
+    }
+
+    private function createOtherTask($type, $fileHandle, $fileName, $checksum)
+    {
+        switch ($type) {
             case "docs":
                 return new DocsExtractZipUploadTask($fileHandle, $fileName, $checksum);
 
@@ -149,16 +254,65 @@ class AppController extends Controller
         }
     }
 
-    private function queryLatestAppList($operatingSystem, $architecture, $includeSnapshots)
+    private function queryLatestAppList($dist, $type, $operatingSystem, $architecture, $includeSnapshots)
     {
-        $release = ($includeSnapshots) ? 0 : 1;
-        $statement = Database::prepareStatementFromResource("app-read", __NAMESPACE__, "app.select-latest.sql");
+        $sqlQuerySkeleton = FileUtil::readResourceFile(__NAMESPACE__, "app.select-latest.skeleton.sql");
+        $whereQuery = $this->createLatestAppWhereQuery($dist, $type, $operatingSystem, $architecture, $includeSnapshots);
 
-        $statement->bindParam(':release', $release, \PDO::PARAM_INT);
-        $statement->bindParam(':os', $operatingSystem, \PDO::PARAM_STR);
-        $statement->bindParam(':arch', $architecture, \PDO::PARAM_STR);
+        $sqlQuery = StringUtil::replace($sqlQuerySkeleton, array(
+            "where" => $whereQuery
+        ));
+
+        Log::debug(__CLASS__, __METHOD__, $sqlQuery);
+
+        $statement = $this->prepareLatestAppStatement($sqlQuery, $dist, $type, $operatingSystem, $architecture, $includeSnapshots);
 
         return $this->fetchLatestAppList($statement);
+    }
+
+    private function createLatestAppWhereQuery($dist, $type, $operatingSystem, $architecture, $includeSnapshots)
+    {
+        $where = array();
+
+        $where[] = ($dist) ? "`dist` = :dist" : "1";
+        $where[] = ($type) ? "`type` = :type" : "1";
+        $where[] = ($operatingSystem && $operatingSystem != "all") ? "(`os` = 'all' or `os` = :os)" : "1";
+        $where[] = ($architecture && $architecture != "all") ? "(`arch` = 'all' or `arch` = :arch)" : "1";
+        $where[] = (!$includeSnapshots) ? "`release` = :release" : "1";
+
+        if (count($where) > 0) {
+            return join(" and ", $where);
+        } else {
+            return "1";
+        }
+    }
+
+    private function prepareLatestAppStatement($sqlQuery, $dist, $type, $operatingSystem, $architecture, $includeSnapshots)
+    {
+        $database = Database::createInstance("app-read");
+        $statement = $database->prepare($sqlQuery);
+
+        if ($dist) {
+            $statement->bindValue(':dist', $dist, \PDO::PARAM_STR);
+        }
+
+        if ($type) {
+            $statement->bindValue(':type', $type, \PDO::PARAM_STR);
+        }
+
+        if ($operatingSystem && $operatingSystem != "all") {
+            $statement->bindValue(':os', $operatingSystem, \PDO::PARAM_STR);
+        }
+
+        if ($architecture && $architecture != "all") {
+            $statement->bindValue(':arch', $architecture, \PDO::PARAM_STR);
+        }
+
+        if (!$includeSnapshots) {
+            $statement->bindValue(':release', 1, \PDO::PARAM_INT);
+        }
+
+        return $statement;
     }
 
     private function fetchLatestAppList(\PDOStatement $statement)
@@ -181,17 +335,16 @@ class AppController extends Controller
     private function printResponseXml($appList) {
         header("Content-Type: application/xml");
 
-        $firstApp = (count($appList) > 0) ? $appList[0] : false;
+        $hasApps = count($appList) > 0;
 
-        if ($firstApp) {
-            $this->printSuccessResponseXml(200, "OK", $firstApp, $appList);
-        }
-        else {
+        if ($hasApps) {
+            $this->printSuccessResponseXml(200, "OK", $appList);
+        } else {
             $this->printFailureResponseXml(404, "No apps found");
         }
     }
 
-    private function printSuccessResponseXml($code, $message, $firstApp, $appList)
+    private function printSuccessResponseXml($code, $message, $appList)
     {
         $downloadBaseUrl = Config::get("app.base-url");
 
@@ -201,24 +354,27 @@ class AppController extends Controller
         $appInfoBlocks = array();
 
         foreach ($appList as $app) {
+            $release = ($app['release']) ? "true" : "false";
             $downloadUrl = $downloadBaseUrl . $app['fullpath'];
 
             $appInfoBlocks[] = StringUtil::replace($appInfoSkeleton, array(
+                "dist" => $app['dist'],
                 "type" => $app['type'],
+                "appVersion" => $app['appVersion'],
+                "date" => $app['date'],
+                "release" => $release,
+                "operatingSystem" => $app['os'],
+                "architecture" => $app['arch'],
                 "checksum" => $app['checksum'],
                 "downloadUrl" => $downloadUrl
             ));
         }
 
-        $release = ($firstApp['release']) ? "true" : "false";
         $apps = join("\n", $appInfoBlocks);
 
         $xml = StringUtil::replace($wrapperSkeleton, array(
             "code" => $code,
             "message" => $message,
-            "appVersion" => $firstApp['appVersion'],
-            "date" => $firstApp['date'],
-            "release" => $release,
             "apps" => $apps
         ));
 

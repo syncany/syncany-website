@@ -25,7 +25,7 @@ use Syncany\Api\Util\FileUtil;
 use Syncany\Api\Util\Log;
 use Syncany\Api\Util\StringUtil;
 
-abstract class GuiPluginReleaseUploadTask extends PluginReleaseUploadTask
+abstract class GuiAppReleaseUploadTask extends AppReleaseUploadTask
 {
 	protected function getTargetFile()
     {
@@ -34,11 +34,4 @@ abstract class GuiPluginReleaseUploadTask extends PluginReleaseUploadTask
 
         return $targetFolder . "/" . basename($this->fileName);
     }
-
-	protected function validatePluginId()
-	{
-		if ($this->pluginId != "gui") {
-			throw new BadRequestHttpException("AppZip files can only be uploaded for the GUI plugin");
-		}
-	}
 }

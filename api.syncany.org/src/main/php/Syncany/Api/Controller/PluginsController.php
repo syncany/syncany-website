@@ -28,9 +28,7 @@ use Syncany\Api\Exception\Http\ServerErrorHttpException;
 use Syncany\Api\Model\FileHandle;
 use Syncany\Api\Model\Plugin;
 use Syncany\Api\Persistence\Database;
-use Syncany\Api\Task\AppZipGuiPluginReleaseUploadTask;
 use Syncany\Api\Task\DebPluginReleaseUploadTask;
-use Syncany\Api\Task\ExeGuiPluginReleaseUploadTask;
 use Syncany\Api\Task\JarPluginReleaseUploadTask;
 use Syncany\Api\Util\FileUtil;
 use Syncany\Api\Util\Log;
@@ -96,12 +94,6 @@ class PluginsController extends Controller
 
             case "deb":
                 return new DebPluginReleaseUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
-
-            case "app.zip":
-                return  new AppZipGuiPluginReleaseUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
-
-            case "exe":
-                return new ExeGuiPluginReleaseUploadTask($fileHandle, $fileName, $checksum, $snapshot, $os, $arch, $pluginId);
 
             default:
                 throw new ServerErrorHttpException("Type not supported.");

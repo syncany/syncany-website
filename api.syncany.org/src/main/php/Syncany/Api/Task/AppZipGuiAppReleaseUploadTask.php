@@ -25,21 +25,23 @@ use Syncany\Api\Util\FileUtil;
 use Syncany\Api\Util\Log;
 use Syncany\Api\Util\StringUtil;
 
-class ExeAppReleaseUploadTask extends AppReleaseUploadTask
+class AppZipGuiAppReleaseUploadTask extends GuiAppReleaseUploadTask
 {
     public function execute()
     {
-        Log::info(__CLASS__, __METHOD__, "Processing uploaded EXE release file ...");
+        Log::info(__CLASS__, __METHOD__, "Processing uploaded APP.ZIP release file ...");
 
-        $tempDirContext = "app/exe";
+        $this->validateOperatingSystem();
+
+        $tempDirContext = "plugins/gui/appzip";
         $tempDir = FileUtil::createTempDir($tempDirContext);
-        $tempFile = FileUtil::writeToTempFile($this->fileHandle, $tempDir, ".exe");
+        $tempFile = FileUtil::writeToTempFile($this->fileHandle, $tempDir, ".app.zip");
 
         $this->validateChecksum($tempFile);
 
         $targetFile = $this->moveFile($tempFile);
         $this->createLatestLink($targetFile);
-        $this->addDatabaseEntry("cli", "exe");
+        $this->addDatabaseEntry("gui", "app.zip");
 
         FileUtil::deleteTempDir($tempDir);
     }
@@ -47,9 +49,18 @@ class ExeAppReleaseUploadTask extends AppReleaseUploadTask
     protected function getLatestLinkBasename()
     {
         $snapshotSuffix = ($this->snapshot) ? "-snapshot" : "";
+        $archSuffix = (isset($this->arch) && $this->arch != "" && $this->arch != "all") ? "-" . $this->arch : "";
 
-        return StringUtil::replace("syncany-cli-latest{snapshot}.exe", array(
-            "snapshot" => $snapshotSuffix
+        return StringUtil::replace("syncany-latest{snapshot}{arch}.app.zip", array(
+            "snapshot" => $snapshotSuffix,
+            "arch" => $archSuffix
         ));
+    }
+
+    private function validateOperatingSystem()
+    {
+        if ($this->os != "macosx") {
+            throw new BadRequestHttpException("Invalid operating system. App.zip file must be for Mac OSX.");
+        }
     }
 }

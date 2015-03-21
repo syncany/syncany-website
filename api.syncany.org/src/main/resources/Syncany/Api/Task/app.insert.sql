@@ -1,4 +1,5 @@
 insert into app set
+  `dist` = :dist,
   `type` = :type,
   `appVersion` = :appVersion,
   `os` = :os,

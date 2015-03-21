@@ -1,5 +1,11 @@
         <appInfo>
+            <dist>{dist}</dist>
             <type>{type}</type>
+            <appVersion>{appVersion}</appVersion>
+            <date>{date}</date>
+            <release>{release}</release>
+            <operatingSystem>{operatingSystem}</operatingSystem>
+            <architecture>{architecture}</architecture>
             <checksum>{checksum}</checksum>
             <downloadUrl>{downloadUrl}</downloadUrl>
         </appInfo>

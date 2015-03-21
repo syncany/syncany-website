@@ -30,9 +30,9 @@ abstract class AppReleaseUploadTask extends ReleaseUploadTask
     protected $appVersion;
     protected $date;
 
-    public function __construct(FileHandle $fileHandle, $fileName, $checksum, $appVersion, $date, $snapshot)
+    public function __construct(FileHandle $fileHandle, $fileName, $checksum, $appVersion, $date, $snapshot, $os = "all", $arch = "all")
     {
-        parent::__construct($fileHandle, $fileName, $checksum, $snapshot, "all", "all");
+        parent::__construct($fileHandle, $fileName, $checksum, $snapshot, $os, $arch);
 
         $this->appVersion = $appVersion;
         $this->date = $date;
@@ -46,7 +46,7 @@ abstract class AppReleaseUploadTask extends ReleaseUploadTask
         return $targetFolder . "/" . basename($this->fileName);
     }
 
-    protected function addDatabaseEntry($type)
+    protected function addDatabaseEntry($dist, $type)
     {
         $release = ($this->snapshot) ? 0 : 1;
         $basename = basename($this->fileName);
@@ -54,6 +54,7 @@ abstract class AppReleaseUploadTask extends ReleaseUploadTask
 
         $statement = Database::prepareStatementFromResource("app-write", __NAMESPACE__, "app.insert.sql");
 
+        $statement->bindValue(':dist', $dist, \PDO::PARAM_STR);
         $statement->bindValue(':type', $type, \PDO::PARAM_STR);
         $statement->bindValue(':appVersion', $this->appVersion, \PDO::PARAM_STR);
         $statement->bindValue(':os', $this->os, \PDO::PARAM_STR);
