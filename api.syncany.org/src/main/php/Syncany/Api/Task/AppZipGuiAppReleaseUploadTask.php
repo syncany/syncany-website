@@ -27,35 +27,35 @@ use Syncany\Api\Util\StringUtil;
 
 class AppZipGuiAppReleaseUploadTask extends GuiAppReleaseUploadTask
 {
-	public function execute()
-	{
+    public function execute()
+    {
         Log::info(__CLASS__, __METHOD__, "Processing uploaded APP.ZIP release file ...");
 
         $this->validateOperatingSystem();
 
-		$tempDirContext = "plugins/gui/appzip";
-		$tempDir = FileUtil::createTempDir($tempDirContext);
-		$tempFile = FileUtil::writeToTempFile($this->fileHandle, $tempDir, ".app.zip");
+        $tempDirContext = "plugins/gui/appzip";
+        $tempDir = FileUtil::createTempDir($tempDirContext);
+        $tempFile = FileUtil::writeToTempFile($this->fileHandle, $tempDir, ".app.zip");
 
-		$this->validateChecksum($tempFile);
+        $this->validateChecksum($tempFile);
 
-		$targetFile = $this->moveFile($tempFile);
-		$this->createLatestLink($targetFile);
+        $targetFile = $this->moveFile($tempFile);
+        $this->createLatestLink($targetFile);
         $this->addDatabaseEntry("gui", "app.zip");
 
-		FileUtil::deleteTempDir($tempDir);
-	}
+        FileUtil::deleteTempDir($tempDir);
+    }
 
-	protected function getLatestLinkBasename()
-	{
-		$snapshotSuffix = ($this->snapshot) ? "-snapshot" : "";
+    protected function getLatestLinkBasename()
+    {
+        $snapshotSuffix = ($this->snapshot) ? "-snapshot" : "";
         $archSuffix = (isset($this->arch) && $this->arch != "" && $this->arch != "all") ? "-" . $this->arch : "";
 
-		return StringUtil::replace("syncany-latest{snapshot}{arch}.app.zip", array(
-			"snapshot" => $snapshotSuffix,
-			"arch" => $archSuffix
-		));
-	}
+        return StringUtil::replace("syncany-latest{snapshot}{arch}.app.zip", array(
+            "snapshot" => $snapshotSuffix,
+            "arch" => $archSuffix
+        ));
+    }
 
     private function validateOperatingSystem()
     {
