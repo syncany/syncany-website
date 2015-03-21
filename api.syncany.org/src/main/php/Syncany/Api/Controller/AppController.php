@@ -41,16 +41,35 @@ use Syncany\Api\Util\StringUtil;
 
 /**
  * The app controller is responsible to handling application related requests, mainly
- * the upload of new main/core application releases and snapshots.
+ * the upload of new main/core application releases and snapshots, as well as the
+ * retrieval of the latest application version(s).
  *
  * @author Philipp Heckel <philipp.heckel@gmail.com>
  */
 class AppController extends Controller
 {
+    /**
+     * This method retrieves the latest application release version(s) from the database
+     * and displays the results as XML. It can be filtered using several filter mechanisms,
+     * e.g. distribution and file type, operating system, and others.
+     *
+     * <p>Optional method arguments (in <tt>methodArgs</tt>) are:
+     * <ul>
+     *   <li>dist: Distribution type (one in: cli, gui; default is empty)</li>
+     *   <li>type: File type (one in: tar.gz, zip, deb, exe, app.zip; default is empty)</li>
+     *   <li>snapshots: Whether or not to include snapshots in the result (true or false; default is false!)</li>
+     *   <li>os: Operating system to upload this release for (one in: all, linux, windows, macosx; default is all)</li>
+     *   <li>arch: Architecture of this release (one in: all, x86, x86_64; default is all)</li>
+     * </ul>
+     *
+     * @param array $methodArgs GET arguments to filter the results (see above)
+     * @param array $requestArgs No request arguments are expected by this method
+     * @throws BadRequestHttpException If any of the given arguments is invalid
+     */
     public function get(array $methodArgs, array $requestArgs)
     {
         // Check request params
-        $dist = $this->validateGetDist($methodArgs);
+        $dist = $this->validateGetDist($methodArgs, $requestArgs);
         $type = $this->validateGetType($methodArgs);
 
         $operatingSystem = ControllerHelper::validateOperatingSystem($methodArgs);
@@ -79,10 +98,13 @@ class AppController extends Controller
      *   <li>filename: Target filename of the uploaded file</li>
      *   <li>checksum: SHA-256 checksum of the uploaded file</li>
      *   <li>snapshot: Whether or not the uploaded file is a snapshot, or a release (true or false)</li>
-     *   <li>type: Type of the upload (one in: tar.gz, zip, deb, exe, reports or docs)</li>
+     *   <li>os: Operating system to upload this release for (one in: all, linux, windows, macosx)</li>
+     *   <li>arch: Architecture of this release (one in: all, x86, x86_64)</li>
+     *   <li>dist: Distribution type of this release (one in: cli, gui, other)</li>
+     *   <li>type: File type of the upload (one in: tar.gz, zip, deb, exe, reports or docs)</li>
      * </ul>
      *
-     * @param array $methodArgs GET arguments, expected are filename, checksum, snapshot and type
+     * @param array $methodArgs GET arguments, expected are filename, checksum, snapshot, os, arch, dist and type
      * @param array $requestArgs No request arguments are expected by this method
      * @param FileHandle $fileHandle File handle to the uploaded file
      * @throws BadRequestHttpException If any of the given arguments is invalid
@@ -122,7 +144,7 @@ class AppController extends Controller
         $task->execute();
     }
 
-    private function validatePutDist($methodArgs)
+    private function validatePutDist(array $methodArgs)
     {
         if (!isset($methodArgs['dist']) || !in_array($methodArgs['dist'], array("cli", "gui", "other"))) {
             throw new BadRequestHttpException("No or invalid dist argument given.");
@@ -131,7 +153,7 @@ class AppController extends Controller
         return $methodArgs['dist'];
     }
 
-    private function validatePutType($methodArgs)
+    private function validatePutType(array $methodArgs)
     {
         if (!isset($methodArgs['type']) || !in_array($methodArgs['type'], array("tar.gz", "zip", "deb", "exe", "docs", "reports"))) {
             throw new BadRequestHttpException("No or invalid type argument given.");
@@ -140,16 +162,25 @@ class AppController extends Controller
         return $methodArgs['type'];
     }
 
-    private function validateGetDist($methodArgs)
+    private function validateGetDist(array $methodArgs, array $requestArgs)
     {
-        if (!isset($methodArgs['dist']) || !in_array($methodArgs['dist'], array("cli", "gui"))) {
+        $methodArgGiven = isset($methodArgs['dist']) && !empty($methodArgs['dist']); // Treat empty as not present
+        $requestArgGiven = isset($requestArgs[0]);
+
+        if ($methodArgGiven || $requestArgGiven) {
+            $dist = ($methodArgGiven) ? $methodArgs['dist'] : $requestArgs[0];
+
+            if (!in_array($dist, array("cli", "gui"))) {
+                return false;
+            }
+
+            return $dist;
+        } else {
             return false;
         }
-
-        return $methodArgs['dist'];
     }
 
-    private function validateGetType($methodArgs)
+    private function validateGetType(array $methodArgs)
     {
         if (!isset($methodArgs['type']) || !in_array($methodArgs['type'], array("tar.gz", "zip", "deb", "exe"))) {
             return false;
@@ -245,18 +276,16 @@ class AppController extends Controller
 
         $where[] = ($dist) ? "`dist` = :dist" : "1";
         $where[] = ($type) ? "`type` = :type" : "1";
-        $where[] = ($operatingSystem && $operatingSystem != "all") ? "`os` = :os" : "1";
-        $where[] = ($architecture && $architecture != "all") ? "`arch` = :arch" : "1";
+        $where[] = ($operatingSystem && $operatingSystem != "all") ? "(`os` = 'all' or `os` = :os)" : "1";
+        $where[] = ($architecture && $architecture != "all") ? "(`arch` = 'all' or `arch` = :arch)" : "1";
         $where[] = (!$includeSnapshots) ? "`release` = :release" : "1";
 
         if (count($where) > 0) {
             return join(" and ", $where);
-        }
-        else {
+        } else {
             return "1";
         }
     }
-
 
     private function prepareLatestAppStatement($sqlQuery, $dist, $type, $operatingSystem, $architecture, $includeSnapshots)
     {
@@ -310,8 +339,7 @@ class AppController extends Controller
 
         if ($hasApps) {
             $this->printSuccessResponseXml(200, "OK", $appList);
-        }
-        else {
+        } else {
             $this->printFailureResponseXml(404, "No apps found");
         }
     }
@@ -335,6 +363,8 @@ class AppController extends Controller
                 "appVersion" => $app['appVersion'],
                 "date" => $app['date'],
                 "release" => $release,
+                "operatingSystem" => $app['os'],
+                "architecture" => $app['arch'],
                 "checksum" => $app['checksum'],
                 "downloadUrl" => $downloadUrl
             ));
