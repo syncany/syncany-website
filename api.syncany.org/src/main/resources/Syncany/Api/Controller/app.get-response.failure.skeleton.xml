@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<appInfoResponse xmlns="http://syncany.org/app/1/list">
-    <code>{code}</code>
-    <message>{message}</message>
-</appInfoResponse>

@@ -332,21 +332,10 @@ class AppController extends Controller
     private function printResponseXml($appList) {
         header("Content-Type: application/xml");
 
-        $hasApps = count($appList) > 0;
-
-        if ($hasApps) {
-            $this->printSuccessResponseXml(200, "OK", $appList);
-        } else {
-            $this->printFailureResponseXml(404, "No apps found");
-        }
-    }
-
-    private function printSuccessResponseXml($code, $message, $appList)
-    {
         $downloadBaseUrl = Config::get("app.base-url");
 
-        $wrapperSkeleton = FileUtil::readResourceFile(__NAMESPACE__, "app.get-response.success.wrapper.skeleton.xml");
-        $appInfoSkeleton = FileUtil::readResourceFile(__NAMESPACE__, "app.get-response.success.appinfo.skeleton.xml");
+        $wrapperSkeleton = FileUtil::readResourceFile(__NAMESPACE__, "app.get-response.wrapper.skeleton.xml");
+        $appInfoSkeleton = FileUtil::readResourceFile(__NAMESPACE__, "app.get-response.appinfo.skeleton.xml");
 
         $appInfoBlocks = array();
 
@@ -367,25 +356,22 @@ class AppController extends Controller
             ));
         }
 
-        $apps = join("\n", $appInfoBlocks);
+        // Prepare output
+
+        if (count($appList) > 0) {
+            $code = 200;
+            $message = "OK";
+            $apps = join("\n", $appInfoBlocks);
+        } else {
+            $code = 204;
+            $message = "No Content";
+            $apps = "";
+        }
 
         $xml = StringUtil::replace($wrapperSkeleton, array(
             "code" => $code,
             "message" => $message,
             "apps" => $apps
-        ));
-
-        echo $xml;
-        exit;
-    }
-
-    private function printFailureResponseXml($code, $message)
-    {
-        $failureXmlSkeleton = FileUtil::readResourceFile(__NAMESPACE__, "app.get-response.failure.skeleton.xml");
-
-        $xml = StringUtil::replace($failureXmlSkeleton, array(
-            "code" => $code,
-            "message" => $message
         ));
 
         echo $xml;
