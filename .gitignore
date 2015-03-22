@@ -6,6 +6,8 @@ api.syncany.org/config/keys/gnupg/trustdb*
 api.syncany.org/config/keys/gnupg/random_seed*
 api.syncany.org/upload/*/*
 api.syncany.org/log/*.log
+api.syncany.org/log/*.log.1
+api.syncany.org/log/*.log.*.gz
 api.syncany.org/html/ping.php
 api.syncany.org/html/v1-deactivated/
 api.syncany.org/html/v2-deactivated/
