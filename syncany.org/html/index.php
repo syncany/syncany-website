@@ -26,7 +26,6 @@ Massively modified by:
 
 	<!-- Site CSS and Fonts -->
 	<link href='https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
-	<link href="<?php echo $cdnhost; ?>css/style.css?v=3" rel="stylesheet" type="text/css" media="all" />
 
 	<!-- fontawesome.io -->
 	<link href="<?php echo $cdnhost; ?>fontawesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
@@ -58,7 +57,8 @@ Massively modified by:
 	<link rel="stylesheet" href="<?php echo $cdnhost; ?>slick/slick.css" type="text/css" media="screen" />
 
 	<!-- This is our code! --> 
-	<script type="text/javascript" src="<?php echo $cdnhost; ?>js/site.js?v=3"></script>	
+	<script type="text/javascript" src="<?php echo $cdnhost; ?>js/site.js?v=4"></script>	
+	<link href="<?php echo $cdnhost; ?>css/style.css?v=4" rel="stylesheet" type="text/css" media="all" />
 	<link rel="shortcut icon" href="<?php echo $cdnhost; ?>favicon.ico" />		
 </head>
 
