@@ -93,11 +93,11 @@ $(document).ready(function() {
 
 	if (is64bit) {
 		$('#link_windows_download').attr('href', 'https://syncany.org/r/latest-x86_64.exe');
-		$('#link_windows_download').html('Syncany<br /><small>64-bit version</small>');
+		$('#link_windows_download').html('<img src="images/os-win.png" /><br />Syncany<br /><small>64-bit</small>');
 	}
 	else {
 		$('#link_windows_download').attr('href', 'https://syncany.org/r/latest-x86.exe');
-		$('#link_windows_download').html('Syncany<br /><small>32-bit version</small>');
+		$('#link_windows_download').html('<img src="images/os-win.png" /><br />Syncany<br /><small>32-bit</small>');
 	}	
 	
 	// Autotype: Messages to appear

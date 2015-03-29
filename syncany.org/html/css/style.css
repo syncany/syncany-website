@@ -540,23 +540,30 @@ html body .slick-next {
 }		
 			
 .da-link2 { 
-	background-color: #333;
-	border-radius: 13px;
-	border: 1px solid #444;
+	border-radius: 18px;
 	display: block;
 	color: #FFF;
 	font-size: 1.6em;
 	font-weight: bold;
-	margin: 0.8em auto;
+	margin: 0 auto;
 	width: 120px;
 	text-align: center;
-	padding: 0.8em 1.9em;
+	padding: 0.5em 1em;
 	line-height: 85%;
 }
 
-.da-link2:hover {
-	background:#444;
-	color: #ddd;
+.da-link2 img {
+	margin-bottom: 5px;
+}
+
+.da-link2 small, html body a.da-link2 small {
+	font-size: 0.8em;
+	line-height: 150%;
+}
+
+.da-link2:hover, html body a.da-link2:hover {
+	background: #222;
+	color: #fff;	
 }
 
 .da-link2 small {

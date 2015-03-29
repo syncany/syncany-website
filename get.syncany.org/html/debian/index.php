@@ -20,11 +20,11 @@ echo
 echo This script will add the Syncany APT repository and install 
 echo Syncany. This requires root privileges. 
 echo 
-echo Adding APT repository http://archive.syncany.org/apt/release/ ...
+echo Adding APT repository http://get.syncany.org/apt/release/ ...
 echo 
 
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys A3002F0613D342687D70AEEE3F6B7F13651D12BD
-sudo sh -c "echo deb http://archive.syncany.org/apt/release/ release main > /etc/apt/sources.list.d/syncany.list"
+sudo sh -c "echo deb http://get.syncany.org/apt/release/ release main > /etc/apt/sources.list.d/syncany.list"
 
 sleep 3
 

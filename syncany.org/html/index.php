@@ -57,7 +57,7 @@ Massively modified by:
     	<script type="text/javascript" src="<?php echo $cdnhost; ?>slick/slick.min.js"></script>
 	<link rel="stylesheet" href="<?php echo $cdnhost; ?>slick/slick.css" type="text/css" media="screen" />
 
-	<!-- This is our code! -->
+	<!-- This is our code! --> 
 	<script type="text/javascript" src="<?php echo $cdnhost; ?>js/site.js?v=3"></script>	
 	<link rel="shortcut icon" href="<?php echo $cdnhost; ?>favicon.ico" />		
 </head>
@@ -163,11 +163,12 @@ Massively modified by:
 			<a id="link_mac" href="#mac"><img src="<?php echo $cdnhost; ?>images/os-mac.png" /></a>
 			<a id="link_docker" href="#docker"><img src="<?php echo $cdnhost; ?>images/os-docker.png" /></a>
 			<a id="link_other" href="#other"><img src="<?php echo $cdnhost; ?>images/os-other.png" /></a>
+			<a id="link_code" href="#code"><img src="<?php echo $cdnhost; ?>images/github.png" /></a>
 		</div>		
 				
 		<div id="debian" class="install_instructions">
 			<p>
-				Debian/Ubuntu users can use our <a href="http://archive.syncany.org/">APT archive</a>:<br />
+				Debian/Ubuntu users can use our <a href="https://get.syncany.org/apt/">APT archive</a>:<br />
 				<tt>curl -sL <a href="https://get.syncany.org/debian/">https://get.syncany.org/debian/</a> | sh</tt>
 			</p>
 			
@@ -201,13 +202,19 @@ Massively modified by:
 		</div>
 		
 		<div id="windows" class="install_instructions">
-			<a id="link_windows_download" href="https://syncany.org/r/latest-x86.exe" class="da-link2">Syncany<br /><small>32-bit version</small></a>
-			
-
-
-
 			<p>
-
+				Windows users can use the our installer:
+			</p>
+			
+			<a id="link_windows_download" href="https://syncany.org/r/latest-x86_64.exe" class="da-link2">
+				<!-- Note: this is replaced by JS in site.js! -->
+				
+				<img src="<?php echo $cdnhost; ?>images/os-win.png" /><br />
+				Syncany<br />
+				<small>64-bit</small>
+			</a> 
+						
+			<p>
 				<img src="<?php echo $cdnhost; ?>images/os-win.png" style="width: 22px; height: 22px;" />
 				<a class="dl-link" href="https://syncany.org/r/latest-x86.exe">Syncany (32-bit)</a> 
 				
@@ -225,14 +232,19 @@ Massively modified by:
 
 		<div id="mac" class="install_instructions">
 			<p>
-				Mac OSX users can use our <a href="http://brew.sh/">Homebrew</a> formula:<br />
-				<tt>brew install <a href="https://get.syncany.org/homebrew/syncany.rb">https://get.syncany.org/homebrew/syncany.rb</a></tt>
+				Mac OSX users can install the .app.zip:
 			</p>
-
+			
+			<a href="https://syncany.org/r/latest-x86_64.app.zip" class="da-link2">
+				<img src="<?php echo $cdnhost; ?>images/os-mac.png" /><br />
+				Syncany<br />
+				<small>64-bit</small>
+			</a> 
+			
 			<p>
-				We unfortunately don't have an .app/.dmg-package for Syncany yet. 
-				If you're a developer and would like to create it, <a href="https://github.com/syncany/syncany/issues/34">it would be much appreciated</a>.
-			</p>
+				Or install the use our <a href="http://brew.sh/">Homebrew</a> formula:<br />
+				<tt>brew install <a href="https://get.syncany.org/homebrew/syncany.rb">https://get.syncany.org/homebrew/syncany.rb</a></tt>
+			</p>			
 		</div>
 		
 		<div id="docker" class="install_instructions">
@@ -261,6 +273,13 @@ Massively modified by:
 				<a class="dl-link" href="https://syncany.org/r/latest.tar.gz">Syncany (tar.gz)</a>
 			</p>
 		</div>
+		
+		<div id="code" class="install_instructions">
+			<p>
+				Syncany is open source and distributed under GPLv3.<br />
+				To build it yourself, check out the code on <a href="https://github.com/syncany/syncany">GitHub</a>.
+			</p>			
+		</div>		
 		
 		<p class="divider" style="margin-top: 0">
 			<span class="fa fa-star"></span>
