@@ -203,7 +203,7 @@ Massively modified by:
 		
 		<div id="windows" class="install_instructions">
 			<p>
-				Windows users can use the our installer:
+				Windows users can use our installer:
 			</p>
 			
 			<a id="link_windows_download" href="https://syncany.org/r/latest-x86_64.exe" class="da-link2">
