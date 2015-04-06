@@ -95,6 +95,30 @@ class BadgesController extends Controller
         exit;
     }
 
+    public function getJavadoc(array $methodArgs, array $requestArgs)
+    {
+        $classCount = 0;
+        $classHtmlFile = Config::get("paths.badges.javadoc");
+
+        $handle = @fopen($classHtmlFile, "r");
+
+        if ($handle) {
+            while (!feof($handle)) {
+                $line = fgets($handle);
+
+                if (preg_match('/<li><a/', $line)) {
+                    $classCount++;
+                }
+            }
+
+            fclose($handle);
+        }
+
+        $color = ($classCount > 0) ? self::COLOR_GREEN : self::COLOR_RED;
+        $this->printBadgeSvg("javadoc", $classCount . " classes", $color, 125, 0.58);
+        exit;
+    }
+
     private function parseForPattern($file, $pattern, $maxBytes) {
         $searchValue = false;
 
