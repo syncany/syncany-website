@@ -242,7 +242,7 @@ Massively modified by:
 			</a> 
 			
 			<p>
-				Or install the use our <a href="http://brew.sh/">Homebrew</a> formula:<br />
+				Or install it using our <a href="http://brew.sh/">Homebrew</a> formula:<br />
 				<tt>brew install <a href="https://get.syncany.org/homebrew/syncany.rb">https://get.syncany.org/homebrew/syncany.rb</a></tt>
 			</p>			
 		</div>
