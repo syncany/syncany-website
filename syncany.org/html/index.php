@@ -310,6 +310,27 @@ Massively modified by:
 			<h2>News</h2>
 
 			<p>
+				<b>20 Jun 2015</b>: We had a couple of releases since December. In version
+					<a href="https://github.com/syncany/syncany/releases/tag/v0.4.1-alpha">v0.4.1-alpha</a> &amp; 
+					<a href="https://github.com/syncany/syncany/releases/tag/v0.4.2-alpha">v0.4.2-alpha</a> 
+				we added a new 'Preferences' dialog to add/remote plugin and a copy-link feature in the GUI. 
+				With version 
+					<a href="https://github.com/syncany/syncany/releases/tag/v0.4.3-alpha">v0.4.3-alpha</a>,
+				we released our first Mac OSX version, added a history browser to the GUI and made plugins updatable.
+				For version 
+					<a href="https://github.com/syncany/syncany/releases/tag/v0.4.4-alpha">v0.4.4-alpha</a>,
+				we rewrote the Syncany API on the website, added 3rd party plugins and update checks for the 
+				application and plugins. 
+				In version 
+					<a href="https://github.com/syncany/syncany/releases/tag/v0.4.5-alpha">v0.4.5-alpha</a>,
+				we added automatic OAuth token handling, added optional transfer manager features, added 
+				a default .syignore file, and much more.
+
+				In all releases, we also fixes countless bugs! Check out <a href="https://github.com/syncany/syncany/releases">the releases page</a>
+				for more details.
+			</p>
+
+			<p>
 				<b>28 Dec 2014</b>: We've reached another milestone. The Syncany core feels more stable by the minute. We released 
 					<a href="https://github.com/syncany/syncany/releases/tag/v0.2.0-alpha">v0.2.0-alpha</a>,
 					<a href="https://github.com/syncany/syncany/releases/tag/v0.3.0-alpha">v0.3.0-alpha</a>,
