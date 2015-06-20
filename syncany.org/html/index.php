@@ -365,10 +365,6 @@ Massively modified by:
 			</p>				
 
 			<p>
-				<b>25 Jun 2014</b>: Some updates before I go on vacation: stability, an already implemented basic daemon, a preview of the REST/WebSocket-API-enabled daemon and a web interface. Check out the details <a href="https://github.com/syncany/syncany/wiki/News">on the news site</a>.
-			</p>
-
-			<p>
 				Older news are available in the <a href="https://github.com/syncany/syncany/wiki/News">news archive</a>.
 			</p>
 		</div>
