@@ -117,7 +117,7 @@ Massively modified by:
 		<h2>What is Syncany?</h2>
 
 		<p>
-			Syncany allows users to backup and share certain folders of their workstations
+			Syncany allows users to securely backup and share certain folders of their computers
 			using any kind of storage. Syncany is open-source and provides data encryption
 			and incredible flexibility in terms of storage type and provider.
 		</p>
@@ -384,7 +384,7 @@ Massively modified by:
 	<div class="wrap">
 		<h2 id="Examples">Examples</h2>
 		
-		<p>Enough with the marketing. Here's how Syncany looks like in the wild.</p>
+		<p>Enough with the marketing. Here's how Syncany looks in the wild.</p>
 	
 		<div class="asciiprevs">
 			<div>
@@ -401,7 +401,7 @@ Massively modified by:
 				<div class="asciiprev">
 					<a class="fancybox" rel="examples" href="<?php echo $cdnhost; ?>images/syncany-tray2-menu-uploading.png"><img src="<?php echo $cdnhost; ?>images/syncany-tray2-menu-uploading-small.png" /></a>
 					<span class="asciiprevdesc">
-						<b>Tray menu</b>: The tray icon and menu always keep you up to date - for all of your
+						<b>Tray menu</b> always keeps you up to date - for all of your
 						sync folders.
 					</span>
 				</div>	
@@ -411,7 +411,7 @@ Massively modified by:
 				<div class="asciiprev">
 					<a class="fancybox" rel="examples" href="<?php echo $cdnhost; ?>images/syncany-tray3-notification.png"><img src="<?php echo $cdnhost; ?>images/syncany-tray3-notification-small.png" /></a>
 					<span class="asciiprevdesc">
-						<b>Notifications</b>: Nice notifications let you know when other users have added, 
+						<b>Notifications</b> let you know when other users have added, 
 						changed or deleted files.						
 					</span>
 				</div>	
@@ -421,8 +421,8 @@ Massively modified by:
 				<div class="asciiprev">
 					<a class="fancybox" rel="examples" href="<?php echo $cdnhost; ?>images/syncany-init1-select-action.png"><img src="<?php echo $cdnhost; ?>images/syncany-init1-select-action-small.png" /></a>
 					<span class="asciiprevdesc">
-						<b>Adding new folders</b>: Creating new repositories and connecting to existing ones
-						is easy with the 'New folder' wizard.
+						<b>'New folder' wizard</b> makes creating new repositories and connecting to existing ones
+						easy.
 					</span>
 				</div>	
 			</div>	
@@ -431,7 +431,7 @@ Massively modified by:
 				<div class="asciiprev">
 					<a class="fancybox" rel="examples" href="<?php echo $cdnhost; ?>images/syncany-init2-local-folder.png"><img src="<?php echo $cdnhost; ?>images/syncany-init2-local-folder-small.png" /></a>
 					<span class="asciiprevdesc">
-						<b>Multiple sync folders</b>: Syncany lets you sync any (<em>get it?</em>) folder, not just a
+						<b>Multiple sync folders</b> Syncany lets you sync any (<em>get it?</em>) folder, not just a
 						single one. 
 					</span>
 				</div>	
@@ -441,7 +441,7 @@ Massively modified by:
 				<div class="asciiprev">
 					<a class="fancybox" rel="examples" href="<?php echo $cdnhost; ?>images/syncany-init3-select-storage.png"><img src="<?php echo $cdnhost; ?>images/syncany-init3-select-storage-small.png" /></a>
 					<span class="asciiprevdesc">
-						<b>Any backend</b>: Use any backend storage, without having to worry about your privacy. We encrypt before uploading.
+						<b>Any backend</b> storage, without having to worry about your privacy. We encrypt before uploading.
 					</span>
 				</div>	
 			</div>	
@@ -450,7 +450,7 @@ Massively modified by:
 				<div class="asciiprev">
 					<a class="fancybox" rel="examples" href="<?php echo $cdnhost; ?>images/syncany-init4-settings-ftp.png"><img src="<?php echo $cdnhost; ?>images/syncany-init4-settings-ftp-small.png" /></a>
 					<span class="asciiprevdesc">
-						<b>Storage settings</b>: Depending on the storage backend, Syncany displays relevant settings.
+						<b>Relevant settings</b> are displayed depending on the storage backend.
 					</span>
 				</div>	
 			</div>				
@@ -459,7 +459,7 @@ Massively modified by:
 				<div class="asciiprev">
 					<a class="fancybox" rel="examples" href="<?php echo $cdnhost; ?>images/syncany-init6-choose-password.png"><img src="<?php echo $cdnhost; ?>images/syncany-init6-choose-password-small.png" /></a>
 					<span class="asciiprevdesc">
-						<b>Symmetric encryption</b>: Files are encrypted before upload, with AES-128 and Twofish-128.
+						<b>Symmetric encryption</b> of files before upload, with AES-128 and Twofish-128.
 					</span>
 				</div>	
 			</div>		
@@ -468,8 +468,7 @@ Massively modified by:
 				<div class="asciiprev">
 					<a class="fancybox" rel="examples" href="<?php echo $cdnhost; ?>images/syncany-init7-finished-link.png"><img src="<?php echo $cdnhost; ?>images/syncany-init7-finished-link-small.png" /></a>
 					<span class="asciiprevdesc">
-						<b>Sharing</b>: Once a repo is created, it can be shared among friends and colleagues 
-						via a <tt>syncany://</tt>-link.
+						<b>Share</b> a repo among friends and colleagues via a <tt>syncany://</tt>-link.
 					</span>
 				</div>	
 			</div>						
@@ -478,8 +477,7 @@ Massively modified by:
 				<div class="asciiprev">
 					<a class="fancybox fancybox.iframe" rel="examples" href="video.php?v=1"><div class="img-for-overlay" style="background:url(<?php echo $cdnhost; ?>images/ascii1.png)"><img src="<?php echo $cdnhost; ?>images/play-button-overlay.png"></span></div></a>
 					<span class="asciiprevdesc">
-						<b>Creating a repo via CLI</b>: Creating a new repository via the command line is very fast with the
-						<tt>sy init</tt> command. 
+						<b>Creating a repo via CLI</b> is very fast with the <tt>sy init</tt> command.
 					</span>
 				</div>
 			</div>
@@ -488,8 +486,7 @@ Massively modified by:
 				<div class="asciiprev">
 					<a class="fancybox fancybox.iframe" rel="examples" href="video.php?v=2"><div class="img-for-overlay" style="background:url(<?php echo $cdnhost; ?>images/ascii2.png)"><img src="<?php echo $cdnhost; ?>images/play-button-overlay.png"></span></div></a>
 					<span class="asciiprevdesc">
-						<b>Connecting to a repo via CLI</b>: Other clients can connect to the repository and sync files manually with 
-						<tt>sy up</tt> and <tt>sy down</tt>.
+						<b>Connect to a repo via CLI</b> from other clients and sync files manually with <tt>sy up</tt> and <tt>sy down</tt>.
 					</span>
 				</div>
 			</div>			
