@@ -85,7 +85,7 @@ class ControllerHelper
     {
         $arch = (isset($methodArgs['arch'])) ? $methodArgs['arch'] : "all";
 
-        if (!in_array($arch, array("all", "x86", "x86_64"))) {
+        if (!in_array($arch, array("all", "x86", "x86_64", "arm"))) {
             throw new BadRequestHttpException("Invalid request. Architecture (arch) invalid.");
         }
 
