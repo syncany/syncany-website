@@ -471,7 +471,34 @@ Massively modified by:
 						<b>Share</b> a repo among friends and colleagues via a <tt>syncany://</tt>-link.
 					</span>
 				</div>	
-			</div>						
+			</div>	
+			
+			<div>				
+				<div class="asciiprev">
+					<a class="fancybox" rel="examples" href="<?php echo $cdnhost; ?>images/syncany-preferences-general.png"><img src="<?php echo $cdnhost; ?>images/syncany-preferences-general-small.png" /></a>
+					<span class="asciiprevdesc">
+						<b>Configure</b> general settings in the 'Preferences' dialog.
+					</span>
+				</div>	
+			</div>	
+			
+			<div>		
+				<div class="asciiprev">
+					<a class="fancybox" rel="examples" href="<?php echo $cdnhost; ?>images/syncany-preferences-plugins.png"><img src="<?php echo $cdnhost; ?>images/syncany-preferences-plugins-small.png" /></a>
+					<span class="asciiprevdesc">
+						<b>Extend</b> Syncany by installing storage plugins.
+					</span>
+				</div>	
+			</div>	
+			
+			<div>				
+				<div class="asciiprev">
+					<a class="fancybox" rel="examples" href="<?php echo $cdnhost; ?>images/syncany-preferences-network.png"><img src="<?php echo $cdnhost; ?>images/syncany-preferences-network-small.png" /></a>
+					<span class="asciiprevdesc">
+						<b>Use a proxy</b> to connect to your repo behind a firewall.
+					</span>
+				</div>	
+			</div>															
 						
 			<div>
 				<div class="asciiprev">
