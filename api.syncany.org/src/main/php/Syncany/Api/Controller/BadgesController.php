@@ -35,7 +35,7 @@ class BadgesController extends Controller
     public function getLines(array $methodArgs, array $requestArgs)
     {
         $clocXmlFile = Config::get("paths.badges.lines");
-        $lines = $this->parseForPattern($clocXmlFile, "/\<total.+code=\"([.0-9]+)\"/i", 4096);
+        $lines = $this->parseForPattern($clocXmlFile, "/\<total.+code=\"([.0-9]+)\"/i", 0, 4096);
 
         $linesText = ($lines !== false) ? round(intval($lines)/1000) . " k" : "n/a";
 
@@ -46,7 +46,7 @@ class BadgesController extends Controller
     public function getTests(array $methodArgs, array $requestArgs)
     {
         $testsIndexHtmlFile = Config::get("paths.badges.tests");
-        $percentage = $this->parseForPattern($testsIndexHtmlFile, "/class=\"percent\">([.0-9]+)\%\</i", 4096);
+        $percentage = $this->parseForPattern($testsIndexHtmlFile, "/class=\"percent\">([.0-9]+)\%\</i", 0, 4096);
 
         $percentageText = ($percentage !== false) ? intval($percentage) . "%" : "n/a";
         $color = ($percentage == 100) ? self::COLOR_GREEN : ($percentage > 90) ? self::COLOR_YELLOW : self::COLOR_RED;
@@ -58,9 +58,10 @@ class BadgesController extends Controller
     public function getCoverage(array $methodArgs, array $requestArgs)
     {
         $coverageXmlFile = Config::get("paths.badges.coverage");
-        $percentage = $this->parseForPattern($coverageXmlFile, "/\<coverage line-rate=\"([.0-9]+)\"/i", 4096);
-
-        $percentageText = ($percentage !== false) ? round(floatval($percentage)*100) . "%" : "n/a";
+        $missedAndCovered = $this->parseForPattern($coverageXmlFile, "/\<counter\s+type=\"INSTRUCTION\"\s+missed=\"([0-9]+)\"\s+covered=\"([0-9]+)\"/i", -400, 400);
+        
+        $percentage = ($missedAndCovered !== false) ? round($missedAndCovered[1]/($missedAndCovered[0]+$missedAndCovered[1])*100) : false;
+        $percentageText = ($percentage !== false) ? $percentage . "%" : "n/a";
         $color = ($percentage > 80) ? self::COLOR_GREEN : ($percentage > 70) ? self::COLOR_YELLOW : self::COLOR_RED;
 
         $this->printBadgeSvg("coverage", $percentageText, $color);
@@ -74,7 +75,7 @@ class BadgesController extends Controller
         $tempTipsDir = $this->createOrGetTempDir("tips");
         $tempUglyBadgeFile = $this->downloadOrGetTempSvgFile($tempTipsDir, $uglyBadgeUrl);
 
-        $tips = $this->parseForPattern($tempUglyBadgeFile, "/([\d.]+)\sɃ/", 10240);
+        $tips = $this->parseForPattern($tempUglyBadgeFile, "/([\d.]+)\sɃ/", 0, 10240);
         $tipsText = ($tips !== false) ?  sprintf("%.2f cɃ", floatval($tips)*100) : "n/a";
 
         $this->printBadgeSvg("tip4commit", $tipsText, self::COLOR_GREEN, 125, 0.4);
@@ -88,7 +89,7 @@ class BadgesController extends Controller
         $tempTipsDir = $this->createOrGetTempDir("waffle");
         $tempUglyBadgeFile = $this->downloadOrGetTempSvgFile($tempTipsDir, $uglyBadgeUrl);
 
-        $needsHelpCount = $this->parseForPattern($tempUglyBadgeFile, '/y="13">(\d+)<\/text>/', 10240);
+        $needsHelpCount = $this->parseForPattern($tempUglyBadgeFile, '/y="13">(\d+)<\/text>/', 0, 10240);
         $needsHelpCountText = ($needsHelpCount !== false) ? $needsHelpCount : "n/a";
 
         $this->printBadgeSvg("Needs your help", $needsHelpCountText, self::COLOR_BLUE, 125, 0.19);
@@ -119,7 +120,7 @@ class BadgesController extends Controller
         exit;
     }
 
-    private function parseForPattern($file, $pattern, $maxBytes) {
+    private function parseForPattern($file, $pattern, $offset, $maxBytes) {
         $searchValue = false;
 
         $handle = @fopen($file, "r");
@@ -127,11 +128,24 @@ class BadgesController extends Controller
         if ($handle) {
             $readBytes = 0;
 
+            if ($offset > 0) {
+                fseek($handle, $offset, SEEK_SET);
+            } else if ($offset < 0) {
+                fseek($handle, $offset, SEEK_END);
+            }
+            
             while (($buffer = fgets($handle, 4096)) !== false) {
                 $readBytes += strlen(trim($buffer));
 
                 if (preg_match($pattern, $buffer, $m)) {
-                    $searchValue = $m[1];
+                    array_shift($m);
+                    
+                    if (count($m) === 1) {
+                        $searchValue = $m[0];
+                    } else {
+                        $searchValue = $m;
+                    }
+                    
                     break;
                 }
 
@@ -206,3 +220,4 @@ class BadgesController extends Controller
         return $tempUglyBadgeFile;
     }
 }
+
