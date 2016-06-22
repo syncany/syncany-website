@@ -115,6 +115,10 @@ Massively modified by:
 <div class="light_bg" id="about">
 	<div class="wrap">
 		<h2>What is Syncany?</h2>
+        <p> 
+            The core team of Syncany is on hiatus for an indefinite amount of time. 
+            Feel free to do with the code what the license allows and encourages, but please don't expect any maintenance. The team thanks everyone who has contributed to Syncany in one way or another.
+        </p>
 
 		<p>
 			Syncany allows users to securely backup and share certain folders of their computers
