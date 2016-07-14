@@ -313,6 +313,13 @@ Massively modified by:
 		<div class="newscol">
 			<h2>News</h2>
 
+			<p> 
+				<b>13 Jun 2016</b>: The core team of Syncany is on hiatus for an indefinite amount of time. 
+				Feel free to do with the code what the license allows and encourages, but please don't expect any maintenance. 
+				The team thanks everyone who has contributed to Syncany in one way or another. We might pick up development again,
+				or we might not. Feel free to contact us via e-mail or IRC.
+			</p>
+        
 			<p>
 				<b>20 Jun 2015</b>: We had a couple of releases since December. In version
 					<a href="https://github.com/syncany/syncany/releases/tag/v0.4.1-alpha">v0.4.1-alpha</a> &amp; 
@@ -348,25 +355,6 @@ Massively modified by:
 					<a href="https://github.com/syncany/syncany-plugin-raid0">RAID0</a>.
 				Beta is just around the corner!
 			</p>
-
-			<p>
-				<b>20 Oct 2014</b>: In releases 
-					<a href="https://github.com/syncany/syncany/releases/tag/v0.1.6-alpha">v0.1.6-alpha</a>,
-					<a href="https://github.com/syncany/syncany/releases/tag/v0.1.7-alpha">v0.1.7-alpha</a>,
-					<a href="https://github.com/syncany/syncany/releases/tag/v0.1.8-alpha">v0.1.8-alpha</a>,
-					<a href="https://github.com/syncany/syncany/releases/tag/v0.1.9-alpha">v0.1.9-alpha</a>,
-					<a href="https://github.com/syncany/syncany/releases/tag/v0.1.10-alpha">v0.1.10-alpha</a>,
-					<a href="https://github.com/syncany/syncany/releases/tag/v0.1.11-alpha">v0.1.11-alpha</a> and
-					<a href="https://github.com/syncany/syncany/releases/tag/v0.1.12-alpha">v0.1.12-alpha</a>,
-				we have added a <a href="https://github.com/syncany/syncany-plugin-samba">Samba plugin</a>,
-				a working REST/WS-based daemon, 
-				a <a href="https://github.com/syncany/syncany-plugin-gui">first version of the GUI</a> (<a href="https://www.youtube.com/watch?v=eHoA5_8gRBc">cross-platform demo on YouTube</a>),
-				and written an awesome <a href="https://syncany.org/r/userguide">user guide</a>. 
-				We've also created an <a href="http://archive.syncany.org/">APT archive</a> for Debian/Ubuntu users, 
-				and made a <a href="https://get.syncany.org/windows/">Windows installer</a> includes the GUI plugin.
-				And of course, we've fixed countless bugs, slowly approaching stability. Unfortunately, we're still not there
-				yet -- we still have <a href="https://github.com/syncany/syncany/labels/prio:high">some nasty bugs</a> ...
-			</p>				
 
 			<p>
 				Older news are available in the <a href="https://github.com/syncany/syncany/wiki/News">news archive</a>.
