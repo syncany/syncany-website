@@ -1,0 +1,56 @@
+<html>
+
+<body onLoad="processParameters()">
+
+<!--
+This page accepts oauth redirection.  It passes the data in the hash on to localhost, which
+is expected to be the Syncany application.  In many cases the oauth redirection can be sent
+directly to Syncany on localhost, in which case this page is not needed.
+However there are a couple of reasons why this may not be possible:
+
+1. Hubic, for example, requires the redirection to be https.  Getting Syncany to listen
+for https requests is not really possible because it would need a certificate.  If the certificate
+is self-signed then the browser would give security warnings to the user which we don't want.
+If the certificate is signed by a Certificate Authority then it can't go to localhost.
+
+2. It may be that the oauth implementation does not allow redirection to localhost at all.
+
+As the Syncany web site is https, we simply redirect oauth there, to this page.  This page then
+redirects to localhost.
+
+Syncany supports dynamic ports.  This is a good thing because we don't know which ports will
+already be in use on a user's machine.  So we want to find an unused port.  For this reason and
+for other reasons we do not want to hard-code the localhost redirect URL in the syncany.org redirect page.
+Therefore the client adds a parameter 'syncanyredirect' to the OAuth redirect URL.  The redirect page at
+syncany.org can then use this parameter to know where to redirect.
+
+-->
+
+</body>
+
+</html>
+
+<script language="JavaScript">
+  function processParameters() {
+    var parametersWithHash = location.hash;
+    var parametersWithoutHash = parametersWithHash.substr(1);
+
+    var searchParametersWithQuestionMark = location.search;
+    var searchParametersWithoutQuestionMark = searchParametersWithQuestionMark.substr(1);
+    var searchParameters = searchParametersWithoutQuestionMark.split("&");
+
+    var redirect;
+
+    for (var i = 0; i < searchParameters.length; i++) {
+	  var paramParts = searchParameters[i].split("=");
+      var name = unescape(paramParts[0]);
+      var value = unescape(paramParts[1]);
+
+      if (name === "syncanyredirect") {
+        redirect = value;
+      }
+    }
+
+    window.location = redirect + "?" + parametersWithoutHash;
+  }
+</script>
